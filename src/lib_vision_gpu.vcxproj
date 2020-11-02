@@ -24,7 +24,7 @@
   <ItemGroup>
     <ClInclude Include="def\cu_define.h" />
     <ClInclude Include="def\define.h" />
-    <ClInclude Include="gpu_algorithm_colorspace.h" />
+    <ClInclude Include="func\func_colorspace.h" />
     <ClInclude Include="gpu_algorithm_func.h" />
     <ClInclude Include="gpu_algorithm_node_tree.h" />
     <ClInclude Include="gpu_algorithm_pipeline_manager.h" />
@@ -37,8 +37,8 @@
     <ClInclude Include="node\algo_node_usm.h" />
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="func\func_uneven_y.cu" />
-    <CudaCompile Include="gpu_algorithm_colorspace.cu" />
+    <CudaCompile Include="func\func_convert_image_format.cu" />
+    <CudaCompile Include="func\func_colorspace.cu" />
     <CudaCompile Include="node\algo_node_gamma.cu" />
     <CudaCompile Include="node\algo_node_guidedfilter.cu" />
     <CudaCompile Include="node\algo_node_image_adjust.cu" />
@@ -79,6 +79,9 @@
     <LinkIncremental>true</LinkIncremental>
     <ExecutablePath>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin;$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);</ExecutablePath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ExecutablePath>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin;$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -139,7 +142,7 @@
       <AdditionalDependencies>opencv_world420.lib;cudart.lib;cudadevrt.lib;cudart_static.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>D:\opencv_cmake\install\x64\vc15\lib;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\opencv_cmake\install\x64\vc15\lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

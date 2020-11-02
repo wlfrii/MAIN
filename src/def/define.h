@@ -5,6 +5,9 @@
 #include <device_launch_parameters.h>
 #include <cuda_runtime.h>
 
+// THE SWITCH TO DEBUG CV::CUDA::GPUMAT
+#define CU_DEBUG 1
+
 #define GPU_ALGO_BEGIN namespace gpu{
 #define GPU_ALGO_END }
 
@@ -41,12 +44,6 @@ public:
     virtual ~Property() {}
     AlgoNodeType algo_node_type;
 };
-
-extern struct RectifyProperty;
-extern struct USMProperty;
-extern struct GuidedFilterProperty;
-extern struct ImageAdjustProperty;
-extern struct UnevenYProperty;
 
 
 enum TreeType

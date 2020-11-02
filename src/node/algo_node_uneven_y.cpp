@@ -4,7 +4,7 @@ GPU_ALGO_BEGIN
 AlgoNodeUnevenY::AlgoNodeUnevenY()
 	: AlgoNodeBase()
 {
-	this->setProperty(std::make_shared<UnevenYProperty>(UnevenYProperty()));
+	this->setProperty(std::make_shared<UnevenYProperty>());
 }
 
 AlgoNodeUnevenY::~AlgoNodeUnevenY()
@@ -19,12 +19,8 @@ void AlgoNodeUnevenY::process(cv::cuda::GpuMat & src, cudaStream_t stream)
 	if (uneven_y.empty() || src.rows != uneven_y.rows || src.cols != uneven_y.cols)
 	{
 		createUnevenY(src.cols, src.rows, uneven_prop->distance, uneven_y, stream);
-
-		for (auto i = 0; i < NUM; i++) {
-			tmp[i] = cv::cuda::GpuMat(src.rows, src.cols, CV_8UC3);
-		}
 	}
-	
-	reduceUnevenY(src, uneven_y, tmp, uneven_prop->magnify, uneven_prop->magnify0, stream);
+
+	reduceUnevenY(src, uneven_y, uneven_prop->magnify, uneven_prop->magnify0, stream);
 }
 GPU_ALGO_END

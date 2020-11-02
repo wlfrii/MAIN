@@ -14,7 +14,7 @@ namespace
 	 * \p channel The channel of input image
 	 * \p scale The scale for downsampling
 	 */
-	__global__ void downSampling_C1(gpu::U8 *src, float *dst, int scale, int width, int height)
+	__global__ void downSampling_C1(float *src, float *dst, int scale, int width, int height)
 	{
 		int thread_id = _get_threadId_grid2D_block1D();
 
@@ -29,7 +29,7 @@ namespace
 			// index = width * channel * (row * scale + id) + (col * scale + id) * channel
 			int index = width * (row * scale + scale - 1) + (col * scale + scale - 1);
 
-			dst[thread_id] = float(src[index]);
+			dst[thread_id] = src[index];
 		}
 	}
 	template <typename T>
@@ -50,9 +50,9 @@ namespace
 			T temp = src[index];
 
 			// Disgard the 4th channel if a RGBA image input
-			dst[3 * thread_id] = (float)temp.x;
-			dst[3 * thread_id + 1] = (float)temp.y;
-			dst[3 * thread_id + 2] = (float)temp.z;
+			dst[3 * thread_id] = temp.x;
+			dst[3 * thread_id + 1] = temp.y;
+			dst[3 * thread_id + 2] = temp.z;
 		}
 	}
 	
@@ -269,7 +269,7 @@ namespace
 	}
 	
 	// res = a .* src + b
-	__global__ void calc_q_C1(gpu::U8 *src, float *a, float *b, gpu::U8 *res, int width, int height)
+	__global__ void calc_q_C1(float *src, float *a, float *b, float *res, int width, int height)
 	{
 		int thread_id = _get_threadId_grid2D_block1D();
 		int row = thread_id / width;
@@ -280,7 +280,7 @@ namespace
 			int index = row * width + col;
 
 			float res_temp = a[thread_id] * float(src[thread_id]) + b[thread_id];
-			res[thread_id] = uchar(MIN(MAX(res_temp, 0), 255));
+			res[thread_id] = (MIN(MAX(res_temp, 0), 1));
 		}
 	}
 	template<typename T>
@@ -297,11 +297,11 @@ namespace
 			int index = row * width + col;
 
 			float res_temp_x = a[channel * thread_id] * float(temp.x) + b[channel * thread_id];
-			temp.x = uchar(MIN(MAX(res_temp_x, 0), 255));
+			temp.x = (MIN(MAX(res_temp_x, 0), 1));
 			float res_temp_y = a[channel * thread_id + 1] * float(temp.y) + b[channel * thread_id + 1];
-			temp.y = uchar(MIN(MAX(res_temp_y, 0), 255));
+			temp.y = (MIN(MAX(res_temp_y, 0), 1));
 			float res_temp_z = a[channel * thread_id + 2] * float(temp.z) + b[channel * thread_id + 2];
-			temp.z = uchar(MIN(MAX(res_temp_z, 0), 255));
+			temp.z = (MIN(MAX(res_temp_z, 0), 1));
 
 			res[thread_id] = temp;
 		}
@@ -318,7 +318,7 @@ namespace
 		::boxfilterX << < 51, 16, 0, stream >> > (p1, p2, scaled_radius, scaled_width, scaled_height, channel);
 		::boxfilterY << < 45, 32, 0, stream >> > (p2, p1, scaled_radius, scaled_width, scaled_height, channel);  // p1 ---> corr_II corr_Ip
 		//step5: cal a,b
-		::calc_ab << < dim3(81, 75), 64, 0, stream >> > (p1, p3, eps*eps * 255 * 255, scaled_width, scaled_height, channel); // p1 ---> a, p3 ---> b
+		::calc_ab << < dim3(81, 75), 64, 0, stream >> > (p1, p3, eps, scaled_width, scaled_height, channel); // p1 ---> a, p3 ---> b
 		//step6: box filter a,b
 		::boxfilterX << < 51, 16, 0, stream >> > (p1, p2, scaled_radius, scaled_width, scaled_height, channel);
 		::boxfilterY << < 45, 32, 0, stream >> > (p2, p1, scaled_radius, scaled_width, scaled_height, channel);  // p1 ---> mean_a
@@ -351,19 +351,19 @@ void guidedFilter(cv::cuda::GpuMat &src,  float eps, int radius, int scale, cuda
 	int channel = MIN(3, src.channels());
 
 	if (C == 1) {
-		U8* psrc = src.ptr<U8>(0);
+		float* psrc = src.ptr<float>(0);
 		::downSampling_C1 << < dim3(45, 45), 64, 0, stream >> > (psrc, p1, scale, width, height);  // p1 ---> I
 		::d_guidedFilter(p1, p2, p3, pa, pb, eps, scale, scaled_radius, scaled_width, scaled_height, channel, stream);
 		::calc_q_C1 << < dim3(90, 90), 256, 0, stream >> > (psrc, pa, pb, psrc, width, height);
 	}
 	else if (C == 3) {
-		U8C3* psrc = src.ptr<U8C3>(0);
+		float3* psrc = src.ptr<float3>(0);
 		::downSampling_C3C4 << < dim3(45, 45), 64, 0, stream >> > (psrc, p1, scale, width, height, channel);  // p1 ---> I
 		::d_guidedFilter(p1, p2, p3, pa, pb, eps, scale, scaled_radius, scaled_width, scaled_height, channel, stream);
 		::calc_q_C3C4 << < dim3(90, 90), 256, 0, stream >> > (psrc, pa, pb, psrc, width, height, channel);
 	}
 	else {
-		U8C4* psrc = src.ptr<U8C4>(0);
+		float4* psrc = src.ptr<float4>(0);
 		::downSampling_C3C4 << < dim3(45, 45), 64, 0, stream >> > (psrc, p1, scale, width, height, channel);  // p1 ---> I
 		::d_guidedFilter(p1, p2, p3, pa, pb, eps, scale, scaled_radius, scaled_width, scaled_height, channel, stream);
 		::calc_q_C3C4 << < dim3(90, 90), 256, 0, stream >> > (psrc, pa, pb, psrc, width, height, channel);

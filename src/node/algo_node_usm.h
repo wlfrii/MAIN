@@ -6,10 +6,10 @@
 GPU_ALGO_BEGIN
 struct USMProperty : Property
 {
-	USMProperty()
-		: Property(USM_NODE), usm(0.f), radius(4) {}
-	float usm;      //!< The extent for increasing the characters of the input image
-	int radius;     //!< The half-length of the box side length
+	USMProperty(float usm = 0.f, uchar radius = 4)
+		: Property(USM_NODE), usm(usm), radius(radius) {}
+	float usm;			//!< The extent for increasing the characters of the input image
+	uchar radius;		//!< The half-length of the box side length
 };
 
 class AlgoNodeUSM : public AlgoNodeBase

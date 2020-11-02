@@ -1,5 +1,6 @@
 #include "gpu_algorithm_pipeline_manager.h"
 #include <opencv2/core/cuda_stream_accessor.hpp>
+#include "gpu_algorithm_func.h"
 
 GPU_ALGO_BEGIN
 void CUDART_CB AlgoPipelineManager::finishCallBack(cudaStream_t stream, cudaError_t status, void* data)
@@ -22,7 +23,14 @@ AlgoPipelineManager::AlgoPipelineManager()
 
 AlgoPipelineManager::~AlgoPipelineManager()
 {
-    release();
+	for (auto i = 0; i < STREAM_NUM; i++) {
+		// Release the streams
+		cudaStreamDestroy(d_stream[i]);
+		// Deallocate memory
+		cudaFree(memory_gray[i]);
+		cudaFree(memory_rgb[i]);
+		cudaFree(memory_rgba[i]);
+	}
 }
 
 std::shared_ptr<AlgoPipelineManager> AlgoPipelineManager::getInstance()
@@ -54,36 +62,52 @@ void AlgoPipelineManager::intialize(uint image_width, uint image_height)
 }
 
 
-void AlgoPipelineManager::addAlgoNode(AlgoNodeBase* algo_node, TreeType type)
+bool AlgoPipelineManager::isReady() const
 {
+	return is_initialized;
+}
+
+
+void AlgoPipelineManager::addAlgoNode(AlgoNodeBase* algo_node, TreeType type/* = TreeType(0)*/)
+{
+	if (!is_initialized) {
+		printf("The instance should be initialized first!\n");
+		return;
+	}
 	algo_node_tree[type]->insert(algo_node);
 }
 
 
-void AlgoPipelineManager::setProperty(std::shared_ptr<Property> prop, TreeType type)
+void AlgoPipelineManager::setProperty(std::shared_ptr<Property> prop, TreeType type/* = TreeType(0)*/)
 {
     algo_node_tree[type]->setProperty(prop);
 }
 
 
-bool AlgoPipelineManager::process(const cv::Mat &src, cv::Mat &res, TreeType type, std::atomic<bool> &flag)
+bool AlgoPipelineManager::process(const cv::Mat &src, cv::Mat &res, std::atomic<bool> &flag, TreeType type/* = TreeType(0)*/)
 {
 	if (!is_initialized) {
 		printf("The instance should be initialized first!\n");
 		return false;
 	}
-
+	
 	ImageType imtype;
 	if (src.channels() == 1) {
-		imtype = gpu::GRAY;
-	}
+		imtype = gpu::GRAY;	}
 	else if(src.channels() == 3) {
-		imtype = gpu::RGB;
-	}
+		imtype = gpu::RGB;	}
 	else {
 		imtype = gpu::RGBA;
 	}
-	if (!uploadImage((U8*)src.data, type, imtype))
+	if (src.type() == CV_8UC1 || src.type() == CV_8UC3 || src.type() == CV_8UC4) {
+		if (!uploadImage((uchar*)src.data, type, imtype))
+			return false;
+	}
+	else if (src.type() == CV_32FC1 || src.type() == CV_32FC3 || src.type() == CV_32FC4) {
+		if (!uploadImage(src.ptr<float>(0), type, imtype))
+			return false;
+	}
+	else
 		return false;
 	processImage(type, imtype);
 	downloadImage(res, type, imtype);
@@ -96,26 +120,14 @@ bool AlgoPipelineManager::process(const cv::Mat &src, cv::Mat &res, TreeType typ
     return true;
 }
 
-void AlgoPipelineManager::release()
-{
-    for(auto i = 0; i < STREAM_NUM; i++) {
-        // Release the streams
-        cudaStreamDestroy(d_stream[i]);
-        // Deallocate memory
-		cudaFree(memory_gray[i]);
-		cudaFree(memory_rgb[i]);
-		cudaFree(memory_rgba[i]);
-    }
-}
 
-std::shared_ptr<AlgoNodeTree> AlgoPipelineManager::getAlgoTree(TreeType type)
+std::shared_ptr<AlgoNodeTree> AlgoPipelineManager::getAlgoTree(TreeType type/* = TreeType(0)*/)
 {
     if(int(type) < STREAM_NUM)
         return algo_node_tree[type];
     else
         return nullptr;
 }
-
 
 bool AlgoPipelineManager::uploadImage(uchar *src, int stream_id, ImageType imtype)
 {
@@ -140,7 +152,29 @@ bool AlgoPipelineManager::uploadImage(uchar *src, int stream_id, ImageType imtyp
     }
     return true;
 }
+bool AlgoPipelineManager::uploadImage(const float *src, int stream_id, ImageType imtype)
+{
+	// Copies data from host (src) to device (d_uc_mem)
+	cudaError_t status;
+	switch (imtype)
+	{
+	case gpu::GRAY:
+		status = cudaMemcpyAsync(memory_grayf[stream_id], src, image_width*image_height * sizeof(float), cudaMemcpyHostToDevice, d_stream[stream_id]);
+		break;
+	case gpu::RGB:
+		status = cudaMemcpyAsync(memory_rgbf[stream_id], src, image_width*image_height * 3 * sizeof(float), cudaMemcpyHostToDevice, d_stream[stream_id]);
+		break;
+	case gpu::RGBA:
+		status = cudaMemcpyAsync(memory_rgbaf[stream_id], src, image_width*image_height * 4 * sizeof(float), cudaMemcpyHostToDevice, d_stream[stream_id]);
+		break;
+	}
 
+	if (status != cudaSuccess) {
+		printf("AlgoPipelineManager::uploadData: upload pipeline %d failed!\n", stream_id);
+		return false;
+	}
+	return true;
+}
 
 void AlgoPipelineManager::processImage(int stream_id, ImageType imtype)
 {
@@ -151,22 +185,26 @@ void AlgoPipelineManager::processImage(int stream_id, ImageType imtype)
 	case gpu::GRAY:
 		// Get the image in the stream
 		mat_gray[stream_id] = cv::cuda::GpuMat(image_height, image_width, CV_8UC1, memory_gray[stream_id]);
+		// Project image's [0,255] to [0,1]
+		convertImageFormat(mat_gray[stream_id], d_stream[stream_id]);
 		// Process the 1-channel image
 		algo_node_tree[stream_id]->process(mat_gray[stream_id], d_stream[stream_id]);
-		break;
+		return;
 	case gpu::RGB:
 		// Get the image in the stream and Convert image to RGRA
 		cv::cuda::cvtColor(cv::cuda::GpuMat(image_height, image_width, CV_8UC3, memory_rgb[stream_id]), mat_rgba[stream_id], cv::COLOR_BGR2BGRA);
-		// Process the 4-channel image
-		algo_node_tree[stream_id]->process(mat_rgba[stream_id], d_stream[stream_id]);
 		break;
 	case gpu::RGBA:
 		// Get the image in the stream
 		mat_rgba[stream_id] = cv::cuda::GpuMat(image_height, image_width, CV_8UC4, memory_rgba[stream_id]);
-		// Process the 4-channel image
-		algo_node_tree[stream_id]->process(mat_rgba[stream_id], d_stream[stream_id]);
 		break;
+	default:
+		return;
 	}
+	// Project image's [0,255] to [0,1]
+	convertImageFormat(mat_rgba[stream_id], d_stream[stream_id]);
+	// Process the 4-channel image
+	algo_node_tree[stream_id]->process(mat_rgba[stream_id], d_stream[stream_id]);
 }
 
 

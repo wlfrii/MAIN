@@ -44,9 +44,70 @@ namespace
 
 		if (col < uneven_y.cols && row < uneven_y.rows)
 		{
-			uneven_y(row, col) = lumalaws2(col, row, uneven_y.cols, uneven_y.rows, distance);
+			uneven_y(row, col) = lumalaws2(col + 1, row + 1, uneven_y.cols, uneven_y.rows, distance);
 		}
 	}
+
+	//__global__ void reduceUnevenY(cv::cuda::PtrStepSz<uchar4> src, cv::cuda::PtrStepSz<uchar3> hsv, cv::cuda::PtrStepSz<float> uneven_y, float magnify, float magniy0)
+	//{
+	//	int thread_id = _get_threadId_grid2D_block1D();
+	//	int col = thread_id % uneven_y.cols;
+	//	int row = thread_id / uneven_y.cols;
+
+	//	if (col < uneven_y.cols && row < uneven_y.rows)
+	//	{
+	//		float p = magnify * (1 - uneven_y(row, col)) * float(hsv(row, col).y) / 255.f;
+
+	//		src(row, col).x = (uchar)MIN(float(src(row, col).x)*(magniy0 + p), 255);
+	//		src(row, col).y = (uchar)MIN(float(src(row, col).y)*(magniy0 + p), 255);
+	//		src(row, col).z = (uchar)MIN(float(src(row, col).z)*(magniy0 + p), 255);
+	//	}
+	//}
+
+	__global__ void reduceUnevenY(cv::cuda::PtrStepSz<float4> src, cv::cuda::PtrStepSz<float> uneven_y, float magnify, float magnify0)
+	{
+		int thread_id = _get_threadId_grid2D_block1D();
+		int col = thread_id % uneven_y.cols;
+		int row = thread_id / uneven_y.cols;
+
+		if (col < uneven_y.cols && row < uneven_y.rows)
+		{
+			// Calcuate the pixel saturation first
+			float max_rgb = MAX(MAX(src(row, col).x, src(row, col).y), src(row, col).z);
+			float min_rgb = MIN(MIN(src(row, col).x, src(row, col).y), src(row, col).z);
+			float saturation = abs(max_rgb) < 1e-3 ? 0 : 1 - min_rgb / max_rgb;
+
+			float p = magnify * (1 - uneven_y(row, col)) * saturation;
+
+			src(row, col).x = src(row, col).x * (magnify0 + p);
+			src(row, col).y = src(row, col).y * (magnify0 + p);
+			src(row, col).z = src(row, col).z * (magnify0 + p);
+		}
+	}
+}
+
+GPU_ALGO_BEGIN
+void createUnevenY(int width, int height, int distance, cv::cuda::GpuMat & uneven_y, cudaStream_t stream)
+{
+	if (uneven_y.empty())
+		uneven_y = cv::cuda::GpuMat(height, width, CV_32FC1);
+
+	::createUnevenY << < dim3(90, 90), 256, 0, stream >> > (distance, uneven_y);
+}
+
+void reduceUnevenY(cv::cuda::GpuMat & src, cv::cuda::GpuMat & uneven_y, float magnify, float magnify0, cudaStream_t stream)
+{
+	::reduceUnevenY << < dim3(90, 90), 256, 0, stream >> > (src, uneven_y, magnify, magnify0);
+
+#if CU_DEBUG
+	cv::Mat test_uneven_y;	uneven_y.download(test_uneven_y);
+	cv::Mat test_res; src.download(test_res);
+#endif
+}
+GPU_ALGO_END
+
+namespace
+{
 
 	__global__ void calcUnevenY(float *Y, int width, int height, int distance)
 	{
@@ -120,42 +181,4 @@ namespace
 		}
 	}
 
-	__global__ void reduceUnevenY(cv::cuda::PtrStepSz<uchar4> src, cv::cuda::PtrStepSz<uchar3> hsv, cv::cuda::PtrStepSz<float> uneven_y, float magnify, float magniy0)
-	{
-		int thread_id = _get_threadId_grid2D_block1D();
-		int col = thread_id % uneven_y.cols;
-		int row = thread_id / uneven_y.cols;
-
-		if (col < uneven_y.cols && row < uneven_y.rows)
-		{
-			float p = magnify * (1 - uneven_y(row, col)) * float(hsv(row, col).y) / 255.f;
-
-			src(row, col).x = (uchar)MIN(float(src(row, col).x)*(magniy0 + p), 255);
-			src(row, col).y = (uchar)MIN(float(src(row, col).y)*(magniy0 + p), 255);
-			src(row, col).z = (uchar)MIN(float(src(row, col).z)*(magniy0 + p), 255);
-		}
-	}
 }
-
-GPU_ALGO_BEGIN
-void createUnevenY(int width, int height, int distance, cv::cuda::GpuMat & uneven_y, cudaStream_t stream)
-{
-	if (uneven_y.empty())
-		uneven_y = cv::cuda::GpuMat(height, width, CV_32FC1);
-
-	::createUnevenY << < dim3(90, 90), 256, 0, stream >> > (distance, uneven_y);
-}
-
-void reduceUnevenY(cv::cuda::GpuMat & src, cv::cuda::GpuMat & uneven_y, std::array<cv::cuda::GpuMat, 2> &tmp, float magnify, float magnify0, cudaStream_t stream)
-{
-	//cv::Mat t3; src.download(t3);
-	//cv::Mat t1; uneven_y.download(t1);
-
-	cv::cuda::cvtColor(src, tmp[0], cv::COLOR_BGRA2BGR);
-	cv::cuda::cvtColor(tmp[0], tmp[1], cv::COLOR_BGR2HSV);
-
-	::reduceUnevenY << < dim3(90, 90), 256, 0, stream >> > (src, tmp[1], uneven_y, magnify, magnify0);
-
-	//cv::Mat t2; src.download(t2);
-}
-GPU_ALGO_END

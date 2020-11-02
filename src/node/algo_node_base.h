@@ -12,7 +12,7 @@ public:
 
     virtual void process(cv::cuda::GpuMat & src, cudaStream_t stream = 0) = 0;
 
-    void setProperty(std::shared_ptr<Property> prop);
+    virtual void setProperty(std::shared_ptr<Property> prop);
 
     AlgoNodeType getNodeType() const;
 

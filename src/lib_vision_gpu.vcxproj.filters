@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CudaCompile Include="gpu_algorithm_colorspace.cu" />
     <CudaCompile Include="node\algo_node_gamma.cu">
       <Filter>node</Filter>
     </CudaCompile>
@@ -14,7 +13,10 @@
     <CudaCompile Include="node\algo_node_uneven_y.cu">
       <Filter>node</Filter>
     </CudaCompile>
-    <CudaCompile Include="func\func_uneven_y.cu">
+    <CudaCompile Include="func\func_colorspace.cu">
+      <Filter>func</Filter>
+    </CudaCompile>
+    <CudaCompile Include="func\func_convert_image_format.cu">
       <Filter>func</Filter>
     </CudaCompile>
   </ItemGroup>
@@ -44,7 +46,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gpu_algorithm_colorspace.h" />
     <ClInclude Include="gpu_algorithm_pipeline_manager.h" />
     <ClInclude Include="gpu_algorithm_node_tree.h" />
     <ClInclude Include="node\algo_node_base.h">
@@ -69,21 +70,25 @@
       <Filter>node</Filter>
     </ClInclude>
     <ClInclude Include="def\cu_define.h">
-      <Filter>define</Filter>
+      <Filter>def</Filter>
     </ClInclude>
     <ClInclude Include="def\define.h">
-      <Filter>define</Filter>
+      <Filter>def</Filter>
+    </ClInclude>
+    <ClInclude Include="gpu_algorithm_func.h" />
+    <ClInclude Include="func\func_colorspace.h">
+      <Filter>func</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="define">
-      <UniqueIdentifier>{891333c2-7422-4567-8d88-24e9951a96d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="node">
       <UniqueIdentifier>{0b7bd27b-47d9-4a8f-b1bc-50bb97baebc0}</UniqueIdentifier>
     </Filter>
     <Filter Include="func">
       <UniqueIdentifier>{f565dd59-e54f-45f6-94c3-8fb9c577db92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="def">
+      <UniqueIdentifier>{891333c2-7422-4567-8d88-24e9951a96d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

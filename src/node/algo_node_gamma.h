@@ -5,6 +5,16 @@
 #include <array>
 
 GPU_ALGO_BEGIN
+struct GammaProperty : Property
+{
+	GammaProperty(float eps = 0.2)
+		: Property(GAMMA_NODE)
+		, eps(eps)
+	{}
+
+	float eps; // refers to GuidedFilterProperty
+};
+
 class AlgoNodeGamma : public AlgoNodeBase
 {
 public:
@@ -15,10 +25,13 @@ public:
 
 private:
 	enum { NUM = 2 };
-	std::array<cv::cuda::GpuMat, NUM> tmp;
+	cv::cuda::GpuMat tmp;
 	cv::cuda::GpuMat gamma;
 
+	cv::cuda::GpuMat v; // V in hsv
+
 	AlgoNodeGuidedFilter* guided_filter_algo;
+	float	tmp_eps;
 };
 GPU_ALGO_END
 #endif // ALGONODEGAMMA_H

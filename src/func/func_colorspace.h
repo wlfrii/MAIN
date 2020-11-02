@@ -1,5 +1,5 @@
 #pragma once
-#include "./def/define.h"
+#include "../def/define.h"
 
 GPU_ALGO_BEGIN
 
@@ -10,11 +10,18 @@ GPU_ALGO_BEGIN
  * black or white paint.
  */
 
-enum ColorConvert
+enum ColorConvertType
 {
-	BGR2HSV
+	BGR2HSV,
+	HSV2BGR,
+	BGRA2HSV,
+	HSV2BGRA,
 };
 
-void cvtColor(cv::cuda::GpuMat &src, cv::cuda::GpuMat &dst, ColorConvert cvt);
+void cvtColor(cv::cuda::GpuMat &src, cv::cuda::GpuMat &dst, ColorConvertType cvttype, cudaStream_t stream = 0);
 
+
+/*@brief Calculate V in HSV space.
+ */
+void calcVbyHSV(cv::cuda::GpuMat &src, cv::cuda::GpuMat &v, cudaStream_t stream = 0);
 GPU_ALGO_END

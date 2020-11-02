@@ -1,15 +1,15 @@
 #include "algo_node_gamma.h"
+#include "../gpu_algorithm_func.h"
 
 GPU_ALGO_BEGIN
-void AdaptiveGamma(cv::cuda::GpuMat &src, const cudaStream_t &stream, std::array<cv::cuda::GpuMat, 2> &tmp);
+void AdaptiveGamma(cv::cuda::GpuMat &src, cv::cuda::GpuMat &v, cudaStream_t &stream, cv::cuda::GpuMat &tmp);
 
 AlgoNodeGamma::AlgoNodeGamma()
     : AlgoNodeBase()
 	, guided_filter_algo(new AlgoNodeGuidedFilter())
+	, tmp_eps(0.1)
 {
-	guided_filter_algo->setProperty(std::make_shared<GuidedFilterProperty>(GuidedFilterProperty(0.05)));
-
-	
+	this->setProperty(std::make_shared<GammaProperty>(tmp_eps));
 }
 
 AlgoNodeGamma::~AlgoNodeGamma()
@@ -19,25 +19,31 @@ AlgoNodeGamma::~AlgoNodeGamma()
 
 void AlgoNodeGamma::process(cv::cuda::GpuMat & src, cudaStream_t stream)
 {
-    if(tmp[0].size() != src.size()) {
-        for(auto i = 0; i < NUM; i++)
-			tmp[i] = cv::cuda::GpuMat(src.size(), CV_8UC3);
+    if(v.empty() || v.size() != src.size()) {
+        v = cv::cuda::GpuMat(src.size(), CV_32FC1);
+		tmp = cv::cuda::GpuMat(src.size(), CV_32FC3);
 
 		gamma = cv::cuda::GpuMat(src.rows, src.cols, CV_32FC1);
     }
-	// convert image to hsv
-	cv::cuda::cvtColor(src, tmp[0], cv::COLOR_BGRA2BGR);
-	cv::cuda::cvtColor(tmp[0], tmp[1], cv::COLOR_BGR2HSV);
-
-	tmp[1].copyTo(tmp[0]);
-
+	calcVbyHSV(src, v);
+#if CU_DEBUG
+	cv::Mat test_src; src.download(test_src);
+	cv::Mat test_v; v.download(test_v);
+#endif
+		
 	// guided hsv image, get the filtered v
-	guided_filter_algo->process(tmp[1], stream);
+	auto gamma_prop = dynamic_cast<GammaProperty*>(property.get());
+	if (abs(gamma_prop->eps - tmp_eps) > 1e-5) {
+		guided_filter_algo->setProperty(std::make_shared<GuidedFilterProperty>(gamma_prop->eps));
+		tmp_eps = gamma_prop->eps;
+	}
+	guided_filter_algo->process(v, stream);
+#if CU_DEBUG
+	cv::Mat test_v2; v.download(test_v2);
+#endif
 
-	/*cv::Mat t1(1080, 1920, CV_8UC3); tmp[0].download(t1);
-	cv::Mat t2(1080, 1920, CV_8UC3); tmp[1].download(t2);*/
-
-	AdaptiveGamma(src, stream, tmp);
+	AdaptiveGamma(src, v, stream, tmp);
 }
+
 
 GPU_ALGO_END

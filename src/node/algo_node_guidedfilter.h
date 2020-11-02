@@ -4,10 +4,16 @@
 #include <array>
 
 GPU_ALGO_BEGIN
+// enum{ TEMP_MAT_NUM = 5 };
+void guidedFilter(cv::cuda::GpuMat &src, float eps, int radius, int scale, cudaStream_t stream, std::array<cv::cuda::GpuMat, 5> &tmp_mat);
 struct GuidedFilterProperty : Property
 {
-	GuidedFilterProperty(float eps = 0.f, float radius = 16, float scale = 4)
-		: Property(GUIDED_FILTER_NODE), eps(eps), radius(radius), scale(scale) {}
+	GuidedFilterProperty(float eps = 0.f, float radius = 16.f, float scale = 4.f)
+		: Property(GUIDED_FILTER_NODE)
+		, eps(eps)
+		, radius(radius)
+		, scale(scale)
+	{}
 	float eps;      //!< The regularization parameter
 	int radius;     //!< The half-length of the box side length
 	int scale;      //!< The ratio for 'pyrdown'(downsample) the image, try scale=box_radius/4 to scale=box_radius

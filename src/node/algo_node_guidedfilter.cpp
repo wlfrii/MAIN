@@ -1,12 +1,10 @@
 #include "algo_node_guidedfilter.h"
 
 GPU_ALGO_BEGIN
-// enum{ TEMP_MAT_NUM = 5 };
-void guidedFilter(cv::cuda::GpuMat &src, float eps, int radius, int scale, cudaStream_t stream, std::array<cv::cuda::GpuMat, 5> &tmp_mat);
-
 AlgoNodeGuidedFilter::AlgoNodeGuidedFilter()
 	: AlgoNodeBase()
 {
+	this->setProperty(std::make_shared<GuidedFilterProperty>());
 }
 
 AlgoNodeGuidedFilter::~AlgoNodeGuidedFilter()
@@ -24,6 +22,8 @@ void AlgoNodeGuidedFilter::process(cv::cuda::GpuMat &src, cudaStream_t stream)
         }	
     }
     auto guidedfilter_prop = dynamic_cast<GuidedFilterProperty*>(property.get());
+	if (abs(guidedfilter_prop->eps < 1e-5))
+		return;
 	if (src.channels() == 1) {
 		guidedFilter(src, guidedfilter_prop->eps, guidedfilter_prop->radius, guidedfilter_prop->scale, stream, tmp_gray_mat);
 	}
