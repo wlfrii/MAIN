@@ -69,8 +69,9 @@ void AlgoPipelineManager::addAlgoNode(AlgoNodeBase* algo_node, TreeType type/* =
 
 void AlgoPipelineManager::clearAlgoNode(TreeType type/* = TreeType(0)*/)
 {
-
+	algo_node_tree[type]->clear();
 }
+
 
 void AlgoPipelineManager::setProperty(std::shared_ptr<Property> prop, TreeType type/* = TreeType(0)*/)
 {

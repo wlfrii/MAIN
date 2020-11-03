@@ -9,16 +9,19 @@ AlgoNodeTree::AlgoNodeTree()
 
 AlgoNodeTree::~AlgoNodeTree()
 {
-    for(auto & node : node_tree)
-    {
-        delete node;
-        node = nullptr;
-    }
+	release();
 }
 
 void AlgoNodeTree::insert(AlgoNodeBase *algo)
 {
     node_tree.push_back(algo);
+}
+
+
+void AlgoNodeTree::clear()
+{
+	release();
+	node_tree.clear();
 }
 
 
@@ -38,6 +41,16 @@ void AlgoNodeTree::setProperty(std::shared_ptr<Property> prop)
         if(node->getNodeType() == prop->algo_node_type)
             node->setProperty(prop);
     }
+}
+
+
+void AlgoNodeTree::release()
+{
+	for (auto & node : node_tree)
+	{
+		delete node;
+		node = nullptr;
+	}
 }
 
 GPU_ALGO_END

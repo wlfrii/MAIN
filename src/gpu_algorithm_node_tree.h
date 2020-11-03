@@ -21,10 +21,14 @@ public:
     ~AlgoNodeTree();
 
     void insert(AlgoNodeBase* algo);
+	
+	void clear();
 
     void process(cv::cuda::GpuMat & src, const cudaStream_t &stream);
 
     void setProperty(std::shared_ptr<Property> prop);
+private:
+	void release();
 
 private:
     // Use map to store the inserted AlgoNode and its type
