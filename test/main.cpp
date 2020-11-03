@@ -60,6 +60,8 @@ int main()
 	cv::Mat res1(image.size(), CV_32FC4);
 	gpu::AlgoPipelineManager::getInstance()->process(image, res1, flag);
 
+	
+
 	gpu::AlgoPipelineManager::getInstance()->addAlgoNode(new gpu::AlgoNodeGamma());
 	gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::GammaProperty>(0.005));
 	cv::Mat res2(image.size(), CV_32FC4);

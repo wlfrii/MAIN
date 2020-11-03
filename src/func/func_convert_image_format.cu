@@ -47,7 +47,7 @@ GPU_ALGO_BEGIN
 void convertImageFormat(cv::cuda::GpuMat &src, cudaStream_t stream)
 {
 #if CU_DEBUG
-	cv::Mat test_src; src.download(test_src);
+	//cv::Mat test_src; src.download(test_src);
 #endif
 
 	auto imfmt = src.type();
@@ -67,7 +67,7 @@ void convertImageFormat(cv::cuda::GpuMat &src, cudaStream_t stream)
 		src = tmp4;
 	}
 #if CU_DEBUG
-	cv::Mat test_res; src.download(test_res);
+	//cv::Mat test_res; src.download(test_res);
 #endif
 }
 

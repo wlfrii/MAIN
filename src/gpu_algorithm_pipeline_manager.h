@@ -23,6 +23,7 @@ public:
 	/*@brief Build the algo node tree.
 	 */
 	void addAlgoNode(AlgoNodeBase* algo_node, TreeType type = TreeType(0));
+	void clearAlgoNode(TreeType type = TreeType(0));
 
     /*@brief Set property of algo node specified by TreeType
 	 */
@@ -42,11 +43,11 @@ public:
     static void CUDART_CB finishCallBack(cudaStream_t stream, cudaError_t status, void * data);
 
 private:
+	enum Fmt { UCHAR, FLOAT };
 	// NOTE. The image will be converted to float first.
 	// During the processing on GPU, a float type image is recommended.
-    bool uploadImage(uchar* src, int stream_id, ImageType imtype);
-	bool uploadImage(const float* src, int stream_id, ImageType imtype);
-    void processImage(int stream_id, ImageType imtype);
+    bool uploadImage(const cv::Mat& src, int stream_id, ImageType imtype, Fmt fmt);
+    void processImage(int stream_id, ImageType imtype, Fmt fmt);
     void downloadImage(cv::Mat & res, int stream_id, ImageType imtype);
 
 private:
@@ -58,18 +59,50 @@ private:
     enum{ STREAM_NUM = 2 };
     cudaStream_t     d_stream[STREAM_NUM];
 
-	uchar*           memory_gray[STREAM_NUM];      //!< Used to store the GRAY image to be processed
-	uchar*           memory_rgb[STREAM_NUM];       //!< Used to store the BRG image to be processed
-	uchar*           memory_rgba[STREAM_NUM];      //!< Used to store the BRGA image to be processed
-	float*           memory_grayf[STREAM_NUM];     //!< Used to store the GRAY image to be processed
-	float*           memory_rgbf[STREAM_NUM];      //!< Used to store the BRG image to be processed
-	float*           memory_rgbaf[STREAM_NUM];     //!< Used to store the BRGA image to be processed
-
 	std::array<cv::cuda::GpuMat, STREAM_NUM> mat_gray;
-    std::array<cv::cuda::GpuMat, STREAM_NUM> mat_rgba;
+	std::array<cv::cuda::GpuMat, STREAM_NUM> mat_rgba;
 
-    std::array<std::shared_ptr<AlgoNodeTree>, STREAM_NUM> algo_node_tree;
+	std::array<std::shared_ptr<AlgoNodeTree>, STREAM_NUM> algo_node_tree;
 
+	template<typename Tp, uchar N = STREAM_NUM>
+	struct _T {
+		std::array<Tp*, N> mat;
+		int val_size;
+		int type;
+	};
+	class ImMemory
+	{
+	public:
+		ImMemory() {}
+		void initialize(uint image_width, uint image_height);
+		void release();
+
+		//template<typename Tp>
+		void* memory(ImageType imtype, Fmt fmt)
+		{
+			switch (imtype)
+			{
+			case GRAY:
+				if (fmt == UCHAR)	return &memory_gray;
+				else				return &memory_grayf;
+			case BGR:
+				if (fmt == UCHAR)	return &memory_bgr;
+				else				return &memory_bgrf;
+			case BGRA:
+				if (fmt == UCHAR)	return &memory_bgra;
+				else				return &memory_bgraf;
+			}
+			return nullptr;
+		}
+
+	private:
+		_T<uchar> memory_gray;      //!< Used to store the GRAY uchar image to be processed
+		_T<uchar> memory_bgr;       //!< Used to store the BGR uchar image to be processed
+		_T<uchar> memory_bgra;      //!< Used to store the BGRA uchar image to be processed
+		_T<float> memory_grayf;     //!< Used to store the GRAY float image to be processed
+		_T<float> memory_bgrf;      //!< Used to store the BGR float image to be processed
+		_T<float> memory_bgraf;     //!< Used to store the BGRA float image to be processed
+	}data;
 };
 GPU_ALGO_END
 

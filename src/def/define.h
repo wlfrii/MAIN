@@ -54,9 +54,15 @@ enum TreeType
 
 enum ImageType
 {
+	//GRAY_U = CV_8UC1,
+	//BGR_U = CV_8UC3,
+	//BGRA_U = CV_8UC4,
+	//GRAY_F = CV_32FC1,	
+	//BGR_F = CV_32FC3,	
+	//BGRA_F = CV_32FC4,
 	GRAY = 1,
-	RGB  = 3,
-	RGBA = 4
+	BGR  = 3,
+	BGRA = 4
 };
 
 
