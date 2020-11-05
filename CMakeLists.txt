@@ -1,0 +1,45 @@
+# 1. CMake Version
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+# 2. Project Name
+PROJECT(Vision)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_BUILD_TYPE "Debug")
+# set(CMAKE_BUILD_TYPE "Release")
+set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
+
+SET(MODULE_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
+SET(BINARY ${CMAKE_PROJECT_NAME})
+
+# 3. Including path
+FIND_PACKAGE(OpenCV REQUIRED)
+INCLUDE_DIRECTORIES(
+    ${OpenCV_INCLUDE_DIRS}
+)
+
+# 4. Add executable files
+AUX_SOURCE_DIRECTORY(./src/ SRC_SRCS)
+AUX_SOURCE_DIRECTORY(./src/define DEFINE_SRCS)
+# AUX_SOURCE_DIRECTORY(./src/process PROCESS_SRC_SRCS)
+ADD_EXECUTABLE(Vision 
+    ${SRC_SRCS}
+    ${DEFINE_SRCS}
+    # ${PROCESS_SRC_SRCS}
+)
+
+# 5. Add lib
+LINK_DIRECTORIES(
+    # /usr/lib
+    # /usr/lib64
+    # /usr/local/lib
+)
+
+FIND_PACKAGE(Threads)
+TARGET_LINK_LIBRARIES(Vision
+    ${OpenCV_LIBS}
+    ${CMAKE_THREAD_LIBS_INIT}
+    turbojpeg
+)
+
