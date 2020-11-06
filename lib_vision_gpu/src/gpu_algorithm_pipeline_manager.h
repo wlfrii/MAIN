@@ -64,6 +64,8 @@ private:
 
 	std::array<std::shared_ptr<AlgoNodeTree>, STREAM_NUM> algo_node_tree;
 
+	volatile bool ret_float_image;	// the flag to specify whether return a float image or uchar image
+
 	template<typename Tp, uchar N = STREAM_NUM>
 	struct _T {
 		std::array<Tp*, N> mat;

@@ -16,6 +16,7 @@ bool AlgoPipelineManager::is_initialized = false;
 AlgoPipelineManager::AlgoPipelineManager()
     : image_width(1920)
     , image_height(1080)
+	, ret_float_image(true)
 {
     for(auto i = 0; i < STREAM_NUM; i++)
         algo_node_tree[i].reset(new AlgoNodeTree());
@@ -85,7 +86,13 @@ bool AlgoPipelineManager::process(const cv::Mat &src, cv::Mat &res, std::atomic<
 		printf("The instance should be initialized first!\n");
 		return false;
 	}
-	
+	// Check the type of the output image
+	if (res.type() == CV_8UC1 || res.type() == CV_8UC3 || res.type() == CV_8UC4) {
+		ret_float_image = false;
+	}
+	else ret_float_image = true;
+
+	// Check the channel of the input image
 	ImageType imtype;
 	if (src.channels() == 1) 		imtype = gpu::GRAY;
 	else if(src.channels() == 3) 	imtype = gpu::BGR;
@@ -149,7 +156,7 @@ void AlgoPipelineManager::processImage(int stream_id, ImageType imtype, Fmt fmt)
 			// Get the image
 			mat_gray[stream_id] = cv::cuda::GpuMat(image_height, image_width, tmp->type, tmp->mat[stream_id]);
 			// Project image's [0,255] to [0,1]
-			convertImageFormat(mat_gray[stream_id], d_stream[stream_id]);
+			cvtImageFormat(mat_gray[stream_id], gpu::T_8U_2_32F, d_stream[stream_id]);
 			// Process the 1-channel image
 			algo_node_tree[stream_id]->process(mat_gray[stream_id], d_stream[stream_id]);
 			return;
@@ -163,7 +170,7 @@ void AlgoPipelineManager::processImage(int stream_id, ImageType imtype, Fmt fmt)
 			mat_rgba[stream_id] = cv::cuda::GpuMat(image_height, image_width, tmp->type, tmp->mat[stream_id]);
 		}
 		// Project image's [0,255] to [0,1]
-		convertImageFormat(mat_rgba[stream_id], d_stream[stream_id]);
+		cvtImageFormat(mat_rgba[stream_id], gpu::T_8U_2_32F, d_stream[stream_id]);
 		// Process the 4-channel image
 		algo_node_tree[stream_id]->process(mat_rgba[stream_id], d_stream[stream_id]);
 	};
@@ -187,10 +194,14 @@ void AlgoPipelineManager::downloadImage(cv::Mat &res, int stream_id, ImageType i
 	switch (imtype)
 	{
 	case gpu::GRAY:
+		if (!ret_float_image) 
+			cvtImageFormat(mat_gray[stream_id], gpu::T_32F_2_8U, d_stream[stream_id]);
 		mat_gray[stream_id].download(res, cv_stream);
 		break;
 	case gpu::BGR:
 	case gpu::BGRA:
+		if (!ret_float_image)
+			cvtImageFormat(mat_rgba[stream_id], gpu::T_32F_2_8U, d_stream[stream_id]);
 		mat_rgba[stream_id].download(res, cv_stream);
 		break;
 	default:
