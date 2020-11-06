@@ -34,7 +34,7 @@ public:
 	 *           CV_32FC1, CV_32FC3, CV_32FC4.
 	 *@param res The processed image with same type as src.
 	 */
-    bool process(const cv::Mat & src, cv::Mat & res, std::atomic<bool>& flag, TreeType type = TreeType(0));
+    bool process(const cv::Mat & input, cv::Mat & output, std::atomic<bool>& flag, TreeType type = TreeType(0));
 
 
     // Get algo tree

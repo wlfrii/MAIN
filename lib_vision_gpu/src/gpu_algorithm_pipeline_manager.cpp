@@ -80,37 +80,37 @@ void AlgoPipelineManager::setProperty(std::shared_ptr<Property> prop, TreeType t
 }
 
 
-bool AlgoPipelineManager::process(const cv::Mat &src, cv::Mat &res, std::atomic<bool> &flag, TreeType type/* = TreeType(0)*/)
+bool AlgoPipelineManager::process(const cv::Mat &input, cv::Mat &output, std::atomic<bool> &flag, TreeType type/* = TreeType(0)*/)
 {
 	if (!is_initialized) {
 		printf("The instance should be initialized first!\n");
 		return false;
 	}
 	// Check the type of the output image
-	if (res.type() == CV_8UC1 || res.type() == CV_8UC3 || res.type() == CV_8UC4) {
+	if (output.type() == CV_8UC1 || output.type() == CV_8UC3 || output.type() == CV_8UC4) {
 		ret_float_image = false;
 	}
 	else ret_float_image = true;
 
 	// Check the channel of the input image
 	ImageType imtype;
-	if (src.channels() == 1) 		imtype = gpu::GRAY;
-	else if(src.channels() == 3) 	imtype = gpu::BGR;
+	if (input.channels() == 1) 		imtype = gpu::GRAY;
+	else if(input.channels() == 3) 	imtype = gpu::BGR;
 	else							imtype = gpu::BGRA;
 	
 	Fmt fmt;
-	if (src.type() == CV_8UC1 || src.type() == CV_8UC3 || src.type() == CV_8UC4) {
+	if (input.type() == CV_8UC1 || input.type() == CV_8UC3 || input.type() == CV_8UC4) {
 		fmt = UCHAR;
 	}
-	else if (src.type() == CV_32FC1 || src.type() == CV_32FC3 || src.type() == CV_32FC4) {
+	else if (input.type() == CV_32FC1 || input.type() == CV_32FC3 || input.type() == CV_32FC4) {
 		fmt = FLOAT;
 	}
 	else return false;
 
-	if (!uploadImage(src, type, imtype, fmt))
+	if (!uploadImage(input, type, imtype, fmt))
 		return false;
 	processImage(type, imtype, fmt);
-	downloadImage(res, type, imtype);
+	downloadImage(output, type, imtype);
 
     /* The commands that are issued in a stream after a callback do not start executing before
      * the callback has completed.
