@@ -1,7 +1,7 @@
 #include "../def/micro_define.h"
 #if LINUX
 #include "v4l2_capture.h"
-#include "unix/mjpeg2jpeg.h"
+#include "mjpeg2jpeg.h"
 #include <poll.h>
 #include <turbojpeg.h>
 #include <iostream>

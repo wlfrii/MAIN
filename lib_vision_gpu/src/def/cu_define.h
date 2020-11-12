@@ -1,5 +1,8 @@
 #ifndef GPU_ALGORITHM_CU_DEFINE_H
 #define GPU_ALGORITHM_CU_DEFINE_H
+#include <device_launch_parameters.h>
+#include <cuda_runtime.h>
+#include <opencv2/opencv.hpp>
 
 /* Define some constant variables */
 #define CUDA_THREAD16	16
@@ -31,5 +34,37 @@
 #define _get_threadId_y_grid2D_block2D() \
     (threadIdx.y + blockDim.y * blockIdx.y)
 
+
+/* Bellow is some usefull type definition.
+ * U8C3 corresponds to RGB
+ * U8C4 corresponds to RGBA
+ */
+
+using U8 = unsigned char;
+struct U8C1
+{
+	__device__ __host__ U8C1()
+		: x(0) {}
+	unsigned char x;
+};
+struct U8C3
+{
+	__device__ __host__ U8C3()
+		: x(0), y(0), z(0)
+	{}
+	unsigned char x;
+	unsigned char y;
+	unsigned char z;
+};
+struct U8C4
+{
+	__device__ __host__ U8C4()
+		: x(0), y(0), z(0), w(255)
+	{}
+	unsigned char x;
+	unsigned char y;
+	unsigned char z;
+	unsigned char w;
+};
 
 #endif // GPU_ALGORITHM_CU_DEFINE_H

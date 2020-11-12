@@ -7,6 +7,7 @@
 #include <stdio.h>  ////@func int access(const char *_Filename, int _AccessMode)
 #include <unistd.h>
 #include <sys/stat.h> ////@func int mkdir(const char *pathname, mode_t mode), int rmdir(const char *_Path)
+#include "./ui/cmd.h"
 #else
 #include <io.h>     ////@func int access(const char *_Filename, int _AccessMode)
 #include <direct.h> ////@func int mkdir(const char *_Path), int rmdir(const char *_Path)
@@ -111,7 +112,7 @@ void FrameDisplayer::showFrame()
     }
     if(!tmp.empty())
     {
-        if(cmd.is_take_photos)
+        if(cmd.is_take_photo)
             saveImage(tmp);
 
         cv::Mat out;
@@ -169,7 +170,5 @@ void FrameDisplayer::saveImage(const cv::Mat &img)
     cv::imwrite(left_folder+name, img.colRange(1, cols/2));
     cv::imwrite(right_folder+name, img.colRange(cols/2, cols));
 
-    cmd.is_take_photos = false;
-    std::cout << "Images named as '" << name << "' has been saved in folder [" <<
-                 cmd.pictures_save_path << "].\n";
+    if(cmd.is_take_photo) cmd.is_take_photo = false;
 }

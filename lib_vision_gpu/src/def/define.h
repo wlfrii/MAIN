@@ -67,38 +67,6 @@ enum ImageType
 	BGRA = 4
 };
 
-
-/* Bellow is some usefull type definition.
- * U8C3 corresponds to RGB
- * U8C4 corresponds to RGBA
- */
-
-using U8 = unsigned char;
-struct U8C1
-{
-	__device__ __host__ U8C1()
-		: x(0) {}
-	unsigned char x;
-};
-struct U8C3
-{
-    __device__ __host__ U8C3()
-        : x(0), y(0), z(0)
-    {}
-    unsigned char x;
-    unsigned char y;
-    unsigned char z;
-};
-struct U8C4
-{
-    __device__ __host__ U8C4()
-        : x(0), y(0), z(0), w(255)
-    {}
-    unsigned char x;
-    unsigned char y;
-    unsigned char z;
-    unsigned char w;
-};
 GPU_ALGO_END
 
 #endif // GPU_ALGORITHM_DEFINE_H

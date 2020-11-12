@@ -35,7 +35,7 @@ void Camera::run()
         if(frame_reader->getFrame(frame))
         {
             // GPU process
-            if(processor->uploadImage(frame, index))
+            if(processor->uploadImage(frame))
             {
                 if(processor->downloadImage(res_frame))
                 {

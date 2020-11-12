@@ -1,45 +1,32 @@
-# 1. CMake Version
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+# Set cmake version
+cmake_minimum_required(VERSION 3.0)
 
-# 2. Project Name
-PROJECT(Vision)
+# Set the Project name and Version Number
+project(Vision VERSION 1.0)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_BUILD_TYPE "Debug")
-# set(CMAKE_BUILD_TYPE "Release")
-set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+
+# set(CMAKE_CXX_STANDARD 17)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ")
+
+# set(CMAKE_BUILD_TYPE "Debug")
+set(CMAKE_BUILD_TYPE "Release")
+set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -s")
 set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
-SET(MODULE_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
-SET(BINARY ${CMAKE_PROJECT_NAME})
 
-# 3. Including path
-FIND_PACKAGE(OpenCV REQUIRED)
-INCLUDE_DIRECTORIES(
+find_package(OpenCV REQUIRED)
+include_directories(
     ${OpenCV_INCLUDE_DIRS}
 )
 
-# 4. Add executable files
-AUX_SOURCE_DIRECTORY(./src/ SRC_SRCS)
-AUX_SOURCE_DIRECTORY(./src/define DEFINE_SRCS)
-# AUX_SOURCE_DIRECTORY(./src/process PROCESS_SRC_SRCS)
-ADD_EXECUTABLE(Vision 
-    ${SRC_SRCS}
-    ${DEFINE_SRCS}
-    # ${PROCESS_SRC_SRCS}
+
+# Include the libraries
+link_directories(
+    /usr/lib
+    /usr/local/lib
 )
 
-# 5. Add lib
-LINK_DIRECTORIES(
-    # /usr/lib
-    # /usr/lib64
-    # /usr/local/lib
-)
 
-FIND_PACKAGE(Threads)
-TARGET_LINK_LIBRARIES(Vision
-    ${OpenCV_LIBS}
-    ${CMAKE_THREAD_LIBS_INIT}
-    turbojpeg
-)
-
+## Add sub
+add_subdirectory(lib_vision_gpu)
+add_subdirectory(Vision)

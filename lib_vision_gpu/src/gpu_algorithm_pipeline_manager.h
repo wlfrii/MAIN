@@ -6,6 +6,7 @@
 #include <array>
 #include <atomic>
 
+
 GPU_ALGO_BEGIN
 class AlgoPipelineManager
 {

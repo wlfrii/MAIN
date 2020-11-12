@@ -40,13 +40,13 @@ void CameraHandle::initCamera(std::unique_ptr<CameraParamsReader> cam_params_rea
     }
 
     // Initialize left camera
-    uchar usb_id = 1;
+    uchar usb_id = 2;
     uchar cam_id = uchar(vision::LEFT_CAMERA);
     const CameraParameters left_params = cam_params_reader->getCameraParameters(vision::LEFT_CAMERA);
     cameras[cam_id] = new Camera(usb_id, cam_id, image_width, image_height, left_params);
 	
     // Initialize right camera
-    usb_id = 2;
+    usb_id = 4;
     cam_id = uchar(vision::RIGHT_CAMERA);
     const CameraParameters right_params = cam_params_reader->getCameraParameters(vision::RIGHT_CAMERA);
     cameras[cam_id] = new Camera(usb_id, cam_id, image_width, image_height, right_params);

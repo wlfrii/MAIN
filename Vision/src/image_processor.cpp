@@ -3,6 +3,7 @@
 #include "map_calculator.h"
 #include "def/micro_define.h"
 #include <memory>
+#include <gpu_algorithm_pipeline_manager.h>
 
 ImageProcessor::ImageProcessor(uchar cam_id, const CameraParameters &cam_params, uint image_width, uint image_height)
     : cam_id(cam_id)
@@ -11,8 +12,6 @@ ImageProcessor::ImageProcessor(uchar cam_id, const CameraParameters &cam_params,
     , disparity(0)
 {
     updateRectifyProps();
-
-//    gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::GuidedFilterProperty>(gpu::GuidedFilterProperty(0.25)), gpu::TreeType(1));
 }
 
 ImageProcessor::~ImageProcessor()
@@ -20,7 +19,7 @@ ImageProcessor::~ImageProcessor()
     DELETE_PIONTER(map_calculator);
 }
 
-bool ImageProcessor::uploadImage(const cv::Mat &image, const int stream_id)
+bool ImageProcessor::uploadImage(const cv::Mat &image)
 {
     if(processed_image.empty())
         processed_image.create(image.size(), CV_8UC4);
@@ -43,9 +42,8 @@ bool ImageProcessor::uploadImage(const cv::Mat &image, const int stream_id)
 
         /* atomic::store
          * Replaces the contained value with new value. */
-        //read_flag.store(false, std::memory_order_relaxed);
-//        ret = gpu::AlgoPipelineManager::getInstance()->process(image, processed_image, stream_id, read_flag);
-		cv::cvtColor(image, processed_image, cv::COLOR_BGR2BGRA);
+        read_flag.store(false, std::memory_order_relaxed);
+        ret = gpu::AlgoPipelineManager::getInstance()->process(image, processed_image, read_flag, gpu::TreeType(cam_id));
     }
 
     return ret;
@@ -66,7 +64,7 @@ void ImageProcessor::updateRectifyProps()
     map_calculator->updateMap(disparity);
 
     // Set the map as GPU parameters
-//    gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::RectifyProperty>(gpu::RectifyProperty(map_calculator->getGPUMapx(), map_calculator->getGPUMapy())), gpu::TreeType(cam_id));
+    gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::RectifyProperty>(map_calculator->getGPUMapx(), map_calculator->getGPUMapy()), gpu::TreeType(cam_id));
 }
 
 

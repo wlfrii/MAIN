@@ -16,7 +16,7 @@ public:
 
     void setImageProps();
 
-    bool uploadImage(const cv::Mat & image, const int stream_id = 0);
+    bool uploadImage(const cv::Mat & image);
     bool downloadImage(cv::Mat & image);
 
 private:

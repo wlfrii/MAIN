@@ -4,6 +4,8 @@
 #include <memory>
 
 GPU_ALGO_BEGIN
+
+
 class AlgoNodeBase
 {
 public:

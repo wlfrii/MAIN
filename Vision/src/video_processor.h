@@ -5,8 +5,7 @@
 #include <memory>
 
 /* @brief This class is designated to process a video stream.
- * The class is totally independent with other files, and is only rely on the
- * lib_vision_gpu.lib.
+ * (Next step. The display depends on @class FrameDisplayer.)
  * @author Wanglf.
  * @date 2020.10.30
  */

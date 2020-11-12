@@ -2,7 +2,6 @@
 #define ALGONODEIMAGEADJUST_CU
 #include "algo_node_image_adjust.h"
 #include "../def/cu_define.h"
-#include <opencv2/opencv.hpp>
 
 //kernel func
 namespace

@@ -16,32 +16,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += \
-    gpu_algorithm_colorspace.cpp \
-    gpu_algorithm_node_tree.cpp \
-    gpu_algorithm_pipeline_manager.cpp \
-    node/algo_node_base.cpp \
-    node/algo_node_gamma.cpp \
-    node/algo_node_guidedfilter.cpp \
-    node/algo_node_image_adjust.cpp \
-    node/algo_node_rectify.cpp \
-    node/algo_node_uneven_y.cpp \
-    node/algo_node_usm.cpp
+SOURCES += $$files("./src/*.cpp", true)
+#message("The sources: $$SOURCES")
 
-HEADERS += \
-    def/cu_define.h \
-    def/define.h \
-    gpu_algorithm_colorspace.h \
-    gpu_algorithm_func.h \
-    gpu_algorithm_node_tree.h \
-    gpu_algorithm_pipeline_manager.h \
-    node/algo_node_base.h \
-    node/algo_node_gamma.h \
-    node/algo_node_guidedfilter.h \
-    node/algo_node_image_adjust.h \
-    node/algo_node_rectify.h \
-    node/algo_node_uneven_y.h \
-    node/algo_node_usm.h
+HEADERS += $$files("./src/*.h", true)
+#message("The headers: $$HEADERS")
 
 # Default rules for deployment.
 unix {
@@ -51,13 +30,8 @@ unix {
 
 
 # =================  CUDA General  =================
-OTHER_FILES += \
-    func/func_uneven_y.cu \
-    gpu_algorithm_colorspace.cu \
-    node/algo_node_gamma.cu \
-    node/algo_node_guidedfilter.cu \
-    node/algo_node_image_adjust.cu \
-    node/algo_node_uneven_y.cu
+OTHER_FILES += $$files("./src/*.cu", true)
+#message("The headers: $$OTHER_FILES")
 
 CUDA_SOURCES+= $$OTHER_FILES
 

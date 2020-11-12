@@ -1,4 +1,4 @@
-#include "def/micro_define.h"
+#include "../def/micro_define.h"
 #if LINUX
 #ifndef V4L2_CAPTURE_H
 #define V4L2_CAPTURE_H

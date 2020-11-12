@@ -15,7 +15,6 @@ protected:
     FrameDisplayer() {
     }
 public:
-    friend Terminal;
     ~FrameDisplayer();
 
     static FrameDisplayer* getInstance();
@@ -31,25 +30,12 @@ public:
     void showFrame();
 
 private:
+    void saveImage(const cv::Mat &img);
+
+private:
     static FrameDisplayer* instance;
 
     std::array<cv::Mat, vision::MAX_CAMERA_NUMBER> images;
-
-
-    /* Terminal operation */
-    struct CMD
-    {
-        // display fps on displayed images
-        bool is_show_fps = true;
-
-        // save images
-        std::string pictures_save_path = "./capture";
-        uint picture_save_num = 1;
-        bool is_take_photos = false;
-
-    }cmd;
-
-    void saveImage(const cv::Mat &img);
 };
 
 #endif // FRAME_DISPLAYER_H
