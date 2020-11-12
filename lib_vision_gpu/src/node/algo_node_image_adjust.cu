@@ -61,9 +61,11 @@ namespace
 		return bgr;
 	}
 
+	__constant__ float NORM_3 = 1.f / 3.f;
+	__constant__ float NORM_128 = 1.f / 128.f;
 	__device__ float3& adjustBrightness(float3& bgr, char brightness)
 	{
-		float L = (bgr.x + bgr.y + bgr.z) / 3.f;
+		float L = (bgr.x + bgr.y + bgr.z) * NORM_3;
 
 		if (L < 1e-3) // to avoid divide a zeros
 			L = 1;
@@ -83,15 +85,15 @@ namespace
 		L = L + brightness - 128;
 		if (L > 0)
 		{
-			bgr.x = bgr.x + (256 - bgr.x) * L / 128;
-			bgr.y = bgr.y + (256 - bgr.y) * L / 128;
-			bgr.z = bgr.z + (256 - bgr.z) * L / 128;
+			bgr.x = bgr.x + (256 - bgr.x) * L * NORM_128;
+			bgr.y = bgr.y + (256 - bgr.y) * L * NORM_128;
+			bgr.z = bgr.z + (256 - bgr.z) * L * NORM_128;
 		}
 		else
 		{
-			bgr.x = bgr.x * (1 + L / 128);
-			bgr.y = bgr.y * (1 + L / 128);
-			bgr.z = bgr.z * (1 + L / 128);
+			bgr.x = bgr.x * (1 + L * NORM_128);
+			bgr.y = bgr.y * (1 + L * NORM_128);
+			bgr.z = bgr.z * (1 + L * NORM_128);
 		}
 		checkBGR(bgr);
 		return bgr;
@@ -144,9 +146,9 @@ namespace
 			if (brightness != 0) {
 				bgr = adjustBrightness(bgr, brightness);
 			}
-			src(row, col).x = bgr.x / 255.f;
-			src(row, col).y = bgr.y / 255.f;
-			src(row, col).z = bgr.z / 255.f;
+			src(row, col).x = bgr.x * NORMALIZE_RGB;
+			src(row, col).y = bgr.y * NORMALIZE_RGB;
+			src(row, col).z = bgr.z * NORMALIZE_RGB;
 		}
     }
 }

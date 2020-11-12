@@ -11,7 +11,7 @@ namespace
 
 		if (col < src.cols && row < src.rows)
 		{
-			cvt_src(row, col) = float(src(row, col)) / 255.f;
+			cvt_src(row, col) = float(src(row, col)) * NORMALIZE_RGB;
 		}
 	}
 	__global__ void cvt32FC1to8UC1(cv::cuda::PtrStepSz<float> src, cv::cuda::PtrStepSz<uchar> cvt_src)
@@ -33,9 +33,9 @@ namespace
 
 		if (col < src.cols && row < src.rows)
 		{
-			cvt_src(row, col).x = float(src(row, col).x) / 255.f;
-			cvt_src(row, col).y = float(src(row, col).y) / 255.f;
-			cvt_src(row, col).z = float(src(row, col).z) / 255.f;
+			cvt_src(row, col).x = float(src(row, col).x) * NORMALIZE_RGB;
+			cvt_src(row, col).y = float(src(row, col).y) * NORMALIZE_RGB;
+			cvt_src(row, col).z = float(src(row, col).z) * NORMALIZE_RGB;
 		}
 	}
 	__global__ void cvt32FC3to8UC3(cv::cuda::PtrStepSz<float3> src, cv::cuda::PtrStepSz<uchar3> cvt_src)
@@ -59,10 +59,10 @@ namespace
 
 		if (col < src.cols && row < src.rows)
 		{
-			cvt_src(row, col).x = float(src(row, col).x) / 255.f;
-			cvt_src(row, col).y = float(src(row, col).y) / 255.f;
-			cvt_src(row, col).z = float(src(row, col).z) / 255.f;
-			cvt_src(row, col).w = float(src(row, col).w) / 255.f;
+			cvt_src(row, col).x = float(src(row, col).x) * NORMALIZE_RGB;
+			cvt_src(row, col).y = float(src(row, col).y) * NORMALIZE_RGB;
+			cvt_src(row, col).z = float(src(row, col).z) * NORMALIZE_RGB;
+			cvt_src(row, col).w = float(src(row, col).w) * NORMALIZE_RGB;
 		}
 	}
 	__global__ void cvt32FC4to8UC4(cv::cuda::PtrStepSz<float4> src, cv::cuda::PtrStepSz<uchar4> cvt_src)

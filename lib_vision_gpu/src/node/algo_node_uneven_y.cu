@@ -36,6 +36,7 @@ namespace
 		return uneven_y;
 	}
 
+	__constant__ float NORM_2 = 1.f / 2.f;
 	__global__ void createUnevenY(int distance, cv::cuda::PtrStepSz<float> uneven_y)
 	{
 		int thread_id = _get_threadId_grid2D_block1D();

@@ -35,6 +35,10 @@
     (threadIdx.y + blockDim.y * blockIdx.y)
 
 
+/* Some constant value */
+__constant__ float NORMALIZE_RGB = 1.f / 255.f;
+
+
 /* Bellow is some usefull type definition.
  * U8C3 corresponds to RGB
  * U8C4 corresponds to RGBA
