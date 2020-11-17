@@ -3,6 +3,9 @@
 
 namespace
 {
+	/* Some constant value */
+	__constant__ float NORMALIZE_RGB = 1.f / 255.f;
+
 	__global__ void cvt8UC1to32FC1(cv::cuda::PtrStepSz<uchar> src, cv::cuda::PtrStepSz<float> cvt_src)
 	{
 		int thread_id = _get_threadId_grid2D_block1D();

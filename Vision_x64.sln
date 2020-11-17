@@ -5,9 +5,11 @@ VisualStudioVersion = 15.0.28307.1145
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vision_x64", "Vision\src\Vision_x64.vcxproj", "{FCE41B97-6CD4-47D8-B12D-8B76BAAB6071}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_vision_gpu", ".\lib_vision_gpu\src\lib_vision_gpu.vcxproj", "{8A0B51C1-BFD6-4578-9298-EEACAC2FF64F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_vision_gpu", "lib_vision_gpu\src\lib_vision_gpu.vcxproj", "{8A0B51C1-BFD6-4578-9298-EEACAC2FF64F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_vision_test", ".\lib_vision_gpu\test\lib_vision_test.vcxproj", "{61A6B720-B260-4281-8ACC-54ACC13D6C02}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_vision_test", "lib_vision_gpu\test\lib_vision_test.vcxproj", "{61A6B720-B260-4281-8ACC-54ACC13D6C02}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vision", "Vision\Vision.vcxproj", "{E6E82C2E-6A10-38F0-95F4-A27A8013033A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,12 @@ Global
 		{61A6B720-B260-4281-8ACC-54ACC13D6C02}.Release|x64.Build.0 = Release|x64
 		{61A6B720-B260-4281-8ACC-54ACC13D6C02}.Release|x86.ActiveCfg = Release|Win32
 		{61A6B720-B260-4281-8ACC-54ACC13D6C02}.Release|x86.Build.0 = Release|Win32
+		{E6E82C2E-6A10-38F0-95F4-A27A8013033A}.Debug|x64.ActiveCfg = Debug|x64
+		{E6E82C2E-6A10-38F0-95F4-A27A8013033A}.Debug|x64.Build.0 = Debug|x64
+		{E6E82C2E-6A10-38F0-95F4-A27A8013033A}.Debug|x86.ActiveCfg = Debug|x64
+		{E6E82C2E-6A10-38F0-95F4-A27A8013033A}.Release|x64.ActiveCfg = Release|x64
+		{E6E82C2E-6A10-38F0-95F4-A27A8013033A}.Release|x64.Build.0 = Release|x64
+		{E6E82C2E-6A10-38F0-95F4-A27A8013033A}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

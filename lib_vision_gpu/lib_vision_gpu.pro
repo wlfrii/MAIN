@@ -53,6 +53,8 @@ CUDA_OBJECTS_DIR = ./
 # ============================== Linux ===============================
 # Include the library path, for linux
 unix{
+    message("Target compilation platform: $$QMAKE_HOST.arch")
+
     INCLUDEPATH += \
         /usr/local/include/opencv4 \
         /usr/local/include
@@ -110,20 +112,24 @@ unix{
     }
 } # unix end
 
-
+    INCLUDEPATH += \
+        "D:/opencv_cmake/install/include"
 # ============================== Windows ===============================
 # Include the library path, for windows
 win32{
+    win32:DEFINES += _CRT_SECURE_NO_WARNINGS
+
+    message("Target compilation platform: $$QMAKE_HOST.arch")
+
     # ------------------- CUDA --------------------
-    CUDA_DIR = "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v10.0/"
+    CUDA_DIR = "c:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v10.0/"
     CUDA_INC = $$join($$CUDA_DIR/include,'" -I"','-I"','"')
 
     QMAKE_LIBDIR += $$CUDA_DIR/lib/x64
 
     INCLUDEPATH += \
-        "D:/opencv_cmake/install/include/" \
-        "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v10.0/include" \
-        "C:/ProgramData/NVIDIA Corporation/CUDA Samples/v10.0/common/inc"
+        "c:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v10.0/include" \
+        "d:/ProgramData/NVIDIA Corporation/CUDA Samples/v10.0/common/inc"
 
     LIBS += -L$$CUDA_DIR/lib/x64 \
         -lcudadevrt \
@@ -134,9 +140,11 @@ win32{
     MSVCRT_LINK_FLAG_DEBUG = "/MDd"  # refers to VS
     MSVCRT_LINK_FLAG_RELEASE = "/MD" # refers to VS
 
-    CONFIG(debug, debug|release) {
+    win32:CONFIG(debug, debug|release) {
+        INCLUDEPATH += \
+            "D:/opencv_cmake/install/include/"
         LIBS += -L"D:/opencv_cmake/install/x64/vc15/lib" \
-            -lopencv_world420d \
+            -lopencv_world420d
 
         # -- Config complier for CUDA in Debug mode --
         cuda_d.input = CUDA_SOURCES
@@ -154,8 +162,10 @@ win32{
         QMAKE_EXTRA_COMPILERS += cuda_d
     }
     else:CONFIG(release, debug|release){
-        LIBS += -L"D:/opencv_cmake/install/x64/vc15/lib" \
-         -lopencv_world420 \
+        INCLUDEPATH += \
+            "D:/opencv_cmake/install/include/"
+        LIBS += -L"d:/opencv_cmake/install/x64/vc15/lib" \
+            -lopencv_world420
 
         # -- Config complier for CUDA in Release mode --
         cuda.input = CUDA_SOURCES

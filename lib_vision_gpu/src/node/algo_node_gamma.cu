@@ -14,20 +14,34 @@ namespace
 	 * y_new = y.^gamma;
 	 * img_hsv(:, :, 3) = y_new;
 	 * dst = hsv2rgb(img_hsv);*/
-    __global__ void calcGammaTransform(cv::cuda::PtrStepSz<float3> hsv, cv::cuda::PtrStepSz<float> filtered_y, float mean_y, cv::cuda::PtrStepSz<float> ga)
+    __global__ void calcGammaTransform(cv::cuda::PtrStepSz<float3> hsv, cv::cuda::PtrStepSz<float> filtered_y, float mean_y/*, cv::cuda::PtrStepSz<float> ga*/)
     {
         int thread_id = _get_threadId_grid2D_block1D();
 		int row = thread_id / filtered_y.cols;
 		int col = thread_id % filtered_y.cols;
 		if (row < filtered_y.rows && col < filtered_y.cols)
 		{
-			float gamma = pow(mean_y, 1 - filtered_y(row, col) / mean_y);
-			ga(row, col) = gamma;
-			float y_new = pow(hsv(row, col).z, gamma);
+			float gamma = powf(mean_y, 1.0 - filtered_y(row, col) / mean_y);
+			/*ga(row, col) = gamma;*/
+			float y_new = powf(hsv(row, col).z, gamma);
 
 			hsv(row, col).z = MAX(MIN(y_new, 1), 0);
 		}
     }
+
+	__global__ void calcGammaTransform2(cv::cuda::PtrStepSz<float3> hsv, cv::cuda::PtrStepSz<float> filtered_y, float val)
+	{
+		int thread_id = _get_threadId_grid2D_block1D();
+		int row = thread_id / filtered_y.cols;
+		int col = thread_id % filtered_y.cols;
+		if (row < filtered_y.rows && col < filtered_y.cols)
+		{
+			float gamma = powf(0.5, 1.0 - filtered_y(row, col) / val);
+			float y_new = powf(hsv(row, col).z, gamma);
+
+			hsv(row, col).z = MAX(MIN(y_new, 1), 0);
+		}
+	}
 }
 
 GPU_ALGO_BEGIN
@@ -41,12 +55,8 @@ void AdaptiveGamma(cv::cuda::GpuMat &src, cv::cuda::GpuMat &v, cudaStream_t &str
 	cv::Scalar mean_rgba = cv::cuda::sum(v);
 	float mean_v = mean_rgba(0) / (v.rows * v.cols);
 
-	// calculate new v and store in tmp[0]
-	cv::cuda::GpuMat gamma(src.rows, src.cols, CV_32FC1);
-	::calcGammaTransform << < dim3(90, 90), 256, 0, stream >> > (tmp, v, mean_v, gamma);
-	cv::Mat t3(gamma.size(), gamma.type());
-	gamma.download(t3);
-
+	//::calcGammaTransform << < dim3(90, 90), 256, 0, stream >> > (tmp, v, mean_v);
+	::calcGammaTransform2 << < dim3(90, 90), 256, 0, stream >> > (tmp, v, 0.5);
 
 #if CU_DEBUG
 	cv::Mat test_tmp; tmp.download(test_tmp);
@@ -59,9 +69,5 @@ void AdaptiveGamma(cv::cuda::GpuMat &src, cv::cuda::GpuMat &v, cudaStream_t &str
 #endif
 }
 
-//void AdaptiveGamma(cv::cuda::GpuMat &src, const cudaStream_t &stream, std::array<cv::cuda::GpuMat, 2> &tmp, cv::cuda::GpuMat &uneven_y)
-//{
-//
-//}
 GPU_ALGO_END
 #endif //ALGONODEGAMMA_CU

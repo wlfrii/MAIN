@@ -8,7 +8,7 @@ GPU_ALGO_BEGIN
 void guidedFilter(cv::cuda::GpuMat &src, float eps, int radius, int scale, cudaStream_t stream, std::array<cv::cuda::GpuMat, 5> &tmp_mat);
 struct GuidedFilterProperty : Property
 {
-	GuidedFilterProperty(float eps = 0.f, float radius = 16.f, float scale = 4.f)
+    GuidedFilterProperty(float eps = 0.f, uint radius = 16, uint scale = 4)
 		: Property(GUIDED_FILTER_NODE)
 		, eps(eps)
 		, radius(radius)

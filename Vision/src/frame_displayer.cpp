@@ -7,11 +7,11 @@
 #include <stdio.h>  ////@func int access(const char *_Filename, int _AccessMode)
 #include <unistd.h>
 #include <sys/stat.h> ////@func int mkdir(const char *pathname, mode_t mode), int rmdir(const char *_Path)
-#include "./ui/cmd.h"
 #else
 #include <io.h>     ////@func int access(const char *_Filename, int _AccessMode)
 #include <direct.h> ////@func int mkdir(const char *_Path), int rmdir(const char *_Path)
 #endif
+#include "./ui/cmd.h"
 
 namespace
 {

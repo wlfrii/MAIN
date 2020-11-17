@@ -129,6 +129,7 @@ std::shared_ptr<AlgoNodeTree> AlgoPipelineManager::getAlgoTree(TreeType type/* =
         return nullptr;
 }
 
+
 bool AlgoPipelineManager::uploadImage(const cv::Mat& src, int stream_id, ImageType imtype, Fmt fmt)
 {
     // Copies data from host (src) to device (d_uc_mem)

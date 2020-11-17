@@ -25,20 +25,17 @@ namespace
         gpu::AlgoPipelineManager::getInstance()->addAlgoNode(new gpu::AlgoNodeGamma());
         gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::GammaProperty>(0.005));
         gpu::AlgoPipelineManager::getInstance()->addAlgoNode(new gpu::AlgoNodeImageAdjust());
-        gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::ImageAdjustProperty>(0, 3));
+        gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::ImageAdjustProperty>(0, 10));
     }
 }
 
 int main(int argc, char *argv[])
 {
-    //::initGPUProcessor();
+    ::initGPUProcessor();
 
 #if LINUX
 //    CameraHandle camera_handle;
 //    camera_handle.initCamera(std::move(params_reader));
-
-//    Terminal terminal;
-//    terminal.run();
 
 //    camera_handle.openCamera();
 #if WITH_QT
@@ -51,9 +48,9 @@ int main(int argc, char *argv[])
 	std::string filename[3];
 	filename[0] = "E:/Rii/Videos/20200829/M_08292020153352_00000000U2957851_1_002-1.MP4";
 	filename[1] = "E:/Rii/Videos/20200829/M_08292020153352_0000-0230.MP4";
-	filename[2] = "E:/Rii/Videos/20200829/M_08292020153352_0005-0020.MP4";
+	filename[2] = "E:/Rii/Videos/20200829/M_08292020153352_0210-0230.MP4";
 
-	VideoProcessor::getInstance()->processVideo(filename[1], true);
+	VideoProcessor::getInstance()->processVideo(filename[2], false);
 
 	system("pause");
 #endif

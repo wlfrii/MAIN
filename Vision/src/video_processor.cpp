@@ -11,7 +11,7 @@ namespace
 		auto pos = filename.find_last_of('.');
 		auto time_str = mtimer::getCurrentTimeStr();
 		std::string res;
-		res = filename.substr(0, pos - 1) + "_p" + time_str + ".avi"; // filename.substr(pos, filename.size() - 1);
+		res = filename.substr(0, pos) + "_p" + time_str + ".avi"; // filename.substr(pos, filename.size() - 1);
 
 		return res;
 	}

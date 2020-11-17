@@ -29,7 +29,9 @@ void AlgoNodeTree::process(cv::cuda::GpuMat &src, const cudaStream_t &stream)
 {
     for(auto & node : node_tree)
     {
-        node->process(src, stream);
+        if(node->getProcessFlag()){
+            node->process(src, stream);
+        }
     }
 }
 

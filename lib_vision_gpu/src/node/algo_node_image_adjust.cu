@@ -6,6 +6,9 @@
 //kernel func
 namespace
 {
+	/* Some constant value */
+	__constant__ float NORMALIZE_RGB = 1.f / 255.f;
+
 	__device__ void checkBGR(float3& bgr)
 	{
 		bgr.x = MAX(MIN(bgr.x, 255), 0);

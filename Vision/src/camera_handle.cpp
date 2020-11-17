@@ -54,8 +54,13 @@ void CameraHandle::initCamera(std::unique_ptr<CameraParamsReader> cam_params_rea
     printf("CameraHandle::initCamera: Two camera initialized done.\n");
 }
 
-
 void CameraHandle::openCamera()
+{
+    mthread = std::thread(&CameraHandle::runCamera, this);
+    mthread.detach();
+}
+
+void CameraHandle::runCamera()
 {
     while(true)
     {
