@@ -4,12 +4,14 @@
 #if LINUX && WITH_QT
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QCheckBox>
-#include <QTextBrowser>
-
-#include <QString>
+#include <QPushButton>
 #include <QLabel>
-
+#include <QSpinBox>
+#include <QLineEdit>
+#include <QGroupBox>
+#include <vector>
 
 class ControlPanel : public QWidget
 {
@@ -18,25 +20,31 @@ class ControlPanel : public QWidget
 public:
     ControlPanel(QWidget *parent = nullptr);
     ~ControlPanel();
-
 private:
     void setupUI();
-    void log(const QString &qstr);
 
 private slots:
+    void onPushBtnCaptureClicked();
     void onChkBoxFPSSelected();
-    void onChkBoxEnhanceSelected();
+    void onGroupBoxEnhanceSelected();
 
 private:
-    QVBoxLayout *vlayout;
-    QTextBrowser *txt_browser;
+    // The widgets just used for display could be stored in a vector
+    // and release together when the app exit
+    std::vector<QLabel*> labels;
+    std::vector<QBoxLayout*> layouts;
 
-    QCheckBox *ckb_show_fps;
-    QCheckBox *ckb_enhance;
+    // Take photos
+    QPushButton     *pBtn_capture;
+    QSpinBox        *spBox_capture_num;
+    QLineEdit       *lEdit_capture_path;
 
-    QLabel *lb_show_fps;
+    /* Control */
+    QGroupBox       *gpBox_control;
+    QCheckBox       *chkBox_show_fps;
 
-
+    /* Start enhance */
+    QGroupBox       *gpBox_enhance;
 };
 
 #endif

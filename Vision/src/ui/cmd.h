@@ -2,19 +2,19 @@
 #define CMD_H
 #include <string>
 
-struct CMD
+
+class CMD
 {
+public:
     // display fps on displayed images
-    bool is_show_fps = true;
+    static bool is_show_fps;
 
     // save images
-    bool is_take_photo = false;
-    std::string pictures_save_path = "./capture";
+    static bool is_take_photo;
+    static std::string pictures_save_path;
 
     // start/close image enhancement
-    bool is_enhance = false;
-
-
-}cmd;
+    static bool is_enhance;
+};
 
 #endif // CMD_H

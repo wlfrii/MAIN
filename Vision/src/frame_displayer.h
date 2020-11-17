@@ -2,7 +2,6 @@
 #define FRAME_DISPLAYER_H
 #include "def/define.h"
 #include <array>
-#include "terminal.h"
 #include <string>
 
 /** @brief This class is designed to display the binocular view.

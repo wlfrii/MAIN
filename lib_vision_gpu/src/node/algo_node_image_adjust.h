@@ -12,7 +12,7 @@ void adjustImageProp(cv::cuda::GpuMat &src, char saturation, char contrast, char
 
 struct ImageAdjustProperty : Property
 {
-	ImageAdjustProperty(char saturation = 0, char contrast = 0, char brightness = 0)
+    ImageAdjustProperty(char saturation = 50, char contrast = 50, char brightness = 50)
 		: Property(IMAGE_ADJUST_NODE)
 		, saturation(saturation)
 		, contrast(contrast)

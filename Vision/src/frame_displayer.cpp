@@ -112,13 +112,13 @@ void FrameDisplayer::showFrame()
     }
     if(!tmp.empty())
     {
-        if(cmd.is_take_photo)
+        if(CMD::is_take_photo)
             saveImage(tmp);
 
         cv::Mat out;
         cv::resize(tmp, out, cv::Size(win_width, win_height));   
 
-        if(cmd.is_show_fps)
+        if(CMD::is_show_fps)
         {
             // check the fps
             static long long img_count = 0;
@@ -157,9 +157,9 @@ void FrameDisplayer::showFrame()
 
 void FrameDisplayer::saveImage(const cv::Mat &img)
 {
-    auto left_folder = cmd.pictures_save_path + "/left/";
-    auto right_folder = cmd.pictures_save_path + "/right/";
-    MAKE_DIR(cmd.pictures_save_path);
+    auto left_folder = CMD::pictures_save_path + "/left/";
+    auto right_folder = CMD::pictures_save_path + "/right/";
+    MAKE_DIR(CMD::pictures_save_path);
     MAKE_DIR(left_folder);
     MAKE_DIR(right_folder);
 
@@ -170,5 +170,5 @@ void FrameDisplayer::saveImage(const cv::Mat &img)
     cv::imwrite(left_folder+name, img.colRange(1, cols/2));
     cv::imwrite(right_folder+name, img.colRange(cols/2, cols));
 
-    if(cmd.is_take_photo) cmd.is_take_photo = false;
+    if(CMD::is_take_photo) CMD::is_take_photo = false;
 }
