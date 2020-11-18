@@ -1,6 +1,5 @@
 #include "control_panel.h"
 #include "../def/micro_define.h"
-#if LINUX && WITH_QT
 #include "cmd.h"
 #include <QFont>
 #include "../def/micro_define.h"
@@ -145,5 +144,3 @@ void ControlPanel::onGroupBoxEnhanceSelected()
     }
 }
 
-
-#endif

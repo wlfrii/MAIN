@@ -1,7 +1,6 @@
-#ifndef ENHANCEGROUP_H
-#define ENHANCEGROUP_H
+#ifndef UIENHANCEGROUP_H
+#define UIENHANCEGROUP_H
 #include "../def/micro_define.h"
-#if LINUX && WITH_QT
 #include <QGroupBox>
 #include <QCheckBox>
 #include <QSlider>
@@ -33,5 +32,4 @@ private:
 
 };
 
-#endif
 #endif // ENHANCEGROUP_H

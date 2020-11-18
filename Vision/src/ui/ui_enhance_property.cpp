@@ -1,8 +1,7 @@
 #include "ui_enhance_property.h"
-#if LINUX && WITH_QT
 #include "ui_logger.h"
 #include <gpu_algorithm_pipeline_manager.h>
-
+#include "../def/micro_define.h"
 
 UIEnhanceProperty::UIEnhanceProperty(QString name)
     : name(name)
@@ -46,7 +45,7 @@ QHBoxLayout *UIEnhanceProperty::create()
         spBox->setSingleStep(1);
         spBox->setMaximumWidth(50);
         spBox->setEnabled(false);
-        connect(spBox, &QSpinBox::textChanged, this, &UIEnhanceProperty::onSpinBoxValueChanged);
+        connect(spBox, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &UIEnhanceProperty::onSpinBoxValueChanged);
 
         hlayout->addWidget(chkBox);
         hlayout->addWidget(slider);
@@ -120,4 +119,3 @@ UIEnhanceBrightness* UIEnhanceBrightness::getInstance()
     static UIEnhanceBrightness ui_brightness;
     return &ui_brightness;
 }
-#endif

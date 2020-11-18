@@ -1,7 +1,5 @@
 #ifndef CONTROLPANAL_H
 #define CONTROLPANAL_H
-#include "../def/micro_define.h"
-#if LINUX && WITH_QT
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -47,5 +45,4 @@ private:
     QGroupBox       *gpBox_enhance;
 };
 
-#endif
 #endif // CONTROLPANAL_H

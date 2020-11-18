@@ -1,7 +1,5 @@
 #ifndef UIENHANCESATURATION_H
 #define UIENHANCESATURATION_H
-#include "../def/micro_define.h"
-#if LINUX && WITH_QT
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QCheckBox>
@@ -75,5 +73,4 @@ public:
     static UIEnhanceBrightness* getInstance();
 };
 
-#endif
 #endif // UIENHANCESATURATION_H

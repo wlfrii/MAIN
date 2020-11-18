@@ -26,19 +26,6 @@ void MapCalculator::updateMap(int disparity)
     // suppose single image size is w*h
     int cols = cpu_mapx.cols;
     int rows = cpu_mapx.rows;
-    // CPU zoom 2x
-    cv::resize(cpu_mapx(cv::Rect(cols / 4, rows / 4, cols / 2, rows / 2)), cpu_mapx_2X, cv::Size(cols, rows));
-    cv::resize(cpu_mapy(cv::Rect(cols / 4, rows / 4, cols / 2, rows / 2)), cpu_mapy_2X, cv::Size(cols, rows));
-    // CPU zoom 4x
-    cv::resize(cpu_mapx(cv::Rect(cols * 3 / 8, rows * 3 / 8, cols / 4, rows / 4)), cpu_mapx_4X, cv::Size(cols, rows));
-    cv::resize(cpu_mapy(cv::Rect(cols * 3 / 8, rows * 3 / 8, cols / 4, rows / 4)), cpu_mapy_4X, cv::Size(cols, rows));
-
-    // GPU zoom 2x
-    cv::cuda::resize(gpu_mapx(cv::Rect(cols / 4, rows / 4, cols / 2, rows / 2)), gpu_mapx_2X, cv::Size(cols, rows));
-    cv::cuda::resize(gpu_mapy(cv::Rect(cols / 4, rows / 4, cols / 2, rows / 2)), gpu_mapy_2X, cv::Size(cols, rows));
-    // GPU zoom 4x
-    cv::cuda::resize(gpu_mapx(cv::Rect(cols * 3 / 8, rows * 3 / 8, cols / 4, rows / 4)), gpu_mapx_4X, cv::Size(cols, rows));
-    cv::cuda::resize(gpu_mapy(cv::Rect(cols * 3 / 8, rows * 3 / 8, cols / 4, rows / 4)), gpu_mapy_4X, cv::Size(cols, rows));
 }
 
 
@@ -46,17 +33,9 @@ void MapCalculator::initMat()
 {
     gpu_mapx.create(image_height, image_width, CV_32FC1);
     gpu_mapy.create(image_height, image_width, CV_32FC1);
-    gpu_mapx_2X.create(image_height, image_width, CV_32FC1);
-    gpu_mapy_2X.create(image_height, image_width, CV_32FC1);
-    gpu_mapx_4X.create(image_height, image_width, CV_32FC1);
-    gpu_mapy_4X.create(image_height, image_width, CV_32FC1);
-
+ 
     cpu_mapx.create(image_height, image_width, CV_32FC1);
     cpu_mapy.create(image_height, image_width, CV_32FC1);
-    cpu_mapx_2X.create(image_height, image_width, CV_32FC1);
-    cpu_mapy_2X.create(image_height, image_width, CV_32FC1);
-    cpu_mapx_4X.create(image_height, image_width, CV_32FC1);
-    cpu_mapy_4X.create(image_height, image_width, CV_32FC1);
 }
 
 

@@ -14,8 +14,6 @@ public:
     ImageProcessor(uchar cam_id, const CameraParameters & cam_params, uint image_width, uint image_height);
     ~ImageProcessor();
 
-    void setImageProps();
-
     bool uploadImage(const cv::Mat & image);
     bool downloadImage(cv::Mat & image);
 

@@ -5,21 +5,9 @@
       <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
     </Filter>
-    <Filter Include="Generated Files">
-      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
-      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
@@ -34,32 +22,15 @@
     <Filter Include="ui">
       <UniqueIdentifier>{d6f66fbd-2b3c-46fa-850a-ad0f788ac0ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="camera">
+      <UniqueIdentifier>{bd73c191-1e8f-4ab1-acbe-252a963f0071}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="generate">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\camera_handle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\camera_parameters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\frame_displayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\frame_reader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\image_processor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\map_calculator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\video_processor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\def\mtimer.cpp">
       <Filter>def</Filter>
     </ClCompile>
@@ -91,32 +62,22 @@
       <Filter>unix</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\camera.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\camera_handle.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\camera_parameters.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\frame_displayer.cpp" />
+    <ClCompile Include="src\frame_reader.cpp" />
+    <ClCompile Include="src\image_processor.cpp" />
+    <ClCompile Include="src\map_calculator.cpp" />
+    <ClCompile Include="src\video_processor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\camera_handle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\camera_parameters.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\frame_displayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\frame_reader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\image_processor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\map_calculator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\video_processor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\def\define.h">
       <Filter>def</Filter>
     </ClInclude>
@@ -138,9 +99,6 @@
     <ClInclude Include="src\ui\ui_enhance_gamma.h">
       <Filter>ui</Filter>
     </ClInclude>
-    <ClInclude Include="src\ui\ui_enhance_group.h">
-      <Filter>ui</Filter>
-    </ClInclude>
     <ClInclude Include="src\ui\ui_enhance_guidedfilter.h">
       <Filter>ui</Filter>
     </ClInclude>
@@ -156,17 +114,34 @@
     <ClInclude Include="src\unix\v4l2_capture.h">
       <Filter>unix</Filter>
     </ClInclude>
+    <ClInclude Include="src\camera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\camera_handle.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\camera_parameters.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\frame_displayer.h" />
+    <ClInclude Include="src\frame_reader.h" />
+    <ClInclude Include="src\image_processor.h" />
+    <ClInclude Include="src\map_calculator.h" />
+    <ClInclude Include="src\video_processor.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
-      <Filter>Generated Files</Filter>
+      <Filter>generate</Filter>
     </CustomBuild>
     <CustomBuild Include="release\moc_predefs.h.cbt">
-      <Filter>Generated Files</Filter>
+      <Filter>generate</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\ui\control_panel.h">
+      <Filter>ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\ui_enhance_group.h">
       <Filter>ui</Filter>
     </QtMoc>
   </ItemGroup>

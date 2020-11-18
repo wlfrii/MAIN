@@ -1,7 +1,5 @@
-#ifndef LOGER_H
-#define LOGER_H
-#include "../def/micro_define.h"
-#if LINUX && WITH_QT
+#ifndef UI_LOGER_H
+#define UI_LOGER_H
 #include <QWidget>
 #include <QString>
 #include <QTextBrowser>
@@ -23,5 +21,4 @@ private:
     QTextBrowser *txt_browser;
 };
 
-#endif
-#endif // LOGER_H
+#endif // UI_LOGER_H

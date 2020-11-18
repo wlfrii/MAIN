@@ -1,6 +1,5 @@
 #include "ui_logger.h"
 #include "../def/micro_define.h"
-#if LINUX && WITH_QT
 
 UILogger::UILogger()
     : txt_browser(new QTextBrowser())
@@ -29,8 +28,7 @@ QTextBrowser *UILogger::getTxtBrowser()
 void UILogger::log(const QString &qstr)
 {
     static unsigned count = 0;
-    QString tmp = QString("#%1 ").arg(++count) + qstr;
+    QString tmp = QString("#%1\t").arg(++count) + qstr;
     txt_browser->append(tmp);
 }
 
-#endif

@@ -5,10 +5,9 @@
 #include <gpu_algorithm_pipeline_manager.h>
 #include "video_processor.h"
 #include <memory>
-#if LINUX && WITH_QT
 #include <QApplication>
 #include "ui/control_panel.h"
-#endif
+
 
 namespace
 {
@@ -34,25 +33,20 @@ int main(int argc, char *argv[])
     ::initGPUProcessor();
 
 #if LINUX
-//    CameraHandle camera_handle;
-//    camera_handle.initCamera(std::move(params_reader));
+    CameraHandle camera_handle;
+    camera_handle.initCamera(std::move(params_reader));
 
-//    camera_handle.openCamera();
-#if WITH_QT
-    QApplication app(argc, argv);
-    ControlPanel *panel = new ControlPanel();
-    panel->show();
-    app.exec();
-#endif
+    camera_handle.openCamera();
 #else
 	std::string filename[3];
 	filename[0] = "E:/Rii/Videos/20200829/M_08292020153352_00000000U2957851_1_002-1.MP4";
 	filename[1] = "E:/Rii/Videos/20200829/M_08292020153352_0000-0230.MP4";
 	filename[2] = "E:/Rii/Videos/20200829/M_08292020153352_0210-0230.MP4";
 
-	VideoProcessor::getInstance()->processVideo(filename[2], false);
-
-	system("pause");
+	//VideoProcessor::getInstance()->processVideo(filename[2], false);
 #endif
-    return 0;
+	QApplication app(argc, argv);
+	ControlPanel *panel = new ControlPanel();
+	panel->show();
+    return app.exec();
 }
