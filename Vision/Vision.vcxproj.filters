@@ -74,6 +74,9 @@
     <ClCompile Include="src\ui\ui_control_group.cpp">
       <Filter>ui</Filter>
     </ClCompile>
+    <ClCompile Include="src\ui\ui_processor.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\def\define.h">
@@ -128,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="src\def\ptr_define.h">
       <Filter>def</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\ui_processor.h">
+      <Filter>ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

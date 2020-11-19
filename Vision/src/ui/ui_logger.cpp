@@ -7,6 +7,7 @@ UILogger::UILogger()
 
 }
 
+
 UILogger::~UILogger()
 {
     DELETE_PIONTER(txt_browser);
@@ -19,6 +20,7 @@ UILogger *UILogger::getInstance()
     return &logger;
 }
 
+
 QTextBrowser *UILogger::getTxtBrowser()
 {
     return txt_browser;
@@ -27,8 +29,8 @@ QTextBrowser *UILogger::getTxtBrowser()
 
 void UILogger::log(const QString &qstr)
 {
-    static unsigned count = 0;
-    QString tmp = QString("#%1\t").arg(++count) + qstr;
+    static unsigned int count = 0;
+    QString tmp = QString("#%1. ").arg(++count) + qstr;
     txt_browser->append(tmp);
 }
 

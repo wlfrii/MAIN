@@ -26,6 +26,8 @@ QWidget *UIControlGroup::create()
 	static bool is_init = false;
 	if (!is_init) 
 	{
+		is_init = true;
+
 		gpBox_control = new QGroupBox();
 		gpBox_control->setTitle(tr("Control"));
 		gpBox_control->setMaximumHeight(58);

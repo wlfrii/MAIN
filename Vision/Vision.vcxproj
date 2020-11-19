@@ -180,6 +180,7 @@
     <ClCompile Include="src\ui\ui_enhance_guidedfilter.cpp" />
     <ClCompile Include="src\ui\ui_enhance_property.cpp" />
     <ClCompile Include="src\ui\ui_logger.cpp" />
+    <ClCompile Include="src\ui\ui_processor.cpp" />
     <ClCompile Include="src\unix\mjpeg2jpeg.cpp" />
     <ClCompile Include="src\unix\v4l2_capture.cpp" />
     <ClCompile Include="src\video_processor.cpp" />
@@ -208,6 +209,7 @@
     <QtMoc Include="src\ui\ui_enhance_guidedfilter.h" />
     <ClInclude Include="src\ui\ui_enhance_property.h" />
     <ClInclude Include="src\ui\ui_logger.h" />
+    <ClInclude Include="src\ui\ui_processor.h" />
     <ClInclude Include="src\unix\mjpeg2jpeg.h" />
     <ClInclude Include="src\unix\v4l2_capture.h" />
     <ClInclude Include="src\video_processor.h" />

@@ -4,6 +4,7 @@
 #include "ui_capture.h"
 #include "ui_control_group.h"
 #include "ui_enhance_group.h"
+#include "ui_processor.h"
 #include "../def/micro_define.h"
 #include <QFont>
 
@@ -39,8 +40,7 @@ void ControlPanel::setupUI()
 	vlayout->addLayout(UICapture::getInstance()->create());
 #else
 	/** PROCESSOR **/
-
-
+	vlayout->addLayout(UIProcessor::getInstance()->create());
 #endif
     /** CONTROL **/
     vlayout->addWidget(UIControlGroup::getInstance()->create());
