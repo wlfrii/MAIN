@@ -1,7 +1,9 @@
 #include "ui_enhance_property.h"
 #include "ui_logger.h"
 #include <gpu_algorithm_pipeline_manager.h>
-#include "../def/micro_define.h"
+#include <QCheckBox>
+#include <QSlider>
+#include <QSpinBox>
 
 UIEnhanceProperty::UIEnhanceProperty(QString name)
     : name(name)
@@ -11,13 +13,9 @@ UIEnhanceProperty::UIEnhanceProperty(QString name)
 
 UIEnhanceProperty::~UIEnhanceProperty()
 {
-    DELETE_PIONTER(hlayout);
-    DELETE_PIONTER(chkBox);
-    DELETE_PIONTER(slider);
-    DELETE_PIONTER(slider);
 }
 
-QHBoxLayout *UIEnhanceProperty::create()
+QBoxLayout *UIEnhanceProperty::create()
 {
     if(!hlayout)
     {

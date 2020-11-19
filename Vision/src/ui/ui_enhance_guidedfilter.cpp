@@ -1,5 +1,12 @@
 #include "ui_enhance_guidedfilter.h"
-#include "../def/micro_define.h"
+#include "ui_logger.h"
+#include <gpu_algorithm_pipeline_manager.h>
+#include <QSlider>
+#include <QCheckBox>
+#include <QSpinBox>
+#include <QDoubleSpinBox>
+#include <QSpacerItem>
+#include <QLabel>
 
 UIEnhanceGuidedFilter::UIEnhanceGuidedFilter()
 {
@@ -8,21 +15,20 @@ UIEnhanceGuidedFilter::UIEnhanceGuidedFilter()
 
 UIEnhanceGuidedFilter::~UIEnhanceGuidedFilter()
 {
-
 }
 
 UIEnhanceGuidedFilter* UIEnhanceGuidedFilter::getInstance()
 {
-	UIEnhanceGuidedFilter ui_guided_filter;
+	static UIEnhanceGuidedFilter ui_guided_filter;
 	return &ui_guided_filter;
 }
 
 
-QHBoxLayout* UIEnhanceGuidedFilter::create()
+QBoxLayout* UIEnhanceGuidedFilter::create()
 {
-	if (!hlayout)
+	if (!vlayout)
 	{
-		hlayout = new QHBoxLayout();
+		vlayout = new QVBoxLayout();
 
 		chkBox = new QCheckBox();
 		chkBox->setText("Guided Filter");
@@ -34,6 +40,7 @@ QHBoxLayout* UIEnhanceGuidedFilter::create()
 		slider->setMinimum(0);
 		slider->setValue(0);
 		slider->setSingleStep(1);
+		slider->setOrientation(Qt::Horizontal);
 		slider->setMaximumWidth(200);
 		slider->setEnabled(false);
 		connect(slider, &QSlider::valueChanged, this, &UIEnhanceGuidedFilter::onSliderValueChanged);
@@ -42,41 +49,40 @@ QHBoxLayout* UIEnhanceGuidedFilter::create()
 		dspBox_eps->setMaximum(2);
 		dspBox_eps->setMinimum(0);
 		dspBox_eps->setValue(0);
-		dspBox_eps->setSingleStep(0.1);
-		dspBox_eps->setMaximumWidth(50);
+		dspBox_eps->setSingleStep(0.02);
+		dspBox_eps->setMaximumWidth(60);
 		dspBox_eps->setEnabled(false);
 		connect(dspBox_eps, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &UIEnhanceGuidedFilter::onDSpinBoxValueChanged);
 
-		QHBoxLayout *hlayout1 = new QHBoxLayout();
+		QHBoxLayout *hlayout1 = new QHBoxLayout(this);
+		hlayout1->addWidget(chkBox);
 		hlayout1->addWidget(slider);
 		hlayout1->addWidget(dspBox_eps);
-		layouts.push_back(hlayout1);
 
-		lb_radius = new QLabel();
+		spacer = new QSpacerItem(50, 18, QSizePolicy::Expanding);
+		
+
+		QLabel* lb_radius = new QLabel(this);
 		lb_radius->setText("Filter radius: ");
 		spBox_radius = new QSpinBox();
 		spBox_radius->setValue(init.radius);
-		lb_scale = new QLabel();
+
+		QLabel* lb_scale = new QLabel(this);
 		lb_scale->setText("Downsampling scale: ");
 		spBox_scale = new QSpinBox();
 		spBox_scale->setValue(init.scale);
 
-		QHBoxLayout *hlayout2 = new QHBoxLayout();
+		QHBoxLayout *hlayout2 = new QHBoxLayout(this);
+		hlayout2->addSpacerItem(spacer);
 		hlayout2->addWidget(lb_radius);
 		hlayout2->addWidget(spBox_radius);
 		hlayout2->addWidget(lb_scale);
 		hlayout2->addWidget(spBox_scale);
-		layouts.push_back(hlayout2);
 
-		QVBoxLayout *vlayout1 = new QVBoxLayout();
-		layouts.push_back(vlayout1);
-		vlayout1->addLayout(hlayout1);
-		vlayout1->addLayout(hlayout2);
-
-		hlayout->addWidget(chkBox);
-		hlayout->addLayout(vlayout1);
+		vlayout->addLayout(hlayout1);
+		vlayout->addLayout(hlayout2);
 	}
-	return hlayout;
+	return vlayout;
 }
 
 
@@ -88,17 +94,38 @@ void UIEnhanceGuidedFilter::reset()
 	spBox_scale->setValue(init.scale);
 }
 
+void UIEnhanceGuidedFilter::setProperty()
+{
+	double eps = dspBox_eps->value();
+	uint radius = spBox_radius->value();
+	uint scale = spBox_scale->value();
+	UILogger::getInstance()->log(QString("Guided filter: eps = %1, raidus = %2, scale = %3").arg(eps).arg(radius).arg(scale));
+	gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::ImageAdjustProperty>(eps, radius, scale));
+}
+
 void UIEnhanceGuidedFilter::onChkBoxGuidedFilterSelected()
 {
-
+	if (chkBox->isChecked()) {
+		slider->setEnabled(true);
+		dspBox_eps->setEnabled(true);
+		UILogger::getInstance()->log("Open guided flter.");
+	}
+	else {
+		slider->setEnabled(false);
+		dspBox_eps->setEnabled(false);
+		UILogger::getInstance()->log("Close guided flter.");
+	}
 }
 
 void UIEnhanceGuidedFilter::onSliderValueChanged()
 {
-
+	int val = slider->value();
+	dspBox_eps->setValue(float(val) / 50);
 }
 
 void UIEnhanceGuidedFilter::onDSpinBoxValueChanged()
 {
-
+	double val = dspBox_eps->value();
+	slider->setValue(round(val*50));
+	setProperty();
 }

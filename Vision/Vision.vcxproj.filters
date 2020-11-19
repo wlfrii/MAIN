@@ -5,14 +5,6 @@
       <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="def">
       <UniqueIdentifier>{64f154e8-91c1-4a8f-81a9-cc818655f4e3}</UniqueIdentifier>
     </Filter>
@@ -76,6 +68,12 @@
     <ClCompile Include="src\image_processor.cpp" />
     <ClCompile Include="src\map_calculator.cpp" />
     <ClCompile Include="src\video_processor.cpp" />
+    <ClCompile Include="src\ui\ui_capture.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\ui_control_group.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\def\define.h">
@@ -97,9 +95,6 @@
       <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="src\ui\ui_enhance_gamma.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ui\ui_enhance_guidedfilter.h">
       <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="src\ui\ui_enhance_property.h">
@@ -128,6 +123,12 @@
     <ClInclude Include="src\image_processor.h" />
     <ClInclude Include="src\map_calculator.h" />
     <ClInclude Include="src\video_processor.h" />
+    <ClInclude Include="src\ui\ui_capture.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\def\ptr_define.h">
+      <Filter>def</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -142,6 +143,15 @@
       <Filter>ui</Filter>
     </QtMoc>
     <QtMoc Include="src\ui\ui_enhance_group.h">
+      <Filter>ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\ui_enhance_guidedfilter.h">
+      <Filter>ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\ui_base.h">
+      <Filter>ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\ui_control_group.h">
       <Filter>ui</Filter>
     </QtMoc>
   </ItemGroup>

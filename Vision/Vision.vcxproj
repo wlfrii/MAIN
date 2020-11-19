@@ -54,14 +54,14 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)$(Platform)\Temp\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)$(Platform)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName>Vision</TargetName>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)$(Platform)\Temp\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)$(Platform)\Temp\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName>Vision</TargetName>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>false</LinkIncremental>
@@ -173,6 +173,8 @@
     <ClCompile Include="src\def\mtimer.cpp" />
     <ClCompile Include="src\ui\cmd.cpp" />
     <ClCompile Include="src\ui\control_panel.cpp" />
+    <ClCompile Include="src\ui\ui_capture.cpp" />
+    <ClCompile Include="src\ui\ui_control_group.cpp" />
     <ClCompile Include="src\ui\ui_enhance_gamma.cpp" />
     <ClCompile Include="src\ui\ui_enhance_group.cpp" />
     <ClCompile Include="src\ui\ui_enhance_guidedfilter.cpp" />
@@ -187,6 +189,7 @@
     <ClInclude Include="src\camera_handle.h" />
     <ClInclude Include="src\camera_parameters.h" />
     <ClInclude Include="src\def\define.h" />
+    <ClInclude Include="src\def\ptr_define.h" />
     <ClInclude Include="src\frame_displayer.h" />
     <ClInclude Include="src\frame_reader.h" />
     <ClInclude Include="src\image_processor.h" />
@@ -197,9 +200,12 @@
     <ClInclude Include="src\def\triple_buffer.h" />
     <ClInclude Include="src\ui\cmd.h" />
     <QtMoc Include="src\ui\control_panel.h" />
+    <ClInclude Include="src\ui\ui_capture.h" />
+    <QtMoc Include="src\ui\ui_base.h" />
+    <QtMoc Include="src\ui\ui_control_group.h" />
     <ClInclude Include="src\ui\ui_enhance_gamma.h" />
     <QtMoc Include="src\ui\ui_enhance_group.h" />
-    <ClInclude Include="src\ui\ui_enhance_guidedfilter.h" />
+    <QtMoc Include="src\ui\ui_enhance_guidedfilter.h" />
     <ClInclude Include="src\ui\ui_enhance_property.h" />
     <ClInclude Include="src\ui\ui_logger.h" />
     <ClInclude Include="src\unix\mjpeg2jpeg.h" />

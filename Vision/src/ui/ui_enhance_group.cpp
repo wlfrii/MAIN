@@ -1,7 +1,9 @@
-#include "../def/micro_define.h"
-#include <QString>
-#include "ui_logger.h"
 #include "ui_enhance_group.h"
+#include <QString>
+#include <QGroupBox>
+#include <QCheckBox>
+#include "cmd.h"
+#include "ui_logger.h"
 #include "ui_enhance_property.h"
 #include "ui_enhance_guidedfilter.h"
 
@@ -10,18 +12,22 @@ UIEnhanceGroup::UIEnhanceGroup()
 
 }
 
+UIEnhanceGroup::~UIEnhanceGroup()
+{
+}
+
 UIEnhanceGroup *UIEnhanceGroup::getInstance()
 {
     static UIEnhanceGroup enhance_group;
     return &enhance_group;
 }
 
-QGroupBox *UIEnhanceGroup::create()
+QWidget *UIEnhanceGroup::create()
 {
-    QBoxLayout* vlayout_enhance = new QVBoxLayout();
-    layouts.push_back(vlayout_enhance);
+    QBoxLayout* vlayout_enhance = new QVBoxLayout(this);
 
     gpBox_enhance = new QGroupBox();
+	connect(gpBox_enhance, &QGroupBox::clicked, this, &UIEnhanceGroup::onGroupBoxEnhanceSelected);
     gpBox_enhance->setTitle(tr("Enhance mode"));
     gpBox_enhance->setCheckable(true);
     gpBox_enhance->setLayout(vlayout_enhance);
@@ -51,3 +57,14 @@ void UIEnhanceGroup::onChkBoxRectifySelected()
 }
 
 
+void UIEnhanceGroup::onGroupBoxEnhanceSelected()
+{
+	if (gpBox_enhance->isChecked()) {
+		UILogger::getInstance()->log(QString("Open to image enhancement mode."));
+		CMD::is_enhance = true;
+	}
+	else {
+		UILogger::getInstance()->log(QString("Close image enhancement mode."));
+		CMD::is_enhance = false;
+	}
+}

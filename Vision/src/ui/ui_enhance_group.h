@@ -1,35 +1,29 @@
 #ifndef UIENHANCEGROUP_H
 #define UIENHANCEGROUP_H
-#include "../def/micro_define.h"
-#include <QGroupBox>
-#include <QCheckBox>
-#include <QSlider>
-#include <QSpinBox>
-#include <QLabel>
-#include <QBoxLayout>
-#include <QWidget>
+#include "ui_base.h"
 
+class QGroupBox;
+class QCheckBox;
 
-class UIEnhanceGroup : public QWidget
+class UIEnhanceGroup : public UIWidgetBase
 {
     Q_OBJECT
 
 protected:
     UIEnhanceGroup();
 public:
+	~UIEnhanceGroup();
+
     static UIEnhanceGroup *getInstance();
-    QGroupBox *create();
+    QWidget* create() override;
 
 private slots:
     void onChkBoxRectifySelected();
+	void onGroupBoxEnhanceSelected();
 
 private:
-    std::vector<QLabel*> labels;
-    std::vector<QBoxLayout*> layouts;
-
     QGroupBox       *gpBox_enhance;
     QCheckBox       *chkBox_rectify;
-
 };
 
 #endif // ENHANCEGROUP_H

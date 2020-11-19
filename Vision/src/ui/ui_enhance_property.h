@@ -1,13 +1,12 @@
 #ifndef UIENHANCESATURATION_H
 #define UIENHANCESATURATION_H
-#include <QWidget>
-#include <QHBoxLayout>
-#include <QCheckBox>
-#include <QSlider>
-#include <QSpinBox>
+#include "ui_base.h"
 
+class QCheckBox;
+class QSlider;
+class QSpinBox;
 
-class UIEnhanceProperty : public QWidget
+class UIEnhanceProperty : public UILayoutBase
 {
 protected:
     UIEnhanceProperty(QString name);
@@ -16,7 +15,7 @@ public:
     virtual ~UIEnhanceProperty();
 
 public:
-    QHBoxLayout* create();
+    QBoxLayout* create() override;
     void reset();
 
 protected:
@@ -30,6 +29,7 @@ private slots:
 private:
     QString          name;
     QHBoxLayout     *hlayout;
+
     QCheckBox       *chkBox;
     QSlider         *slider;
     QSpinBox        *spBox;

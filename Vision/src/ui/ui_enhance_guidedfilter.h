@@ -1,16 +1,17 @@
 #ifndef UIENHANCEGUIDEDFILTER_H
 #define UIENHANCEGUIDEDFILTER_H
-#include <QWidget>
-#include <QLabel>
-#include <QSlider>
-#include <QCheckBox>
-#include <QSpinBox>
-#include <QDoubleSpinBox>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#include "ui_base.h"
 
-class UIEnhanceGuidedFilter : public QWidget
+class QCheckBox;
+class QSlider;
+class QDoubleSpinBox;
+class QSpinBox;
+class QSpacerItem;
+
+class UIEnhanceGuidedFilter : public UILayoutBase
 {
+	Q_OBJECT
+
 protected:
     UIEnhanceGuidedFilter();
 
@@ -18,8 +19,11 @@ public:
 	~UIEnhanceGuidedFilter();
 	static UIEnhanceGuidedFilter* getInstance();
 	
-	QHBoxLayout* create();
+	QBoxLayout* create() override;
 	void reset();
+
+private:
+	void setProperty();
 
 private slots:
 	void onChkBoxGuidedFilterSelected();
@@ -32,16 +36,14 @@ private:
 		uchar radius;
 		uchar scale;
 	}init;
-	QHBoxLayout		*hlayout;
+	QVBoxLayout		*vlayout;
+
 	QCheckBox		*chkBox;
 	QSlider			*slider;
 	QDoubleSpinBox	*dspBox_eps;
-	QLabel			*lb_radius;
-	QLabel			*lb_scale;
 	QSpinBox		*spBox_radius;
 	QSpinBox		*spBox_scale;
-
-	std::vector<QBoxLayout*> layouts;
+	QSpacerItem		*spacer;
 };
 
 #endif // UIENHANCEGUIDEDFILTER_H
