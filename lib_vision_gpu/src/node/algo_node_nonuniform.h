@@ -6,7 +6,7 @@
 GPU_ALGO_BEGIN
 struct NonuniformProperty : Property
 {
-	NonuniformProperty(float magnify = 2.0, float magnify0 = 1, float distance = 1000.0)
+	NonuniformProperty(float magnify = 2.0, float magnify0 = 1.0, float distance = 1000.0)
 		: Property(UNEVEN_Y_NODE)
 		, magnify(magnify)
 		, magnify0(magnify0)

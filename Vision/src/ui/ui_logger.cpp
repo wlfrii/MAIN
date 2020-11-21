@@ -10,7 +10,7 @@ UILogger::UILogger()
 
 UILogger::~UILogger()
 {
-    DELETE_PIONTER(txt_browser);
+    //DELETE_PIONTER(txt_browser);
 }
 
 

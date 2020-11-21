@@ -9,20 +9,22 @@
 
 namespace 
 {
-	const std::string window_name = "Vision UI Processor";
-	int win_width = 960;
+	const std::string window_name = "Vision UI Processor --- Original(Left) & Processed (right)";
+	int win_width = 1920;
 	int win_height = 540;
 	void init_cv_window()
 	{
 		cv::namedWindow(window_name, cv::WINDOW_NORMAL);
 		cv::resizeWindow(window_name, win_width, win_height);
-		cv::moveWindow(window_name, 50, 50);
+		cv::moveWindow(window_name, 0, 0);
 	}
 
-	void imshow(cv::Mat &mat)
+	void imshow(cv::Mat &image, cv::Mat &image_processed)
 	{
-		cv::Mat tmp;
-		cv::resize(mat, tmp, cv::Size(win_width, win_height));
+		cv::Mat tmp(win_height, win_width, image.type());
+		auto size = cv::Size(win_width / 2, win_height);
+		cv::resize(image, tmp.colRange(0, win_width / 2), size);
+		cv::resize(image_processed, tmp.colRange(win_width / 2, win_width), size);
 		cv::imshow(window_name, tmp);
 		cv::waitKey(10);
 	}
@@ -89,10 +91,12 @@ void UIProcessor::onPushBtnLoadImageClicked()
 		UILogger::getInstance()->log(QString("Cannot load the specified image."));
 		return;
 	}
-	::win_width = round(image.cols / 2);
+	cv::cvtColor(image, image, cv::COLOR_BGR2BGRA);
+	::win_width = round(image.cols);
 	::win_height = round(image.rows / 2);
 	::init_cv_window();
-	::imshow(image);
+	image.copyTo(image_processed);
+	::imshow(image, image_processed);
 
 	UILogger::getInstance()->log(QString("Load an image from \"%1\".").arg(image_path));
 	pbtn_process->setEnabled(true);
@@ -118,5 +122,5 @@ void UIProcessor::onPushBtnProcessClicked()
 		return;
 	}
 	flag.store(false, std::memory_order_relaxed);
-	::imshow(image_processed);
+	::imshow(image, image_processed);
 }

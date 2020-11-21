@@ -5,6 +5,10 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+
+constexpr unsigned int UI_SPINBOX_MAX_WIDTH = 50;
+constexpr unsigned int UI_CHECKBOX_WIDTH = 150;
+
 class UIBase : public QWidget
 {
 	Q_OBJECT

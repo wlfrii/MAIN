@@ -50,11 +50,11 @@ QBoxLayout* UIEnhanceGuidedFilter::create()
 		dspBox_eps->setMinimum(0);
 		dspBox_eps->setValue(0);
 		dspBox_eps->setSingleStep(0.02);
-		dspBox_eps->setMaximumWidth(60);
+		dspBox_eps->setMaximumWidth(UI_SPINBOX_MAX_WIDTH);
 		dspBox_eps->setEnabled(false);
 		connect(dspBox_eps, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &UIEnhanceGuidedFilter::onDSpinBoxValueChanged);
 
-		QHBoxLayout *hlayout1 = new QHBoxLayout(this);
+		QHBoxLayout *hlayout1 = new QHBoxLayout();
 		hlayout1->addWidget(chkBox);
 		hlayout1->addWidget(slider);
 		hlayout1->addWidget(dspBox_eps);
@@ -62,17 +62,19 @@ QBoxLayout* UIEnhanceGuidedFilter::create()
 		spacer = new QSpacerItem(50, 18, QSizePolicy::Expanding);
 		
 
-		QLabel* lb_radius = new QLabel(this);
+		QLabel* lb_radius = new QLabel();
 		lb_radius->setText("Filter radius: ");
 		spBox_radius = new QSpinBox();
+		spBox_radius->setMaximumWidth(UI_SPINBOX_MAX_WIDTH);
 		spBox_radius->setValue(init.radius);
 
-		QLabel* lb_scale = new QLabel(this);
+		QLabel* lb_scale = new QLabel();
 		lb_scale->setText("Downsampling scale: ");
 		spBox_scale = new QSpinBox();
+		spBox_scale->setMaximumWidth(UI_SPINBOX_MAX_WIDTH);
 		spBox_scale->setValue(init.scale);
 
-		QHBoxLayout *hlayout2 = new QHBoxLayout(this);
+		QHBoxLayout *hlayout2 = new QHBoxLayout();
 		hlayout2->addSpacerItem(spacer);
 		hlayout2->addWidget(lb_radius);
 		hlayout2->addWidget(spBox_radius);
@@ -99,7 +101,9 @@ void UIEnhanceGuidedFilter::setProperty()
 	double eps = dspBox_eps->value();
 	uint radius = spBox_radius->value();
 	uint scale = spBox_scale->value();
+
 	UILogger::getInstance()->log(QString("Guided filter: eps = %1, raidus = %2, scale = %3").arg(eps).arg(radius).arg(scale));
+
 	gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::ImageAdjustProperty>(eps, radius, scale));
 }
 

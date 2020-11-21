@@ -178,6 +178,7 @@
     <ClCompile Include="src\ui\ui_enhance_gamma.cpp" />
     <ClCompile Include="src\ui\ui_enhance_group.cpp" />
     <ClCompile Include="src\ui\ui_enhance_guidedfilter.cpp" />
+    <ClCompile Include="src\ui\ui_enhance_nonuniform.cpp" />
     <ClCompile Include="src\ui\ui_enhance_property.cpp" />
     <ClCompile Include="src\ui\ui_logger.cpp" />
     <ClCompile Include="src\ui\ui_processor.cpp" />
@@ -204,9 +205,10 @@
     <ClInclude Include="src\ui\ui_capture.h" />
     <QtMoc Include="src\ui\ui_base.h" />
     <QtMoc Include="src\ui\ui_control_group.h" />
-    <ClInclude Include="src\ui\ui_enhance_gamma.h" />
+    <QtMoc Include="src\ui\ui_enhance_gamma.h" />
     <QtMoc Include="src\ui\ui_enhance_group.h" />
     <QtMoc Include="src\ui\ui_enhance_guidedfilter.h" />
+    <QtMoc Include="src\ui\ui_enhance_nonuniform.h" />
     <ClInclude Include="src\ui\ui_enhance_property.h" />
     <ClInclude Include="src\ui\ui_logger.h" />
     <ClInclude Include="src\ui\ui_processor.h" />

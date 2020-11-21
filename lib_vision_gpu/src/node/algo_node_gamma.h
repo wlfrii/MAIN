@@ -7,10 +7,15 @@
 GPU_ALGO_BEGIN
 struct GammaProperty : Property
 {
-	GammaProperty(float eps = 0.2)
+	GammaProperty(float alpha = 0.55, float ref_L = 0.5, float eps = 0.2)
 		: Property(GAMMA_NODE)
+		, alpha(alpha)
+		, ref_L(ref_L)
 		, eps(eps)
 	{}
+
+	float alpha;
+	float ref_L;
 
 	float eps; // refers to GuidedFilterProperty
 };

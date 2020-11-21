@@ -2,7 +2,7 @@
 #include "../gpu_algorithm_func.h"
 
 GPU_ALGO_BEGIN
-void AdaptiveGamma(cv::cuda::GpuMat &src, cv::cuda::GpuMat &v, cudaStream_t &stream, cv::cuda::GpuMat &tmp);
+void AdaptiveGamma(cv::cuda::GpuMat &src, cv::cuda::GpuMat &v, cudaStream_t &stream, cv::cuda::GpuMat &tmp, float alpha = 0.0, float ref_L = 0.0);
 
 AlgoNodeGamma::AlgoNodeGamma()
     : guided_filter_algo(new AlgoNodeGuidedFilter())
@@ -41,7 +41,8 @@ void AlgoNodeGamma::process(cv::cuda::GpuMat & src, cudaStream_t stream)
 	cv::Mat test_v2; v.download(test_v2);
 #endif
 
-	AdaptiveGamma(src, v, stream, tmp);
+	// AdaptiveGamma(src, v, stream, tmp);
+	AdaptiveGamma(src, v, stream, tmp, gamma_prop->alpha, gamma_prop->ref_L);
 }
 
 

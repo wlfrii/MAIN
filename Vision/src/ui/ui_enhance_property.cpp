@@ -41,7 +41,7 @@ QBoxLayout *UIEnhanceProperty::create()
         spBox->setMinimum(0);
         spBox->setValue(50);
         spBox->setSingleStep(1);
-        spBox->setMaximumWidth(50);
+        spBox->setMaximumWidth(UI_SPINBOX_MAX_WIDTH);
         spBox->setEnabled(false);
         connect(spBox, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &UIEnhanceProperty::onSpinBoxValueChanged);
 

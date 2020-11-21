@@ -23,7 +23,7 @@ void ControlPanel::setupUI()
 {
     /** Set the size the widget **/
     this->setWindowTitle("Vision Control Panel");
-    this->resize(800, 500);
+    this->resize(900, 500);
     /** Set the font style **/
     QFont font;
     font.setFamily(QStringLiteral("Arial"));
@@ -32,6 +32,7 @@ void ControlPanel::setupUI()
     /** Initialize others **/
     QBoxLayout* hlayout = new QHBoxLayout(this);
     QBoxLayout* vlayout = new QVBoxLayout(this);
+	vlayout->setSizeConstraint(vlayout->SetFixedSize);
 
     // LOG: Text Browser
     hlayout->addWidget(UILogger::getInstance()->getTxtBrowser());
@@ -45,8 +46,7 @@ void ControlPanel::setupUI()
     /** CONTROL **/
     vlayout->addWidget(UIControlGroup::getInstance()->create());
 
-
-    /** ENHANCE Group **/
+    /** ENHANCE **/
     vlayout->addWidget(UIEnhanceGroup::getInstance()->create());
     
 

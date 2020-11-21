@@ -6,6 +6,8 @@
 #include "ui_logger.h"
 #include "ui_enhance_property.h"
 #include "ui_enhance_guidedfilter.h"
+#include "ui_enhance_gamma.h"
+#include "ui_enhance_nonuniform.h"
 
 UIEnhanceGroup::UIEnhanceGroup()
 {
@@ -46,6 +48,12 @@ QWidget *UIEnhanceGroup::create()
 
 	// Enhance Group: Guided filter
 	vlayout_enhance->addLayout(UIEnhanceGuidedFilter::getInstance()->create());
+
+	// Enhance Group: Gamma
+	vlayout_enhance->addLayout(UIEnhanceGamma::getInstance()->create());
+
+	// Enhance Group: Nonuniform
+	vlayout_enhance->addLayout(UIEnhanceNonuniform::getInstance()->create());
 
     return gpBox_enhance;
 }

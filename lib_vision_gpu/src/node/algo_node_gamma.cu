@@ -29,14 +29,14 @@ namespace
 		}
     }
 
-	__global__ void calcGammaTransform2(cv::cuda::PtrStepSz<float3> hsv, cv::cuda::PtrStepSz<float> filtered_y, float val)
+	__global__ void calcGammaTransform(cv::cuda::PtrStepSz<float3> hsv, cv::cuda::PtrStepSz<float> filtered_y, float alpha, float ref_L)
 	{
 		int thread_id = _get_threadId_grid2D_block1D();
 		int row = thread_id / filtered_y.cols;
 		int col = thread_id % filtered_y.cols;
 		if (row < filtered_y.rows && col < filtered_y.cols)
 		{
-			float gamma = powf(0.5, 1.0 - filtered_y(row, col) / val);
+			float gamma = powf(alpha, 1.0 - filtered_y(row, col) / ref_L);
 			float y_new = powf(hsv(row, col).z, gamma);
 
 			hsv(row, col).z = MAX(MIN(y_new, 1), 0);
@@ -45,18 +45,22 @@ namespace
 }
 
 GPU_ALGO_BEGIN
-void AdaptiveGamma(cv::cuda::GpuMat &src, cv::cuda::GpuMat &v, cudaStream_t &stream, cv::cuda::GpuMat &tmp)
+void AdaptiveGamma(cv::cuda::GpuMat &src, cv::cuda::GpuMat &v, cudaStream_t &stream, cv::cuda::GpuMat &tmp, float alpha, float ref_L)
 {	
 	gpu::cvtColor(src, tmp, BGRA2HSV);
 #if CU_DEBUG
 	cv::Mat test_hsv; tmp.download(test_hsv);
 #endif
 
-	cv::Scalar mean_rgba = cv::cuda::sum(v);
-	float mean_v = mean_rgba(0) / (v.rows * v.cols);
+	if (abs(alpha) < 0.05 && abs(ref_L) < 0.05) {
+		cv::Scalar mean_rgba = cv::cuda::sum(v);
+		float mean_v = mean_rgba(0) / (v.rows * v.cols);
 
-	//::calcGammaTransform << < dim3(90, 90), 256, 0, stream >> > (tmp, v, mean_v);
-	::calcGammaTransform2 << < dim3(90, 90), 256, 0, stream >> > (tmp, v, 0.5);
+		::calcGammaTransform << < dim3(90, 90), 256, 0, stream >> > (tmp, v, mean_v);
+	}
+	else {
+		::calcGammaTransform << < dim3(90, 90), 256, 0, stream >> > (tmp, v, alpha, ref_L);
+	}
 
 #if CU_DEBUG
 	cv::Mat test_tmp; tmp.download(test_tmp);
