@@ -2,7 +2,6 @@
 
 GPU_ALGO_BEGIN
 AlgoNodeUSM::AlgoNodeUSM()
-    : AlgoNodeBase()
 {
 	this->setProperty(std::make_shared<USMProperty>());
 }

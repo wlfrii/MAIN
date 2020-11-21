@@ -159,9 +159,9 @@ namespace
 GPU_ALGO_BEGIN
 void adjustImageProp(cv::cuda::GpuMat &src, char saturation, char contrast, char brightness, cudaStream_t stream)
 {
-	float s = MAX(MIN(saturation, 50.f), -50.f) / 50.f;
-	float c = powf((50.f + MAX(MIN(contrast, 50.f), -50.f)) / 50.f, 2);
-	char b = MAX(MIN(brightness, 50), -50);
+	float s = MAX(MIN(saturation - 50, 50.f), -50.f) / 50.f;
+	float c = powf((50.f + MAX(MIN(contrast - 50, 50.f), -50.f)) / 50.f, 2);
+	char b = MAX(MIN(brightness - 50, 50), -50);
 
 	if (src.channels() == 4) {
 		::adjustImageProp_RGBA << <dim3(30, 270), 256, 0, stream >> > (src, s, c, b);

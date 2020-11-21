@@ -5,8 +5,7 @@ GPU_ALGO_BEGIN
 void AdaptiveGamma(cv::cuda::GpuMat &src, cv::cuda::GpuMat &v, cudaStream_t &stream, cv::cuda::GpuMat &tmp);
 
 AlgoNodeGamma::AlgoNodeGamma()
-    : AlgoNodeBase()
-	, guided_filter_algo(new AlgoNodeGuidedFilter())
+    : guided_filter_algo(new AlgoNodeGuidedFilter())
 	, tmp_eps(0.1)
 {
 	this->setProperty(std::make_shared<GammaProperty>(tmp_eps));

@@ -3,7 +3,6 @@
 
 GPU_ALGO_BEGIN
 AlgoNodeRectify::AlgoNodeRectify()
-    : AlgoNodeBase()
 {
 	this->setProperty(std::make_shared<RectifyProperty>());
 }

@@ -2,7 +2,6 @@
 
 GPU_ALGO_BEGIN
 AlgoNodeGuidedFilter::AlgoNodeGuidedFilter()
-	: AlgoNodeBase()
 {
 	this->setProperty(std::make_shared<GuidedFilterProperty>());
 }

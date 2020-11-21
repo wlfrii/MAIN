@@ -2,10 +2,10 @@
 
 GPU_ALGO_BEGIN
 AlgoNodeImageAdjust::AlgoNodeImageAdjust()
-    : AlgoNodeBase()
 {
 	this->setProperty(std::make_shared<ImageAdjustProperty>());
 }
+
 
 void AlgoNodeImageAdjust::process(cv::cuda::GpuMat &src, cudaStream_t stream)
 {

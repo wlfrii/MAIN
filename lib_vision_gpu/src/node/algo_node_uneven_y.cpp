@@ -2,7 +2,6 @@
 
 GPU_ALGO_BEGIN
 AlgoNodeUnevenY::AlgoNodeUnevenY()
-	: AlgoNodeBase()
 {
 	this->setProperty(std::make_shared<UnevenYProperty>());
 }
