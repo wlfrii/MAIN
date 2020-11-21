@@ -10,14 +10,14 @@
     <CudaCompile Include="node\algo_node_image_adjust.cu">
       <Filter>node</Filter>
     </CudaCompile>
-    <CudaCompile Include="node\algo_node_uneven_y.cu">
-      <Filter>node</Filter>
-    </CudaCompile>
     <CudaCompile Include="func\func_colorspace.cu">
       <Filter>func</Filter>
     </CudaCompile>
     <CudaCompile Include="func\func_convert_image_format.cu">
       <Filter>func</Filter>
+    </CudaCompile>
+    <CudaCompile Include="node\algo_node_nonuniform.cu">
+      <Filter>node</Filter>
     </CudaCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,10 +38,10 @@
     <ClCompile Include="node\algo_node_rectify.cpp">
       <Filter>node</Filter>
     </ClCompile>
-    <ClCompile Include="node\algo_node_uneven_y.cpp">
+    <ClCompile Include="node\algo_node_usm.cpp">
       <Filter>node</Filter>
     </ClCompile>
-    <ClCompile Include="node\algo_node_usm.cpp">
+    <ClCompile Include="node\algo_node_nonuniform.cpp">
       <Filter>node</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,9 +63,6 @@
     <ClInclude Include="node\algo_node_rectify.h">
       <Filter>node</Filter>
     </ClInclude>
-    <ClInclude Include="node\algo_node_uneven_y.h">
-      <Filter>node</Filter>
-    </ClInclude>
     <ClInclude Include="node\algo_node_usm.h">
       <Filter>node</Filter>
     </ClInclude>
@@ -78,6 +75,9 @@
     <ClInclude Include="gpu_algorithm_func.h" />
     <ClInclude Include="func\func_colorspace.h">
       <Filter>func</Filter>
+    </ClInclude>
+    <ClInclude Include="node\algo_node_nonuniform.h">
+      <Filter>node</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

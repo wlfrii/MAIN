@@ -4,8 +4,8 @@
 GPU_ALGO_BEGIN
 AlgoNodeTree::AlgoNodeTree()
 {
-
 }
+
 
 AlgoNodeTree::~AlgoNodeTree()
 {

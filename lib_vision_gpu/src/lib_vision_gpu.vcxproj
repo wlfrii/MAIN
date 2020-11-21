@@ -18,7 +18,7 @@
     <ClCompile Include="node\algo_node_guidedfilter.cpp" />
     <ClCompile Include="node\algo_node_image_adjust.cpp" />
     <ClCompile Include="node\algo_node_rectify.cpp" />
-    <ClCompile Include="node\algo_node_uneven_y.cpp" />
+    <ClCompile Include="node\algo_node_nonuniform.cpp" />
     <ClCompile Include="node\algo_node_usm.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -33,7 +33,7 @@
     <ClInclude Include="node\algo_node_guidedfilter.h" />
     <ClInclude Include="node\algo_node_image_adjust.h" />
     <ClInclude Include="node\algo_node_rectify.h" />
-    <ClInclude Include="node\algo_node_uneven_y.h" />
+    <ClInclude Include="node\algo_node_nonuniform.h" />
     <ClInclude Include="node\algo_node_usm.h" />
   </ItemGroup>
   <ItemGroup>
@@ -42,7 +42,7 @@
     <CudaCompile Include="node\algo_node_gamma.cu" />
     <CudaCompile Include="node\algo_node_guidedfilter.cu" />
     <CudaCompile Include="node\algo_node_image_adjust.cu" />
-    <CudaCompile Include="node\algo_node_uneven_y.cu" />
+    <CudaCompile Include="node\algo_node_nonuniform.cu" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8A0B51C1-BFD6-4578-9298-EEACAC2FF64F}</ProjectGuid>

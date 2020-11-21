@@ -8,7 +8,7 @@
 #include "./node/algo_node_guidedfilter.h"
 #include "./node/algo_node_usm.h"
 #include "./node/algo_node_gamma.h"
-#include "./node/algo_node_uneven_y.h"
+#include "./node/algo_node_nonuniform.h"
 /*------------------------------------------------------------------*/
 #include <vector>
 
