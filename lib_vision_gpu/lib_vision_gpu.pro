@@ -53,7 +53,7 @@ debug{
 }
 
 
-CUDA_OBJECTS_DIR = ./cuda_obj
+CUDA_OBJECTS_DIR = ./
 
 unix:message("unix: Target compilation platform: $$QMAKE_HOST.arch")
 unix:INCLUDEPATH += /usr/local/include/opencv4

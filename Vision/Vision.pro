@@ -26,15 +26,13 @@ CONFIG += c++17
 
 HEADERS += \
     $$files("./src/*.h", false) \
-    $$files("./src/def/*.h", false)
+    $$files("./src/def/*.h", false) \
+    $$files("./src/ui/*.h", false)
 
 SOURCES += \
     $$files("./src/*.cpp", false) \
-    $$files("./src/def/*.cpp", false)
-
-
-FORMS +=
-
+    $$files("./src/def/*.cpp", false) \
+    $$files("./src/ui/*.cpp", false)
 
 
 # Default rules for deployment.
@@ -47,10 +45,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 # Include the library path, for linux
 unix{
     HEADERS += $$files("./src/unix/*.h", true) \
-                $$files("./src/ui/*.h", true)
+                $$files("./src/usb/*.h", false)
 
     SOURCES += $$files("./src/unix/*.cpp", true) \
-                $$files("./src/ui/*.cpp", true)
+                $$files("./src/usb/*.cpp", false)
 
     INCLUDEPATH += \
         /usr/local/include/opencv4 \
@@ -116,17 +114,17 @@ unix{
 
 # ============================== Windows ===============================
 # Include the library path, for windows
-win32{
-    INCLUDEPATH += \
-        "D:/opencv_cmake/install/include/"
+#win32{
+#    INCLUDEPATH += \
+#        "D:/opencv_cmake/install/include/"
 
-    CONFIG(debug, debug|release) {
-        LIBS += -L"D:/opencv_cmake/install/x64/vc15/lib" \
-            -lopencv_world420d
-    }
-    else:CONFIG(release, debug|release){
-        LIBS += -L"D:/opencv_cmake/install/x64/vc15/lib" \
-            -lopencv_world420
-    }
-} # win32 end
+#    CONFIG(debug, debug|release) {
+#        LIBS += -L"D:/opencv_cmake/install/x64/vc15/lib" \
+#            -lopencv_world420d
+#    }
+#    else:CONFIG(release, debug|release){
+#        LIBS += -L"D:/opencv_cmake/install/x64/vc15/lib" \
+#            -lopencv_world420
+#    }
+#} # win32 end
 # =====================================================================
