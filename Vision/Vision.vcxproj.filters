@@ -80,6 +80,9 @@
     <ClCompile Include="src\ui\ui_enhance_nonuniform.cpp">
       <Filter>ui</Filter>
     </ClCompile>
+    <ClCompile Include="src\ui\ui_control_rectify.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\def\define.h">
@@ -164,6 +167,9 @@
       <Filter>ui</Filter>
     </QtMoc>
     <QtMoc Include="src\ui\ui_enhance_nonuniform.h">
+      <Filter>ui</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\ui_control_rectify.h">
       <Filter>ui</Filter>
     </QtMoc>
   </ItemGroup>

@@ -3,7 +3,6 @@
 #include "ui_base.h"
 
 class QGroupBox;
-class QCheckBox;
 
 class UIEnhanceGroup : public UIWidgetBase
 {
@@ -18,12 +17,10 @@ public:
     QWidget* create() override;
 
 private slots:
-    void onChkBoxRectifySelected();
 	void onGroupBoxEnhanceSelected();
 
 private:
-    QGroupBox       *gpBox_enhance;
-    QCheckBox       *chkBox_rectify;
+	QGroupBox	*gpBox_enhance;
 };
 
 #endif // ENHANCEGROUP_H

@@ -29,7 +29,10 @@ void ControlPanel::setupUI()
     font.setFamily(QStringLiteral("Arial"));
     font.setPointSize(9);
     this->setFont(font);
-    /** Initialize others **/
+	//this->setStyleSheet(QString("background-color:rgb(30,30,30);color:rgb(240,240,240);"));
+	
+    
+	/** Initialize others **/
     QBoxLayout* hlayout = new QHBoxLayout(this);
     QBoxLayout* vlayout = new QVBoxLayout(this);
 	vlayout->setSizeConstraint(vlayout->SetFixedSize);

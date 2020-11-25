@@ -72,7 +72,8 @@ QBoxLayout* UIEnhanceGamma::create()
 
 void UIEnhanceGamma::reset()
 {
-
+	dspBox_alpha->setValue(init.alpha);
+	dspBox_ref_L->setValue(init.ref_L);
 }
 
 

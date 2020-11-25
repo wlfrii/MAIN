@@ -1,8 +1,8 @@
 #include "ui_logger.h"
 #include "../def/micro_define.h"
+#include <QFont>
 
 UILogger::UILogger()
-    : txt_browser(new QTextBrowser())
 {
 
 }
@@ -23,6 +23,18 @@ UILogger *UILogger::getInstance()
 
 QTextBrowser *UILogger::getTxtBrowser()
 {
+	if (!txt_browser)
+	{
+		txt_browser = new QTextBrowser();
+
+		/** Set the font style **/
+		QFont font;
+		font.setFamily(QStringLiteral("Arial"));
+		font.setPointSize(9);
+		font.setItalic(true);
+		txt_browser->setFont(font);
+		txt_browser->setStyleSheet(QString("color:rgb(255,85,0);background-color:rgb(220,220,220)"));
+	}
     return txt_browser;
 }
 

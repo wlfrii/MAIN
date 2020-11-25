@@ -34,12 +34,6 @@ QWidget *UIEnhanceGroup::create()
     gpBox_enhance->setCheckable(true);
     gpBox_enhance->setLayout(vlayout_enhance);
 
-    // Enhance Group: Rectification
-    chkBox_rectify = new QCheckBox();
-    chkBox_rectify->setText(tr("Rectification"));
-    chkBox_rectify->setChecked(true);
-    QObject::connect(chkBox_rectify, &QCheckBox::stateChanged, this, &UIEnhanceGroup::onChkBoxRectifySelected);
-    vlayout_enhance->addWidget(chkBox_rectify);
 
 	// Enhance Group: Image property
     vlayout_enhance->addLayout(UIEnhanceSaturation::getInstance()->create());
@@ -56,12 +50,6 @@ QWidget *UIEnhanceGroup::create()
 	vlayout_enhance->addLayout(UIEnhanceNonuniform::getInstance()->create());
 
     return gpBox_enhance;
-}
-
-
-void UIEnhanceGroup::onChkBoxRectifySelected()
-{
-    UILogger::getInstance()->log(QString("Open rectification"));
 }
 
 

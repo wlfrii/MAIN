@@ -1,10 +1,11 @@
 #include "../def/micro_define.h"
-#include "cmd.h"
-#include "ui_logger.h"
-#include "ui_control_group.h"
 #include <QString>
 #include <QGroupBox>
 #include <QCheckBox>
+#include "cmd.h"
+#include "ui_logger.h"
+#include "ui_control_group.h"
+#include "ui_control_rectify.h"
 
 UIControlGroup::UIControlGroup()
 {
@@ -30,15 +31,19 @@ QWidget *UIControlGroup::create()
 
 		gpBox_control = new QGroupBox();
 		gpBox_control->setTitle(tr("Control"));
-		gpBox_control->setMaximumHeight(58);
+		gpBox_control->setMaximumHeight(88);
 
 		QBoxLayout* vlayout_control = new QVBoxLayout(this);
 
-		// FPS
+		// Control Group: FPS
 		chkBox_show_fps = new QCheckBox();
 		chkBox_show_fps->setText(tr("Show FPS"));
 		connect(chkBox_show_fps, &QCheckBox::stateChanged, this, &UIControlGroup::onChkBoxFPSSelected);
 		vlayout_control->addWidget(chkBox_show_fps);
+
+		// Control Group: Rectify
+		vlayout_control->addLayout(UIControlRectify::getInstance()->create());
+
 
 		gpBox_control->setLayout(vlayout_control);
 	}
