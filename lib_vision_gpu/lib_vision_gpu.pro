@@ -40,9 +40,66 @@ CUDA_SOURCES+= $$OTHER_FILES
 
 # GPU architecture
 SYSTEM_TYPE  = 64
-#CUDA_ARCH    = sm_75
+CUDA_ARCH    = sm_75
 #CUDA_CODE    = compute_75
 
+# -O2 mean to optimization, note its a O not 0
+NVCC_OPTIONS = --use_fast_math -O2
+
+
+## Mandatory flags for stepping through the code
+debug{
+    NVCC_OPTIONS += -g -G
+}
+
+
+CUDA_OBJECTS_DIR = ./cuda_obj
+
+unix:message("unix: Target compilation platform: $$QMAKE_HOST.arch")
+unix:INCLUDEPATH += /usr/local/include/opencv4
+unix:LIBS += -L"/usr/local/lib" -lopencv_world
+
+# Path to cuda SDK install
+unix:CUDA_DIR = "/usr/local/cuda-11.0"
+
+# CUDA include paths
+INCLUDEPATH += $$CUDA_DIR/include
+# The first argument of join() must include all the path that CUDA related,
+# such as OpenCV. Otherwise, nvcc cannot find the dependent library.
+CUDA_INC = $$join(INCLUDEPATH,'" -I"','-I"','"')
+
+
+# CUDA libs
+unix:QMAKE_LIBDIR += $$CUDA_DIR/lib64
+unix:LIBS += -L $$CUDA_DIR/lib64 -lcuda -lcudart
+# CUDA compile
+unix{
+    CONFIG(debug, debug|release){
+        cuda_d.input = CUDA_SOURCES
+        cuda_d.output = $$CUDA_OBJECTS_DIR/${QMAKE_FILE_BASE}_cuda.o
+        cuda_d.commands = $$CUDA_DIR/bin/nvcc \
+            -D_DEBUG $$NVCC_OPTIONS $$CUDA_INC $$CUDA_LIBS \
+            --machine $$SYSTEM_TYPE \
+            -arch=$$CUDA_ARCH \
+            -c -o ${QMAKE_FILE_OUT} \
+            ${QMAKE_FILE_NAME} \
+            2>&1 | sed -r \"s/\\(([0-9]+)\\)/:\\1/g\" 1>&2 # Used to output errors
+        cuda_d.dependency_type = TYPE_C
+
+        QMAKE_EXTRA_COMPILERS += cuda_d
+    }else{
+        cuda.input = CUDA_SOURCES
+        cuda.output = $$CUDA_OBJECTS_DIR/${QMAKE_FILE_BASE}_cuda.o
+        cuda.commands = $$CUDA_DIR/bin/nvcc \
+            $$NVCC_OPTIONS $$CUDA_INC $$CUDA_LIBS \
+            --machine $$SYSTEM_TYPE \
+            -arch=$$CUDA_ARCH \
+            -c -o ${QMAKE_FILE_OUT} \
+            ${QMAKE_FILE_NAME}
+        cuda.dependency_type = TYPE_C
+        QMAKE_EXTRA_COMPILERS += cuda
+    }
+} # unix end
 
 ###################################################################################################
 #GENCODE = arch=compute_75,code=sm_75
@@ -115,75 +172,6 @@ SYSTEM_TYPE  = 64
 ## Tell Qt that we want add more stuff to the Makefile
 #QMAKE_EXTRA_UNIX_COMPILERS += cuda
 ###################################################################################################
-
-
-
-
-## Mandatory flags for stepping through the code
-#debug{
-#    NVCC_OPTIONS += -g -G
-#}
-
-#CUDA_OBJECTS_DIR = ./cuda_obj
-
-
-## ============================== Linux ===============================
-## Include the library path, for linux
-#unix{
-#    message("unix: Target compilation platform: $$QMAKE_HOST.arch")
-
-#    INCLUDEPATH += \
-#        /usr/local/include/opencv4 \
-#        /usr/local/include
-
-#    LIBS += -L"/usr/local/lib" \
-#        -lopencv_world
-
-
-#    # --------------------- CUDA -----------------------
-#    CUDA_DIR = "/usr/local/cuda-11.0"   # Path to cuda toolkit install
-
-#    QMAKE_LIBDIR += $$CUDA_DIR/lib64
-
-#    INCLUDEPATH += $$CUDA_DIR/include
-
-#    LIBS += -L $$CUDA_DIR/lib64 -lcuda -lcudart
-
-#    # There is no need to join() a NVCC_LIBS, use CUDA_LIBS is enough.
-#    CUDA_LIBS = -lcuda -lcudart
-
-#    # The first argument of join() must include all the path that CUDA related,
-#    # such as OpenCV. Otherwise, nvcc cannot find the dependent library.
-#    CUDA_INC = $$join(INCLUDEPATH,'" -I"','-I"','"')
-
-
-#    CONFIG(debug, debug|release){
-#        cuda_d.input = CUDA_SOURCES
-#        cuda_d.output = $$CUDA_OBJECTS_DIR/${QMAKE_FILE_BASE}_cuda.o
-#        cuda_d.commands = $$CUDA_DIR/bin/nvcc \
-#            -D_DEBUG $$NVCC_OPTIONS $$CUDA_INC $$CUDA_LIBS \
-#            --machine $$SYSTEM_TYPE \
-#            -arch=$$CUDA_ARCH \
-#            -c -o ${QMAKE_FILE_OUT} \
-#            ${QMAKE_FILE_NAME} \
-#            2>&1 | sed -r \"s/\\(([0-9]+)\\)/:\\1/g\" 1>&2 # Used to output errors
-#        cuda_d.dependency_type = TYPE_C
-
-#        QMAKE_EXTRA_COMPILERS += cuda_d
-#    }
-#    else{
-#        cuda.input = CUDA_SOURCES
-#        cuda.output = $$CUDA_OBJECTS_DIR/${QMAKE_FILE_BASE}_cuda.o
-#        cuda.commands = $$CUDA_DIR/bin/nvcc \
-#            $$NVCC_OPTIONS $$CUDA_INC $$CUDA_LIBS \
-#            --machine $$SYSTEM_TYPE \
-#            -arch=$$CUDA_ARCH \
-#            -c -o ${QMAKE_FILE_OUT} \
-#            ${QMAKE_FILE_NAME}
-#        cuda.dependency_type = TYPE_C
-#        QMAKE_EXTRA_COMPILERS += cuda
-#    }
-#} # unix end
 
 ## ============================== Windows ===============================
 ## Include the library path, for windows
