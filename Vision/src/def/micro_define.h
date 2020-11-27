@@ -1,7 +1,7 @@
 #ifndef MICRO_DEFINE_H
 #define MICRO_DEFINE_H
 
-#define LINUX                   0   // Switch to select compilation system
+#define LINUX                   1   // Switch to select compilation system
 
 #define VIEDO_RECORDER          0   // Video recorder, 1->enable, 0-> disable
 #define SHOW_DISPARITY          0   // 1->show disparity in 3d screen, 0-> hide

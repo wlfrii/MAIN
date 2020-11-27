@@ -19,7 +19,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += $$files("./src/*.cpp", true)
 #message("The sources: $$SOURCES")
 
-HEADERS += $$files("./src/*.h", true)
+HEADERS += $$files("./src/*.h", true) \
+    ../Vision/src/usb/usb_camera_manager.h
 #message("The headers: $$HEADERS")
 
 # Default rules for deployment.
