@@ -1,6 +1,6 @@
 #include "camera_handle.h"
 #include "camera.h"
-#include "def/micro_define.h"
+#include "def/ptr_define.h"
 #include "frame_displayer.h"
 
 namespace vision

@@ -23,6 +23,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 CONFIG += c++17
+CONFIG(debug, debug|release){
+    DESTDIR = $$PWD/../build/bin/debug
+}else{
+    DESTDIR = $$PWD/../build/bin/release
+}
+
 
 HEADERS += \
     $$files("./src/*.h", false) \
@@ -60,8 +66,18 @@ unix{
         -luvc
 
     # Include the lib_gpu_vision
-    INCLUDEPATH += "/media/wanglf/DATA/MyProjects/Vision-Linux-Win32/lib_vision_gpu/src"
-    LIBS += -L"./" -llib_vision_gpu
+    INCLUDEPATH += \
+        "/media/wanglf/DATA/MyProjects/lib_vision_gpu/src" \
+        "$$PWD/../lib_utility/src"
+    CONFIG(debug, debug|release){
+        LIBS += -L"../../lib/debug" \
+            -llib_vision_gpu \
+            -llib_utility
+    }else{
+        LIBS += -L"../../lib/release" \
+            -llib_vision_gpu \
+            -llib_utility
+    }
 
     # --------------------- CUDA -----------------------
     CUDA_DIR = "/usr/local/cuda-11.0"   # Path to cuda toolkit install

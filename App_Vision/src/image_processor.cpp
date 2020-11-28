@@ -1,7 +1,7 @@
 #include "image_processor.h"
 #include "camera_parameters.h"
 #include "map_calculator.h"
-#include "def/micro_define.h"
+#include "def/ptr_define.h"
 #include <memory>
 #include <gpu_algorithm_pipeline_manager.h>
 

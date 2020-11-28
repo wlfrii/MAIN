@@ -1,6 +1,6 @@
 #ifndef USB_CAMERA_MANAGER_H
 #define USB_CAMERA_MANAGER_H
-#include "../def/micro_define.h"
+#include "../def/micro.h"
 #if LINUX
 #include <stdint.h>
 #include <vector>

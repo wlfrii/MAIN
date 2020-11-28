@@ -4,7 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <thread>
 #include "def/define.h"
-#include "def/micro_define.h"
+#include "def/micro.h"
 
 #if LINUX
 class V4L2Capture;

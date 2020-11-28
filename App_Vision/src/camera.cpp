@@ -1,10 +1,10 @@
 #include "camera.h"
 #include "frame_displayer.h"
 #include "frame_reader.h"
-#include "def/micro_define.h"
-#include "def/mtimer.h"
 #include "camera_parameters.h"
 #include "image_processor.h"
+#include "def/ptr_define.h"
+#include <libutility/timer/mtimer.h>
 
 
 Camera::Camera(uchar usb_id, uchar cam_id, uint image_width, uint image_height, const CameraParameters & cam_params)

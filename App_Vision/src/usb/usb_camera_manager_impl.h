@@ -1,6 +1,6 @@
 #ifndef USBCAMERAMANAGERIMPL_H
 #define USBCAMERAMANAGERIMPL_H
-#include "../def/micro_define.h"
+#include "../def/micro.h"
 #if LINUX
 #include "usb_camera_manager.h"
 #include <libuvc/libuvc.h>

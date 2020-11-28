@@ -1,4 +1,4 @@
-#include "../def/micro_define.h"
+#include "../def/micro.h"
 #if LINUX
 #include "v4l2_capture.h"
 #include "mjpeg2jpeg.h"

@@ -1,5 +1,6 @@
 #include "frame_reader.h"
-#include "def/mtimer.h"
+#include <libutility/timer/mtimer.h>
+#include "def/ptr_define.h"
 #if LINUX
 #include "unix/v4l2_capture.h"
 #endif

@@ -1,5 +1,4 @@
 #include "ui_logger.h"
-#include "../def/micro_define.h"
 #include <QFont>
 
 UILogger::UILogger()
@@ -10,7 +9,6 @@ UILogger::UILogger()
 
 UILogger::~UILogger()
 {
-    //DELETE_PIONTER(txt_browser);
 }
 
 

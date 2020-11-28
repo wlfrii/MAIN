@@ -1,5 +1,5 @@
 #include "usb_camera_manager_impl.h"
-#include "../def/micro_define.h"
+#include "../def/micro.h"
 #if LINUX
 #include <assert.h>
 /* Dirent is a C/C++ programming interface that allows programmers to retrieve

@@ -80,7 +80,7 @@ namespace vision
 	*/
 	enum class ZoomMode
 	{
-		NORMAL = 0,		//!< the display view keeps normal
+        NORMAL = 0,         //!< the display view keeps normal
 		ZOOM_2X = 1,		//!< the display view will be zoomed 200%
 		ZOOM_4X = 2			//!< the display view will be zoomed 400%
 	};

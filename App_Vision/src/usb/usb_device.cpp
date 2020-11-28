@@ -1,6 +1,6 @@
 #include "usb_device.h"
 #include "usb_device_info.h"
-#include "../def/micro_define.h"
+#include "../def/micro.h"
 #if LINUX
 #include "usb_camera_manager.h"
 #include "usb_device_info.h"

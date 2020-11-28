@@ -1,7 +1,7 @@
 #include <string>
 #include <memory>
 #include "camera_handle.h"
-#include "def/micro_define.h"
+#include "def/micro.h"
 #include <gpu_algorithm_pipeline_manager.h>
 #include "video_processor.h"
 #include <memory>

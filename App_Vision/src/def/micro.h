@@ -8,19 +8,4 @@
 #define DEBUG_TIME              0   // Show the time-consuming when debug each stage
 #define DEBUG_MSG               1   // Shot the debug message like printf, qDebug().
 
-/* Delete a pointer */
-#define DELETE_PIONTER(ptr)	\
-	if(ptr != nullptr) {	\
-		delete ptr;			\
-		ptr = nullptr;		\
-	}
-/* Delete an array of pointer */
-#define DELETE_ARRAY_PIONTER(ptr)	\
-    if(ptr != nullptr) {            \
-        delete[] ptr;               \
-        ptr = nullptr;              \
-    }
-
-
-
 #endif

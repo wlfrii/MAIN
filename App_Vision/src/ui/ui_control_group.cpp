@@ -1,4 +1,3 @@
-#include "../def/micro_define.h"
 #include <QString>
 #include <QGroupBox>
 #include <QCheckBox>

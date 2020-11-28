@@ -1,9 +1,15 @@
-CONFIG -= qt
-
 TEMPLATE = lib
-CONFIG += staticlib
+TARGET = lib_vision_gpu
 
+CONFIG -= qt
+CONFIG += staticlib
 CONFIG += c++17
+CONFIG(debug, debug|release){
+    DESTDIR = $$PWD/../build/lib/debug
+}else{
+    DESTDIR = $$PWD/../build/lib/release
+}
+
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -19,8 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += $$files("./src/*.cpp", true)
 #message("The sources: $$SOURCES")
 
-HEADERS += $$files("./src/*.h", true) \
-    ../Vision/src/usb/usb_camera_manager.h
+HEADERS += $$files("./src/*.h", true)
 #message("The headers: $$HEADERS")
 
 # Default rules for deployment.

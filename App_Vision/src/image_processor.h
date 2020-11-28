@@ -3,7 +3,7 @@
 #include <opencv2/opencv.hpp>
 #include <atomic>
 #include <memory>
-#include "def/ring_buffer.h"
+#include <libutility/buffer/ring_buffer.h>
 
 class CameraParameters;
 class MapCalculator;

@@ -5,7 +5,6 @@
 #include "ui_control_group.h"
 #include "ui_enhance_group.h"
 #include "ui_processor.h"
-#include "../def/micro_define.h"
 #include <QFont>
 
 ControlPanel::ControlPanel(QWidget *parent)
