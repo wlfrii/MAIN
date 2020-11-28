@@ -1,5 +1,5 @@
-#ifndef UIENHANCESATURATION_H
-#define UIENHANCESATURATION_H
+#ifndef UI_ENHANCE_PROPERTY_H
+#define UI_ENHANCE_PROPERTY_H
 #include "ui_base.h"
 
 class QCheckBox;
@@ -73,4 +73,4 @@ public:
     static UIEnhanceBrightness* getInstance();
 };
 
-#endif // UIENHANCESATURATION_H
+#endif // UI_ENHANCE_PROPERTY_H

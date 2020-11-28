@@ -1,5 +1,5 @@
-#ifndef UIENHANCEGROUP_H
-#define UIENHANCEGROUP_H
+#ifndef UI_ENHANCE_GROUP_H
+#define UI_ENHANCE_GROUP_H
 #include "ui_base.h"
 
 class QGroupBox;
@@ -23,4 +23,4 @@ private:
 	QGroupBox	*gpBox_enhance;
 };
 
-#endif // ENHANCEGROUP_H
+#endif // UI_ENHANCE_GROUP_H

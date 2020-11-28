@@ -1,5 +1,5 @@
-#ifndef UIENHANCEGUIDEDFILTER_H
-#define UIENHANCEGUIDEDFILTER_H
+#ifndef UI_ENHANCE_GUIDEDFILTER_H
+#define UI_ENHANCE_GUIDEDFILTER_H
 #include "ui_base.h"
 
 class QCheckBox;
@@ -46,4 +46,4 @@ private:
 	QSpacerItem		*spacer;
 };
 
-#endif // UIENHANCEGUIDEDFILTER_H
+#endif // UI_ENHANCE_GUIDEDFILTER_H

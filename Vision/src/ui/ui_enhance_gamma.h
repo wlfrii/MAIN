@@ -1,5 +1,5 @@
-#ifndef UIENHANCEGAMMA_H
-#define UIENHANCEGAMMA_H
+#ifndef UI_ENHANCE_GAMMA_H
+#define UI_ENHANCE_GAMMA_H
 #include "ui_base.h"
 
 class QCheckBox;
@@ -38,4 +38,4 @@ private:
 	QDoubleSpinBox	*dspBox_ref_L;
 };
 
-#endif // UIENHANCEGAMMA_H
+#endif // UI_ENHANCE_GAMMA_H

@@ -2,11 +2,12 @@
 #define USB_DEVICE_H
 #include <vector>
 #include <stdint.h>
+#include "usb_camera_manager.h"
 
-
-class USBCameraManager;
 class USBDeviceInfo;
-
+/**
+ * @brief The USBDevice class
+ */
 class USBDevice
 {
 public:
@@ -22,25 +23,23 @@ public:
     int getLeftCamUSBIdx();
     int getRightCamUSBIdx();
 
-    ErrorState getErrorState(){
-        return error_state;
-    }
+    ErrorState getErrorState() { return error_state; }
 
-    std::vector<USBDeviceInfo> device_infos;
-    bool writeLeft(const uint8_t data[512]);
-    bool readLeft(uint8_t data[512]);
-    bool writeRight(const uint8_t data[512]);
-    bool readRight(uint8_t data[512]);
-    bool read(const int& index,uint8_t data[512]);
-    bool write(const int& index, const uint8_t data[512]);
+    bool writeLeft(const uint8_t data[MAX_DATA_SIZE]);
+    bool readLeft(uint8_t data[MAX_DATA_SIZE]);
+    bool writeRight(const uint8_t data[MAX_DATA_SIZE]);
+    bool readRight(uint8_t data[MAX_DATA_SIZE]);
+    bool read(const int& index, uint8_t data[MAX_DATA_SIZE]);
+    bool write(const int& index, const uint8_t data[MAX_DATA_SIZE]);
 
 private:
     void getAndUpdate();
-    bool getVideoDevices(std::vector<USBDeviceInfo*>& usb_device_infos);
+    bool getVideoDevices();
     void updateIndexes();
 
+public:
+    std::vector<USBDeviceInfo> usb_device_infos;
 private:
-    std::vector<USBDeviceInfo*> usb_device_infos;
     int left_usb_cam_idx;
     int right_usb_cam_idx;
     bool valid;

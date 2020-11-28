@@ -1,5 +1,5 @@
-#ifndef UICAPTURE_H
-#define UICAPTURE_H
+#ifndef UI_CAPTURE_H
+#define UI_CAPTURE_H
 #include "ui_base.h"
 
 class QPushButton;
@@ -29,4 +29,4 @@ private:
 	QLineEdit       *lEdit_capture_path;
 };
 
-#endif // UICAPTURE_H
+#endif // UI_CAPTURE_H

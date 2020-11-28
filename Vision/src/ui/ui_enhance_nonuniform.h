@@ -1,5 +1,5 @@
-#ifndef UIENHANCENONUNIFORM_H
-#define UIENHANCENONUNIFORM_H
+#ifndef UI_ENHANCE_NONUNIFORM_H
+#define UI_ENHANCE_NONUNIFORM_H
 #include "ui_base.h"
 
 class QCheckBox;
@@ -41,4 +41,4 @@ private:
 	//QSpinBox		*spBox_dis;
 };
 
-#endif // UIENHANCENONUNIFORM_H
+#endif // UI_ENHANCE_NONUNIFORM_H

@@ -1,5 +1,5 @@
-#ifndef CONTROLPANAL_H
-#define CONTROLPANAL_H
+#ifndef CONTROL_PANAL_H
+#define CONTROL_PANAL_H
 #include <QWidget>
 #include <vector>
 
@@ -18,4 +18,4 @@ private:
 };
 
 
-#endif // CONTROLPANAL_H
+#endif // CONTROL_PANAL_H

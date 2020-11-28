@@ -56,7 +56,8 @@ unix{
 
     LIBS += -L"/usr/local/lib" \
         -lturbojpeg \
-        -lopencv_world
+        -lopencv_world \
+        -luvc
 
     # Include the lib_gpu_vision
     INCLUDEPATH += "/media/wanglf/DATA/MyProjects/Vision-Linux-Win32/lib_vision_gpu/src"

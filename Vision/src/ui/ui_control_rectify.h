@@ -1,5 +1,5 @@
-#ifndef UICONTROLRECTIFY_H
-#define UICONTROLRECTIFY_H
+#ifndef UI_CONTROL_RECTIFY_H
+#define UI_CONTROL_RECTIFY_H
 #include "ui_base.h"
 
 class QCheckBox;
@@ -32,4 +32,4 @@ private:
 	QPushButton		*pbtn_view_cam_param;
 };
 
-#endif // UICONTROLRECTIFY_H
+#endif // UI_CONTROL_RECTIFY_H

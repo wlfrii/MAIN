@@ -1,5 +1,5 @@
-#ifndef UICONTROLGROUP_H
-#define UICONTROLGROUP_H
+#ifndef UI_CONTROL_GROUP_H
+#define UI_CONTROL_GROUP_H
 #include "ui_base.h"
 
 class QGroupBox;
@@ -25,4 +25,4 @@ private:
     QCheckBox       *chkBox_show_fps;
 };
 
-#endif // UICONTROLGROUP_H
+#endif // UI_CONTROL_GROUP_H

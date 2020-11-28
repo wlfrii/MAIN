@@ -1,7 +1,7 @@
 #include "camera_parameters.h"
 
 // matrix_name  expected_type  width  height
-#define ASSERT_MATRIX_SIZE_TYPE(matrix,  width, height)   \
+#define ASSERT_MATRIX_SIZE_TYPE(matrix, width, height)   \
     assert(matrix.size() == cv::Size(width, height));
 
 CameraParameters::CameraParameters(const cv::Mat &intrinsic, const cv::Mat &dist_coeffs,
@@ -26,6 +26,15 @@ CameraParameters::CameraParameters(const CameraParameters& rhs)
     R = rhs.R;
     ROI = rhs.ROI;
     Anew = rhs.Anew;
+}
+
+CameraParameters::CameraParameters(USBCameraParammeters &params)
+    : A(params.A.to_cvMat())
+    , D(params.D.to_cvMat())
+    , R(params.R.to_cvMat())
+    , ROI(params.ROI.to_cvRect())
+    , Anew(params.Anew.to_cvMat())
+{
 }
 
 const float& CameraParameters::getFX() const

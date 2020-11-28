@@ -1,5 +1,5 @@
-#ifndef UIPROCESSOR_H
-#define UIPROCESSOR_H
+#ifndef UI_PROCESSOR_H
+#define UI_PROCESSOR_H
 #include "ui_base.h"
 #include <opencv2/opencv.hpp>
 
@@ -34,4 +34,4 @@ private:
 	cv::Mat			image_processed;
 };
 
-#endif // UIPROCESSOR_H
+#endif // UI_PROCESSOR_H

@@ -26,13 +26,13 @@ class USBCameraDeviceHandle
 public:
     USBCameraDeviceHandle(USBCamera* cam)
     {
-        uvc_error_t t = uvc_open(cam->device, &device_handle);
-        if(t != UVC_SUCCESS){
-            fprintf(stderr, "can't open camera: %p, error msg:%s", (void*) cam, uvc_strerror(t));
+        uvc_error_t ret = uvc_open(cam->device, &device_handle);
+        if(ret != UVC_SUCCESS){
+            fprintf(stderr, "can't open camera: %p, error msg:%s", (void*) cam, uvc_strerror(ret));
             device_handle = 0;
         }
     }
-    USBCameraDeviceHandle(){
+    ~USBCameraDeviceHandle(){
         if(device_handle) uvc_close(device_handle);
     }
 
@@ -53,21 +53,21 @@ public:
     USBCameraManagerImpl();
     ~USBCameraManagerImpl();
 
-    void getCameras(std::vector<USBCamera*>& cam);
-    bool getIds(USBCamera* cam, int ids[2]);
-    int  getIndex(USBCamera* cam);
-    void getIndices(USBCamera* cam, std::vector<int>& indices);
+    void getCameras(std::vector<USBCamera*>& usb_cam);
+    bool getIds(USBCamera* usb_cam, int ids[2]);
+    int  getIndex(USBCamera* usb_cam);
+    void getIndices(USBCamera* usb_cam, std::vector<int>& indices);
 
-    bool read(USBCamera* cam, uint8_t data[512]);
-    bool write(USBCamera* cam, const uint8_t data[512]);
-    bool read(const int index, uint8_t data[512]);
-    bool write(const int index, const uint8_t data[512]);
+    bool read(USBCamera* usb_cam, uint8_t data[MAX_DATA_SIZE]);
+    bool write(USBCamera* usb_cam, const uint8_t data[MAX_DATA_SIZE]);
+    bool read(const int index, uint8_t data[MAX_DATA_SIZE]);
+    bool write(const int index, const uint8_t data[MAX_DATA_SIZE]);
 
 private:
-    uvc_context_t *ctx;
+    uvc_context_t *context;
     uvc_device_t **devices;
 
-    std::vector<USBCamera*> cameras;
+    std::vector<USBCamera*> usb_cameras;
 };
 
 #endif

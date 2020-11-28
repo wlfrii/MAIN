@@ -1,5 +1,5 @@
-#ifndef UI_DEFINE_H
-#define UI_DEFINE_H
+#ifndef UI_BASE_H
+#define UI_BASE_H
 #include <QWidget>
 #include <QBoxLayout>
 #include <QHBoxLayout>
@@ -51,4 +51,4 @@ public:
 	virtual QBoxLayout* create() = 0;
 };
 
-#endif // UI_DEFINE_H
+#endif // UI_BASE_H
