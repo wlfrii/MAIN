@@ -36,12 +36,12 @@ QBoxLayout* UIControlRectify::create()
 		connect(chkBox, &QCheckBox::stateChanged, this, &UIControlRectify::onChkBoxRectifySelected);
 		
 		pbtn_cam_param = new QPushButton();
-		pbtn_cam_param->setText(tr("Load Camera Parameters"));
+		pbtn_cam_param->setText(tr("Load CamParams"));
 		connect(pbtn_cam_param, &QPushButton::clicked, this, &UIControlRectify::onPushBtnCamParamClicked);
 		pbtn_cam_param->setEnabled(false);
 
 		pbtn_view_cam_param = new QPushButton();
-		pbtn_view_cam_param->setText(tr("View Current Camera Parameters"));
+		pbtn_view_cam_param->setText(tr("View CamParams"));
 		connect(pbtn_view_cam_param, &QPushButton::clicked, this, &UIControlRectify::onPushBtnViewCamParamClicked);
 		pbtn_view_cam_param->setEnabled(false);
 

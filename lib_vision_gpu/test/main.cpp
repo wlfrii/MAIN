@@ -1,7 +1,7 @@
 #include <opencv2/opencv.hpp>
 #include <atomic>
-#include "gpu_algorithm_pipeline_manager.h"
-#include "gpu_algorithm_func.h"
+#include <gpu_algorithm_pipeline_manager.h>
+#include <gpu_algorithm_func.h>
 
 void testGuidedFilterAlgo()
 {
@@ -30,7 +30,7 @@ void testColorSpace()
 	cv::Mat image = cv::imread("D:/MyProjects/Vision/test_data/test_image.bmp");
 	cv::cuda::GpuMat cu_image;
 	cu_image.upload(image);
-	gpu::convertImageFormat(cu_image);
+	gpu::cvtImageFormat(cu_image, gpu::CVT_8U_TO_32F);
 
 	cv::cuda::GpuMat cu_hsv(cu_image.size(), cu_image.type());
 	gpu::cvtColor(cu_image, cu_hsv, gpu::BGR2HSV);
@@ -56,8 +56,8 @@ int main()
 	std::atomic<bool> flag;
 
 	gpu::AlgoPipelineManager::getInstance()->intialize();
-	gpu::AlgoPipelineManager::getInstance()->addAlgoNode(new gpu::AlgoNodeUnevenY());
-	gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::UnevenYProperty>(2, 0.99));
+	gpu::AlgoPipelineManager::getInstance()->addAlgoNode(new gpu::AlgoNodeNonuniform());
+	gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::NonuniformProperty>(2, 0.99));
 	cv::Mat res1(image.size(), CV_32FC4);
 	gpu::AlgoPipelineManager::getInstance()->process(image, res1, flag);
 

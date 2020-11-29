@@ -8,6 +8,7 @@ class QSpinBox;
 
 class UIEnhanceProperty : public UILayoutBase
 {
+	Q_OBJECT
 protected:
     UIEnhanceProperty(QString name);
 

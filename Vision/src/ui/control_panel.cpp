@@ -6,6 +6,7 @@
 #include "ui_enhance_group.h"
 #include "ui_processor.h"
 #include <QFont>
+#include "../def/micro.h"
 
 ControlPanel::ControlPanel(QWidget *parent)
     : QWidget(parent)
@@ -38,7 +39,7 @@ void ControlPanel::setupUI()
 
     // LOG: Text Browser
     hlayout->addWidget(UILogger::getInstance()->getTxtBrowser());
-#if LINUX
+#if !LINUX
     /** CAPTURE **/
 	vlayout->addLayout(UICapture::getInstance()->create());
 #else

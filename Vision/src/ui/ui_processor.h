@@ -7,6 +7,7 @@ class QPushButton;
 
 class UIProcessor : public UILayoutBase
 {
+	Q_OBJECT
 protected:
 	UIProcessor();
 

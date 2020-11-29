@@ -145,10 +145,10 @@ void cvtImageFormat(cv::cuda::GpuMat &src, cvtType cvttype, cudaStream_t stream)
 {
 	switch (cvttype)
 	{
-	case T_8U_2_32F:
+	case CVT_8U_TO_32F:
 		cvt8Uto32F(src, stream);
 		break;
-	case T_32F_2_8U:
+	case CVT_32F_TO_8U:
 		cvt32Fto8U(src, stream);
 		break;
 	}

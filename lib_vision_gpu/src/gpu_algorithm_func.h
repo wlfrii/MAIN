@@ -8,8 +8,8 @@
 GPU_ALGO_BEGIN
 enum cvtType
 {
-	T_8U_2_32F,
-	T_32F_2_8U
+	CVT_8U_TO_32F,
+	CVT_32F_TO_8U
 };
 /*@brief Convert uchar image to float image, while convert [0,255] to [0,1].
  */

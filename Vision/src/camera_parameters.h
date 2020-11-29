@@ -2,7 +2,10 @@
 #include <string>
 #include <opencv2/opencv.hpp>
 #include "def/define.h"
+#include "def/micro.h"
+#if LINUX
 #include "usb/usb_camera_parameters.h"
+#endif
 
 namespace vision
 {
@@ -26,7 +29,9 @@ public:
     CameraParameters(const cv::Mat &intrinsic, const cv::Mat &distortion,
         const cv::Mat &rectification, const cv::Rect &roi, const cv::Mat &new_intrinsic);
     CameraParameters(const CameraParameters& rhs);
+#if LINUX
     CameraParameters(USBCameraParammeters &params);
+#endif
 
     const float& getFX() const;	//!< the focal length in x direction
     const float& getFY() const;	//!< the focal length in y direction

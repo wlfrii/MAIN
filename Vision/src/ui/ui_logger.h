@@ -6,6 +6,7 @@
 
 class UILogger : public QWidget
 {
+	Q_OBJECT
 protected:
     UILogger();
 

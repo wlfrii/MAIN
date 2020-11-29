@@ -3,7 +3,6 @@
 
 UILogger::UILogger()
 {
-
 }
 
 

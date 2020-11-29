@@ -8,6 +8,7 @@ class QLineEdit;
 
 class UICapture : public UILayoutBase
 {
+	Q_OBJECT
 protected:
 	UICapture();
 
@@ -27,6 +28,7 @@ private:
 	QSpinBox        *spBox_capture_num;
 
 	QLineEdit       *lEdit_capture_path;
+	QLineEdit		*lEdit_capture_name;
 };
 
 #endif // UI_CAPTURE_H

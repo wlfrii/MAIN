@@ -16,8 +16,6 @@ protected:
 	UIBase(QWidget *parent = nullptr)
 		: QWidget(parent)
 	{}
-
-public:
 	virtual ~UIBase() {}
 };
 
@@ -29,10 +27,9 @@ protected:
 	UIWidgetBase(QWidget *parent = nullptr)
 		: UIBase(parent)
 	{}
-
-public:
 	virtual ~UIWidgetBase(){}
 
+public:
 	virtual QWidget* create() = 0;
 };
 
@@ -44,10 +41,9 @@ protected:
 	UILayoutBase(QWidget *parent = nullptr)
 		: UIBase(parent)
 	{}
-
-public:
 	virtual ~UILayoutBase() {}
 
+public:
 	virtual QBoxLayout* create() = 0;
 };
 

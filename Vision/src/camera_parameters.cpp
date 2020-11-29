@@ -28,6 +28,7 @@ CameraParameters::CameraParameters(const CameraParameters& rhs)
     Anew = rhs.Anew;
 }
 
+#if LINUX
 CameraParameters::CameraParameters(USBCameraParammeters &params)
     : A(params.A.to_cvMat())
     , D(params.D.to_cvMat())
@@ -36,6 +37,7 @@ CameraParameters::CameraParameters(USBCameraParammeters &params)
     , Anew(params.Anew.to_cvMat())
 {
 }
+#endif
 
 const float& CameraParameters::getFX() const
 {
