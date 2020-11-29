@@ -140,6 +140,7 @@
     <ClInclude Include="src\camera_parameters.h" />
     <ClInclude Include="src\frame_reader.h" />
     <ClInclude Include="src\frame_displayer.h" />
+    <ClInclude Include="src\frame_rectifier.h" />
     <ClInclude Include="src\map_calculator.h" />
     <ClInclude Include="src\image_processor.h" />
     <ClInclude Include="src\video_processor.h" />

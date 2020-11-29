@@ -4,6 +4,7 @@
 #include "def/ptr_define.h"
 #include <memory>
 #include <libvisiongpu/gpu_algorithm_pipeline_manager.h>
+#include "ui/cmd.h"
 
 ImageProcessor::ImageProcessor(uchar cam_id, const CameraParameters &cam_params, uint image_width, uint image_height)
     : cam_id(cam_id)
@@ -21,39 +22,53 @@ ImageProcessor::~ImageProcessor()
 
 bool ImageProcessor::uploadImage(const cv::Mat &image)
 {
-    if(processed_image.empty())
-        processed_image.create(image.size(), CV_8UC4);
+	if (CMD::is_enhance) {
+		if (processed_image.empty())
+			processed_image.create(image.size(), CV_8UC4);
 
-    /* atomic::load
-     * Returns the contained value.
-     * typedef enum memory_order {
-     *     memory_order_relaxed,   //
-     *     memory_order_consume,   // consume
-     *     memory_order_acquire,   // acquire
-     *     memory_order_release,   // release
-     *     memory_order_acq_rel,   // acquire/release
-     *     memory_order_seq_cst    // sequentially consistent
-     * } memory_order;*/
-    bool ret = read_flag.load(std::memory_order_relaxed);
-    if(ret && !image_buffer.isFull())
-    {
-        if(!processed_image.empty())
-            image_buffer.insert(processed_image);
+		/* atomic::load
+		 * Returns the contained value.
+		 * typedef enum memory_order {
+		 *     memory_order_relaxed,   //
+		 *     memory_order_consume,   // consume
+		 *     memory_order_acquire,   // acquire
+		 *     memory_order_release,   // release
+		 *     memory_order_acq_rel,   // acquire/release
+		 *     memory_order_seq_cst    // sequentially consistent
+		 * } memory_order;*/
+		bool ret = read_flag.load(std::memory_order_relaxed);
+		if (ret && !image_buffer.isFull())
+		{
+			if (!processed_image.empty())
+				image_buffer.insert(processed_image);
 
-        /* atomic::store
-         * Replaces the contained value with new value. */
-        read_flag.store(false, std::memory_order_relaxed);
-        ret = gpu::AlgoPipelineManager::getInstance()->process(image, processed_image, read_flag, gpu::TreeType(cam_id));
-    }
-
-    return ret;
+			/* atomic::store
+			 * Replaces the contained value with new value. */
+			read_flag.store(false, std::memory_order_relaxed);
+			ret = gpu::AlgoPipelineManager::getInstance()->process(image, processed_image, read_flag, gpu::TreeType(cam_id));
+		}
+		return ret;
+	}
+	else
+	{
+		cv::remap(image, cpu_processed_image, map_calculator->getCPUMapx(), map_calculator->getCPUMapy(), cv::INTER_LINEAR, cv::BORDER_CONSTANT, 0);
+		cpu_image_buffer.insert(cpu_processed_image);
+	}
+	return true;
 }
 
 bool ImageProcessor::downloadImage(cv::Mat &image)
 {
-    if(image_buffer.isEmpty())
-        return false;
-    image_buffer.remove(image);
+	if (CMD::is_enhance) {
+		if (image_buffer.isEmpty())
+			return false;
+		image_buffer.remove(image);
+	}
+	else {
+		if (image_buffer.isEmpty())
+			return false;
+		image_buffer.remove(image);
+	}
     return true;
 }
 

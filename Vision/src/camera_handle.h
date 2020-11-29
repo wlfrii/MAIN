@@ -12,7 +12,7 @@ public:
     CameraHandle();
     ~CameraHandle();
 
-    void initCamera(std::unique_ptr<CameraParamsReader> cam_params_reader);
+    void initCamera();
     void openCamera();
 private:
     void runCamera [[noreturn]] ();

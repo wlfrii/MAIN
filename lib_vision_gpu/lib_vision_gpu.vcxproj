@@ -11,38 +11,38 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src/gpu_algorithm_node_tree.cpp" />
-    <ClCompile Include="src/gpu_algorithm_pipeline_manager.cpp" />
-    <ClCompile Include="src/node\algo_node_base.cpp" />
-    <ClCompile Include="src/node\algo_node_gamma.cpp" />
-    <ClCompile Include="src/node\algo_node_guidedfilter.cpp" />
-    <ClCompile Include="src/node\algo_node_image_adjust.cpp" />
-    <ClCompile Include="src/node\algo_node_rectify.cpp" />
-    <ClCompile Include="src/node\algo_node_nonuniform.cpp" />
-    <ClCompile Include="src/node\algo_node_usm.cpp" />
+    <ClCompile Include="src/libvisiongpu/gpu_algorithm_node_tree.cpp" />
+    <ClCompile Include="src/libvisiongpu/gpu_algorithm_pipeline_manager.cpp" />
+    <ClCompile Include="src/libvisiongpu/node\algo_node_base.cpp" />
+    <ClCompile Include="src/libvisiongpu/node\algo_node_gamma.cpp" />
+    <ClCompile Include="src/libvisiongpu/node\algo_node_guidedfilter.cpp" />
+    <ClCompile Include="src/libvisiongpu/node\algo_node_image_adjust.cpp" />
+    <ClCompile Include="src/libvisiongpu/node\algo_node_rectify.cpp" />
+    <ClCompile Include="src/libvisiongpu/node\algo_node_nonuniform.cpp" />
+    <ClCompile Include="src/libvisiongpu/node\algo_node_usm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src/def\cu_define.h" />
-    <ClInclude Include="src/def\define.h" />
-    <ClInclude Include="src/func\func_colorspace.h" />
-    <ClInclude Include="src/gpu_algorithm_func.h" />
-    <ClInclude Include="src/gpu_algorithm_node_tree.h" />
-    <ClInclude Include="gpu_algorithm_pipeline_manager.h" />
-    <ClInclude Include="src/node\algo_node_base.h" />
-    <ClInclude Include="src/node\algo_node_gamma.h" />
-    <ClInclude Include="src/node\algo_node_guidedfilter.h" />
-    <ClInclude Include="src/node\algo_node_image_adjust.h" />
-    <ClInclude Include="src/node\algo_node_rectify.h" />
-    <ClInclude Include="src/node\algo_node_nonuniform.h" />
-    <ClInclude Include="src/node\algo_node_usm.h" />
+    <ClInclude Include="src/libvisiongpu/def\cu_define.h" />
+    <ClInclude Include="src/libvisiongpu/def\define.h" />
+    <ClInclude Include="src/libvisiongpu/func\func_colorspace.h" />
+    <ClInclude Include="src/libvisiongpu/gpu_algorithm_func.h" />
+    <ClInclude Include="src/libvisiongpu/gpu_algorithm_node_tree.h" />
+    <ClInclude Include="src/libvisiongpu/gpu_algorithm_pipeline_manager.h" />
+    <ClInclude Include="src/libvisiongpu/node\algo_node_base.h" />
+    <ClInclude Include="src/libvisiongpu/node\algo_node_gamma.h" />
+    <ClInclude Include="src/libvisiongpu/node\algo_node_guidedfilter.h" />
+    <ClInclude Include="src/libvisiongpu/node\algo_node_image_adjust.h" />
+    <ClInclude Include="src/libvisiongpu/node\algo_node_rectify.h" />
+    <ClInclude Include="src/libvisiongpu/node\algo_node_nonuniform.h" />
+    <ClInclude Include="src/libvisiongpu/node\algo_node_usm.h" />
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="src/func\func_convert_image_format.cu" />
-    <CudaCompile Include="src/func\func_colorspace.cu" />
-    <CudaCompile Include="src/node\algo_node_gamma.cu" />
-    <CudaCompile Include="src/node\algo_node_guidedfilter.cu" />
-    <CudaCompile Include="src/node\algo_node_image_adjust.cu" />
-    <CudaCompile Include="src/node\algo_node_nonuniform.cu" />
+    <CudaCompile Include="src/libvisiongpu/func\func_convert_image_format.cu" />
+    <CudaCompile Include="src/libvisiongpu/func\func_colorspace.cu" />
+    <CudaCompile Include="src/libvisiongpu/node\algo_node_gamma.cu" />
+    <CudaCompile Include="src/libvisiongpu/node\algo_node_guidedfilter.cu" />
+    <CudaCompile Include="src/libvisiongpu/node\algo_node_image_adjust.cu" />
+    <CudaCompile Include="src/libvisiongpu/node\algo_node_nonuniform.cu" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8A0B51C1-BFD6-4578-9298-EEACAC2FF64F}</ProjectGuid>

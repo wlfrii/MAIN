@@ -113,20 +113,24 @@ const cv::Rect& CameraParameters::roi() const
 }
 
 
-
-CameraParamsReader::CameraParamsReader(const std::string &filename)
-    : fs(cv::FileStorage(filename, cv::FileStorage::READ))
+CameraParamsReader* CameraParamsReader::getInstance()
 {
-    if (!fs.isOpened())
-	{
-        printf("CameraParamsReader: Cannot open the camera parameters file!\n");
-		exit(0);
-	}
+	static CameraParamsReader cam_param_reader;
+	return &cam_param_reader;
 }
 
-CameraParamsReader::~CameraParamsReader()
+bool CameraParamsReader::setParamsPath(const std::string &filename)
 {
-    fs.release();
+	cv::FileStorage fs = cv::FileStorage(filename, cv::FileStorage::READ);
+	if (!fs.isOpened())
+	{
+		printf("CameraParamsReader: Cannot open the camera parameters file!\n");
+		fs.release();
+		is_valid_path = false;
+		return false;
+	}
+	path = filename;
+	is_valid_path = true;
 }
 
 #define GET_DATA_BY_NAME(file, variable, index)				\
@@ -135,8 +139,12 @@ CameraParamsReader::~CameraParamsReader()
     file[tmp] >> variable;									\
 }
 
-CameraParameters CameraParamsReader::getCameraParameters(vision::StereoCameraID index /* = vision::LEFT_CAMERA */) const
+std::shared_ptr<CameraParameters> CameraParamsReader::getCameraParameters(vision::StereoCameraID index /* = vision::LEFT_CAMERA */) const
 {
+	if (!is_valid_path)
+		return nullptr;
+
+	//cv::FileStorage fs = cv::FileStorage(path, cv::FileStorage::READ);
     cv::Mat A;
     cv::Mat D;
     cv::Mat R;
@@ -168,21 +176,26 @@ CameraParameters CameraParamsReader::getCameraParameters(vision::StereoCameraID 
 	check(R);
 	check(Anew);
 
-    return CameraParameters(A, D, R, roi, Anew);
+    return std::make_shared<CameraParameters>(A, D, R, roi, Anew);
 }
 
-StereoCameraParameters CameraParamsReader::getStereoCameraParameters() const
+std::shared_ptr<StereoCameraParameters> CameraParamsReader::getStereoCameraParameters() const
 {
-    CameraParameters params[2];
-    for(auto i=0; i < 2;i++)
+	if (!is_valid_path)
+		return nullptr;
+
+    std::shared_ptr<CameraParameters> params[2];
+    for(auto i = 0; i < 2;i++)
     {
         params[i] = getCameraParameters(vision::StereoCameraID(i));
     }
-    return StereoCameraParameters(params[0], params[1]);
+    return std::make_shared<StereoCameraParameters>(params[0], params[1]);
 }
 
 int CameraParamsReader::getImageWidth() const
 {
+	if (!is_valid_path)
+		return 0;
 	int width = 0;
     fs["image_width"] >> width;
 	return width;
@@ -190,6 +203,8 @@ int CameraParamsReader::getImageWidth() const
 
 int CameraParamsReader::getImageHeight() const
 {
+	if (!is_valid_path)
+		return 0;
 	int height = 0;
     fs["image_height"] >> height;
 	return height;

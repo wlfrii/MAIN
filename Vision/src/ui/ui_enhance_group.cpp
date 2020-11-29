@@ -31,7 +31,7 @@ QWidget *UIEnhanceGroup::create()
     gpBox_enhance = new QGroupBox();
 	connect(gpBox_enhance, &QGroupBox::clicked, this, &UIEnhanceGroup::onGroupBoxEnhanceSelected);
     gpBox_enhance->setTitle(tr("Enhance mode"));
-    gpBox_enhance->setCheckable(true);
+    gpBox_enhance->setCheckable(false);
     gpBox_enhance->setLayout(vlayout_enhance);
 
 

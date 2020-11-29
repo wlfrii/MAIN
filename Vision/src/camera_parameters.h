@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 #include <opencv2/opencv.hpp>
 #include "def/define.h"
 #include "def/micro.h"
@@ -69,25 +70,29 @@ class StereoCameraParameters
 {
 public:
     StereoCameraParameters(){}
-    StereoCameraParameters(const CameraParameters& left, const CameraParameters& right)
+    StereoCameraParameters(std::shared_ptr<CameraParameters> left, std::shared_ptr<CameraParameters> right)
         : left(left), right(right)
     {}
-    CameraParameters left;
-    CameraParameters right;
+	std::shared_ptr<CameraParameters> left;
+	std::shared_ptr<CameraParameters> right;
 };
-
 
 
 /** @brief The tool for read parameters of monocular or binocular.
 */
 class CameraParamsReader
 {
+protected:
+	CameraParamsReader() {}
+	~CameraParamsReader() { fs.release(); }
 public:
-	CameraParamsReader(const std::string &filename);
-	~CameraParamsReader();
+	CameraParamsReader* getInstance();
 
-    CameraParameters getCameraParameters(vision::StereoCameraID index = vision::LEFT_CAMERA) const;
-    StereoCameraParameters getStereoCameraParameters() const;
+	/** Set camera parameters path, return true means the path is valid. */
+	bool setParamsPath(const std::string &filename);
+
+    std::shared_ptr<CameraParameters> getCameraParameters(vision::StereoCameraID index = vision::LEFT_CAMERA) const;
+    std::shared_ptr<StereoCameraParameters> getStereoCameraParameters() const;
 
 	/* these fucntions must be called */
 	int		getImageWidth() const;
@@ -95,7 +100,10 @@ public:
 
 private:
 	/* warning!!!, this initialization must be done in the intializer list,
-	  or therr maybe exist a situation that _fs is initialized twice */
+	  or there maybe exist a situation that fs is initialized twice */
     cv::FileStorage fs;
+
+	bool is_valid_path;
+	std::string path;
 };
 

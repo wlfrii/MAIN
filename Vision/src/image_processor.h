@@ -24,14 +24,16 @@ private:
     uchar               cam_id;
     MapCalculator*      map_calculator;
     cv::Mat             processed_image;
+	Ringbuffer<cv::Mat, 2> image_buffer;
+
+	cv::Mat             cpu_processed_image;
+	Ringbuffer<cv::Mat, 2> cpu_image_buffer;
 
     /* Atomic   ---   template<typename T> struct atomic
      * Objects of atomic types contain a value of a particular type(T)
      * The main characteristic of atomic objects is that access to this contained value from
      * different threads cannot cause data races. */
     std::atomic<bool>   read_flag;
-
-    Ringbuffer<cv::Mat, 2> image_buffer;
 
     int                 disparity;
 };

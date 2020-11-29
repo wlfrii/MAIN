@@ -25,7 +25,7 @@ CameraHandle::~CameraHandle()
 }
 
 
-void CameraHandle::initCamera(std::unique_ptr<CameraParamsReader> cam_params_reader)
+void CameraHandle::initCamera()
 {
     // update the image size in vision_define.
     int image_width = cam_params_reader->getImageWidth();
@@ -35,8 +35,8 @@ void CameraHandle::initCamera(std::unique_ptr<CameraParamsReader> cam_params_rea
         exit(0);
     }
     else {
-        vision::ImageSize::width = cam_params_reader->getImageWidth();
-        vision::ImageSize::height = cam_params_reader->getImageHeight();
+        vision::ImageSize::width = image_width;
+        vision::ImageSize::height = image_height;
     }
 
     // Initialize left camera

@@ -23,6 +23,9 @@ public:
 
     // start/close image enhancement
     static bool is_enhance;
+
+	// path of camera parameters
+	static std::string cam_params_path;
 };
 
 #endif // CMD_H

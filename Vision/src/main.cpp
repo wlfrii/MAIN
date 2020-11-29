@@ -29,11 +29,15 @@ namespace
 
 int main(int argc, char *argv[])
 {
+	QApplication app(argc, argv);
+	ControlPanel *panel = new ControlPanel();
+	panel->show();
+
 	//::initGPUProcessor();
 
 #if LINUX
 	CameraHandle camera_handle;
-	camera_handle.initCamera(std::move(params_reader));
+	camera_handle.initCamera();
 
 	camera_handle.openCamera();
 #else
@@ -44,8 +48,6 @@ int main(int argc, char *argv[])
 
 	//VideoProcessor::getInstance()->processVideo(filename[2], false);
 #endif
-	QApplication app(argc, argv);
-	ControlPanel *panel = new ControlPanel();
-	panel->show();
+
 	return app.exec();
 }
