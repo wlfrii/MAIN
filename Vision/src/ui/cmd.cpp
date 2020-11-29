@@ -3,7 +3,6 @@
 
 bool CMD::is_show_fps = true;
 
-bool CMD::is_take_photo = false;
-std::string CMD::pictures_save_path = "./capture";
+CMD::Capture CMD::capture = { false, 1, "", "./capture", true };
 
 bool CMD::is_enhance = false;

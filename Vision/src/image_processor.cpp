@@ -3,7 +3,7 @@
 #include "map_calculator.h"
 #include "def/ptr_define.h"
 #include <memory>
-#include <gpu_algorithm_pipeline_manager.h>
+#include <libvisiongpu/gpu_algorithm_pipeline_manager.h>
 
 ImageProcessor::ImageProcessor(uchar cam_id, const CameraParameters &cam_params, uint image_width, uint image_height)
     : cam_id(cam_id)

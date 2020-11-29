@@ -1,6 +1,6 @@
 #include "ui_enhance_property.h"
 #include "ui_logger.h"
-#include <gpu_algorithm_pipeline_manager.h>
+#include <libvisiongpu/gpu_algorithm_pipeline_manager.h>
 #include <QCheckBox>
 #include <QSlider>
 #include <QSpinBox>

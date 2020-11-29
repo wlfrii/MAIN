@@ -3,7 +3,7 @@
 #include <QCheckBox>
 #include <QDoubleSpinBox>
 #include <QLabel>
-#include <gpu_algorithm_pipeline_manager.h>
+#include <libvisiongpu/gpu_algorithm_pipeline_manager.h>
 
 UIEnhanceNonuniform::UIEnhanceNonuniform()
 {

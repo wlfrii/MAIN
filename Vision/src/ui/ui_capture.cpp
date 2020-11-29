@@ -71,9 +71,15 @@ QBoxLayout* UICapture::create()
 
 void UICapture::onPushBtnCaptureClicked()
 {
-	int num = spBox_capture_num->value();
-	QString path = lEdit_capture_path->text();
-	QString name = lEdit_capture_name->text();
+	if (CMD::capture.finished) {
+		CMD::capture.is_take_photo = true;
+		CMD::capture.save_num = spBox_capture_num->value();
+		CMD::capture.save_name = lEdit_capture_name->text().toStdString();
+		CMD::capture.save_path = lEdit_capture_path->text().toStdString();
+		CMD::capture.finished = false;
 
-	UILogger::getInstance()->log(QString("Capturing %1 image...").arg(num));
+		UILogger::getInstance()->log(QString("Capturing %1 image...").arg(CMD::capture.save_num));
+	}
+	else
+		UILogger::getInstance()->log(QString("Please wait for current capturing."));
 }

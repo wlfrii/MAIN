@@ -1,6 +1,6 @@
 #include "ui_processor.h"
 #include "ui_logger.h"
-#include <gpu_algorithm_pipeline_manager.h>
+#include <libvisiongpu/gpu_algorithm_pipeline_manager.h>
 #include <string>
 #include <atomic>
 #include <QPushButton>

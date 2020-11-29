@@ -113,7 +113,7 @@ void FrameDisplayer::showFrame()
     }
     if(!tmp.empty())
     {
-        if(CMD::is_take_photo)
+        if(CMD::capture.is_take_photo)
             saveImage(tmp);
 
         cv::Mat out;
@@ -158,18 +158,31 @@ void FrameDisplayer::showFrame()
 
 void FrameDisplayer::saveImage(const cv::Mat &img)
 {
-    auto left_folder = CMD::pictures_save_path + "/left/";
-    auto right_folder = CMD::pictures_save_path + "/right/";
-    MAKE_DIR(CMD::pictures_save_path);
+    auto left_folder = CMD::capture.save_path + "/left/";
+    auto right_folder = CMD::capture.save_path + "/right/";
+    MAKE_DIR(CMD::capture.save_path);
     MAKE_DIR(left_folder);
     MAKE_DIR(right_folder);
 
 	auto tmp = mtimer::getCurrentTimeStr();
-    auto name = tmp + ".bmp";
 
-    int cols = img.cols;
-    cv::imwrite(left_folder+name, img.colRange(1, cols/2));
-    cv::imwrite(right_folder+name, img.colRange(cols/2, cols));
+	static uint8_t count = 1;
+	char suffix[4];
+	if (CMD::capture.save_num > 1) {
+		sprintf(suffix, "%d", count);
+	}
+	int cols = img.cols;
+	auto L_path = left_folder + "L_" + CMD::capture.save_name + "-" + std::string(suffix) + ".bmp";
+	auto R_path = right_folder + "R_" + CMD::capture.save_name + "-" + std::string(suffix) + ".bmp";
+    cv::imwrite(L_path, img.colRange(1, cols/2));
+    cv::imwrite(R_path, img.colRange(cols/2, cols));
 
-    if(CMD::is_take_photo) CMD::is_take_photo = false;
+	if (count >= CMD::capture.save_num) {
+		CMD::capture.is_take_photo = false;
+		count = 1;
+		CMD::capture.finished = true;
+	}
+	else {
+		count++;
+	}
 }
