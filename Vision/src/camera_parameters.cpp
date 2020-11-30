@@ -113,24 +113,21 @@ const cv::Rect& CameraParameters::roi() const
 }
 
 
-CameraParamsReader* CameraParamsReader::getInstance()
+CameraParamsReader::CameraParamsReader(const std::string &cam_params_path)
+    : fs(cv::FileStorage(cam_params_path, cv::FileStorage::READ))
 {
-	static CameraParamsReader cam_param_reader;
-	return &cam_param_reader;
+    if (!fs.isOpened())
+    {
+        printf("CameraParamsReader: Cannot open the camera parameters file!\n");
+        fs.release();
+        is_valid_path = false;
+    }
+    is_valid_path = true;
 }
 
-bool CameraParamsReader::setParamsPath(const std::string &filename)
+CameraParamsReader::~CameraParamsReader()
 {
-	cv::FileStorage fs = cv::FileStorage(filename, cv::FileStorage::READ);
-	if (!fs.isOpened())
-	{
-		printf("CameraParamsReader: Cannot open the camera parameters file!\n");
-		fs.release();
-		is_valid_path = false;
-		return false;
-	}
-	path = filename;
-	is_valid_path = true;
+    fs.release();
 }
 
 #define GET_DATA_BY_NAME(file, variable, index)				\
@@ -141,10 +138,9 @@ bool CameraParamsReader::setParamsPath(const std::string &filename)
 
 std::shared_ptr<CameraParameters> CameraParamsReader::getCameraParameters(vision::StereoCameraID index /* = vision::LEFT_CAMERA */) const
 {
-	if (!is_valid_path)
-		return nullptr;
+    if (!is_valid_path)
+        return nullptr;
 
-	//cv::FileStorage fs = cv::FileStorage(path, cv::FileStorage::READ);
     cv::Mat A;
     cv::Mat D;
     cv::Mat R;
@@ -192,20 +188,12 @@ std::shared_ptr<StereoCameraParameters> CameraParamsReader::getStereoCameraParam
     return std::make_shared<StereoCameraParameters>(params[0], params[1]);
 }
 
-int CameraParamsReader::getImageWidth() const
+void CameraParamsReader::getImageSize(int &width, int &height) const
 {
 	if (!is_valid_path)
-		return 0;
-	int width = 0;
+        return;
+
     fs["image_width"] >> width;
-	return width;
+    fs["image_height"] >> height;
 }
 
-int CameraParamsReader::getImageHeight() const
-{
-	if (!is_valid_path)
-		return 0;
-	int height = 0;
-    fs["image_height"] >> height;
-	return height;
-}

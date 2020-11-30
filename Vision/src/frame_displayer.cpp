@@ -47,7 +47,7 @@ namespace
     }
 
     int fps = 0;
-    void checkFPS(long long image_tag)
+    void checkFPS(int16_t &image_tag)
     {
         static std::set<long long> frame;
 
@@ -58,6 +58,7 @@ namespace
             time_point = now;
             fps = frame.size();
             frame.clear();
+            image_tag = 0;
         }
         else
             if (image_tag > 0)
@@ -66,16 +67,15 @@ namespace
 
 }
 
-FrameDisplayer* FrameDisplayer::instance = new FrameDisplayer();
 
 FrameDisplayer::~FrameDisplayer()
 {
-    DELETE_PIONTER(instance);
 }
 
 FrameDisplayer* FrameDisplayer::getInstance()
 {
-    return instance;
+    static FrameDisplayer instance;
+    return &instance;
 }
 
 
@@ -84,7 +84,9 @@ void FrameDisplayer::updateFrame(cv::Mat &image, uchar cam_id)
     if (cam_id < vision::MAX_CAMERA_NUMBER)
     {
         image.copyTo(images[cam_id]);
-//        printf("UpdateFrame\n");
+
+        //cv::imshow("Test", images[cam_id]);
+        //printf("Update image: id[%d],size[%d,%d,%d].\n", cam_id, image.rows, image.cols, image.channels());
     }
 }
 
@@ -108,7 +110,9 @@ void FrameDisplayer::showFrame()
     {
         if(!images[i].empty()){
             images[i].copyTo(tmp.colRange(i*width, (i + 1)*width));
-//            cv::imshow("test", images[i]);
+
+            //cv::imshow("Test", images[i]);
+            //printf("Display image: id[%d],size[%d,%d,%d].\n", i, images[i].rows, images[i].cols, images[i].channels());
         }
     }
     if(!tmp.empty())
@@ -122,7 +126,7 @@ void FrameDisplayer::showFrame()
         if(CMD::is_show_fps)
         {
             // check the fps
-            static long long img_count = 0;
+            static int16_t img_count = 0;
             img_count++;
             checkFPS(img_count);
             // put the text on displayed images
@@ -164,16 +168,20 @@ void FrameDisplayer::saveImage(const cv::Mat &img)
     MAKE_DIR(left_folder);
     MAKE_DIR(right_folder);
 
-	auto tmp = mtimer::getCurrentTimeStr();
-
-	static uint8_t count = 1;
-	char suffix[4];
+    static int count = 1;
+    std::stringstream ss;
+    if(CMD::capture.save_name.empty()){
+        ss << mtimer::getCurrentTimeStr();
+    }
 	if (CMD::capture.save_num > 1) {
-		sprintf(suffix, "%d", count);
+        ss << "_";
+        ss << count;
 	}
+    ss << ".bmp";
+
 	int cols = img.cols;
-	auto L_path = left_folder + "L_" + CMD::capture.save_name + "-" + std::string(suffix) + ".bmp";
-	auto R_path = right_folder + "R_" + CMD::capture.save_name + "-" + std::string(suffix) + ".bmp";
+    auto L_path = left_folder + "L_" + ss.str();
+    auto R_path = right_folder + "R_" + ss.str();
     cv::imwrite(L_path, img.colRange(1, cols/2));
     cv::imwrite(R_path, img.colRange(cols/2, cols));
 

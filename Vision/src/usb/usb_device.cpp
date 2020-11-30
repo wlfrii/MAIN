@@ -66,7 +66,8 @@ bool USBDevice::getVideoDevices()
 
 void USBDevice::updateIndexes()
 {
-    if(usb_device_infos.size() != 2){
+    int n = usb_device_infos.size();
+    if(n <= 2){
         valid = false;
         error_state = DEVICE_DETECT_FAILED;
         return;
@@ -79,7 +80,7 @@ void USBDevice::updateIndexes()
         valid = false;
         error_state = DEVICE_PID_NOT_UNIQ;
 
-        for(int i = 0; i < 2; i++)
+        for(int i = 0; i < n; i++)
         {
             auto idx = usb_device_infos[i].getIndices();
             if(idx.size() == 0)
@@ -93,7 +94,7 @@ void USBDevice::updateIndexes()
         return;
     }
     bool ok[2] = { false, false };
-    for(int i = 0; i < 2; i++)
+    for(int i = 0; i < n; i++)
     {
         if(usb_device_infos[i].getPID() % 2 == 1){
             right_usb_cam_idx = usb_device_infos[i].getIndex();

@@ -24,8 +24,8 @@ void MapCalculator::updateMap(int disparity)
     gpu_mapy.upload(cpu_mapy);
 
     // suppose single image size is w*h
-    int cols = cpu_mapx.cols;
-    int rows = cpu_mapx.rows;
+    //int cols = cpu_mapx.cols;
+    //int rows = cpu_mapx.rows;
 }
 
 

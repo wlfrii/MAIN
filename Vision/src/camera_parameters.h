@@ -8,17 +8,6 @@
 #include "usb/usb_camera_parameters.h"
 #endif
 
-namespace vision
-{
-    /** @brief Specify the camera in binocular vision
-    */
-    enum StereoCameraID
-    {
-        LEFT_CAMERA  = 0,
-        RIGHT_CAMERA = 1
-    };
-}
-
 
 /** @brief Store the parameters for monocular.
 */
@@ -82,28 +71,27 @@ public:
 */
 class CameraParamsReader
 {
-protected:
-	CameraParamsReader() {}
-	~CameraParamsReader() { fs.release(); }
 public:
-	CameraParamsReader* getInstance();
+    CameraParamsReader(const std::string &cam_params_path);
+    ~CameraParamsReader();
+
+    //static CameraParamsReader* getInstance();
 
 	/** Set camera parameters path, return true means the path is valid. */
-	bool setParamsPath(const std::string &filename);
+    //bool setParamsPath(const std::string &filename);
 
     std::shared_ptr<CameraParameters> getCameraParameters(vision::StereoCameraID index = vision::LEFT_CAMERA) const;
     std::shared_ptr<StereoCameraParameters> getStereoCameraParameters() const;
 
 	/* these fucntions must be called */
-	int		getImageWidth() const;
-	int		getImageHeight() const;
+    void	getImageSize(int &width, int &height) const;
 
 private:
 	/* warning!!!, this initialization must be done in the intializer list,
 	  or there maybe exist a situation that fs is initialized twice */
     cv::FileStorage fs;
 
-	bool is_valid_path;
-	std::string path;
+    bool is_valid_path;
+    //std::string path;
 };
 

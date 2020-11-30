@@ -5,6 +5,7 @@
 #include <poll.h>
 #include <turbojpeg.h>
 #include <iostream>
+#include "../def/ptr_define.h"
 
 #define CLEAR(x) memset(&(x), 0, sizeof(x))
 #define MJPG_FORMAT_VALUE 1196444237

@@ -6,14 +6,10 @@
 #include "video_processor.h"
 #include <QApplication>
 #include "ui/control_panel.h"
-
+#include "camera_parameters.h"
 
 namespace
 {
-	const std::string cam_params_path = "../conf/params_NO14.yml";
-	// create a params reader to read the camera parameters
-	// auto params_reader = std::make_unique<CameraParamsReader>(cam_params_path);
-
 	void initGPUProcessor()
 	{
 		// Initialize the AlgoPipelineManager first
@@ -29,16 +25,16 @@ namespace
 
 int main(int argc, char *argv[])
 {
+#if WITH_QT
 	QApplication app(argc, argv);
 	ControlPanel *panel = new ControlPanel();
 	panel->show();
+#endif
 
-	//::initGPUProcessor();
+    //::initGPUProcessor();
 
 #if LINUX
 	CameraHandle camera_handle;
-	camera_handle.initCamera();
-
 	camera_handle.openCamera();
 #else
 	std::string filename[3];
@@ -49,5 +45,9 @@ int main(int argc, char *argv[])
 	//VideoProcessor::getInstance()->processVideo(filename[2], false);
 #endif
 
+#if WITH_QT
 	return app.exec();
+#else
+    return 0;
+#endif
 }

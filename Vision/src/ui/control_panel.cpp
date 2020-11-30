@@ -7,11 +7,16 @@
 #include "ui_processor.h"
 #include <QFont>
 #include "../def/micro.h"
+#include "../frame_displayer.h"
 
 ControlPanel::ControlPanel(QWidget *parent)
     : QWidget(parent)
+    , timer_imshow(new QTimer)
 {
     setupUI();
+
+    connect(timer_imshow, &QTimer::timeout, this, &ControlPanel::onTimerImshow);
+    timer_imshow->start(3);
 }
 
 
@@ -39,7 +44,7 @@ void ControlPanel::setupUI()
 
     // LOG: Text Browser
     hlayout->addWidget(UILogger::getInstance()->getTxtBrowser());
-#if !LINUX
+#if LINUX
     /** CAPTURE **/
 	vlayout->addLayout(UICapture::getInstance()->create());
 #else
@@ -56,6 +61,11 @@ void ControlPanel::setupUI()
     hlayout->addLayout(vlayout);
 
     this->setLayout(hlayout);
+}
+
+void ControlPanel::onTimerImshow()
+{
+    FrameDisplayer::getInstance()->showFrame();
 }
 
 

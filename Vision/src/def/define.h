@@ -30,6 +30,14 @@ namespace vision
         MAX_CAPTURE_TIME_MS = 500
 	};
 
+    /** @brief Specify the camera in binocular vision
+    */
+    enum StereoCameraID
+    {
+        LEFT_CAMERA  = 0,
+        RIGHT_CAMERA = 1
+    };
+
     /** @brief The max number of camera in current version
 	*/
 	enum {

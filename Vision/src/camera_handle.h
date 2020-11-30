@@ -1,10 +1,10 @@
 #ifndef CAMERA_HANDLE_H_
 #define CAMERA_HANDLE_H_
 #include "def/define.h"
-#include "camera_parameters.h"
 #include <thread>
 
 class Camera;
+class CameraParameters;
 
 class CameraHandle
 {
@@ -12,9 +12,12 @@ public:
     CameraHandle();
     ~CameraHandle();
 
-    void initCamera();
     void openCamera();
 private:
+    void initCamera();
+    bool readCamParams();
+    bool loadCamParams();
+
     void runCamera [[noreturn]] ();
 
 private:

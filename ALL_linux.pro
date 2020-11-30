@@ -7,7 +7,7 @@ TEMPLATE = subdirs
 #}
 
 SUBDIRS += \
-    App_Vision/Vision.pro \
+    Vision \
     lib_vision_gpu \
     lib_utility \
     lib_math

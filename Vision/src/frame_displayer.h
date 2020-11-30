@@ -32,8 +32,6 @@ private:
     void saveImage(const cv::Mat &img);
 
 private:
-    static FrameDisplayer* instance;
-
     std::array<cv::Mat, vision::MAX_CAMERA_NUMBER> images;
 };
 

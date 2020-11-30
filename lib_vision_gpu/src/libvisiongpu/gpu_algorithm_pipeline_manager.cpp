@@ -164,7 +164,7 @@ void AlgoPipelineManager::processImage(int stream_id, ImageType imtype, Fmt fmt)
 		}
 		else if (imtype == gpu::BGR) {
 			auto temp = cv::cuda::GpuMat(image_height, image_width, tmp->type, tmp->mat[stream_id]);
-			cv::Mat test_temp; temp.download(test_temp);
+            //cv::Mat test_temp; temp.download(test_temp);
 			cv::cuda::cvtColor(temp, mat_rgba[stream_id], cv::COLOR_BGR2BGRA);
 		}
 		else {

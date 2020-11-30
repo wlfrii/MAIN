@@ -172,7 +172,7 @@ void USBCameraManagerImpl::getIndices(USBCamera *usb_cam, std::vector<int> &indi
                     fscanf(fp, "%x", &val);
                     fclose(fp);
                 }
-                if(val != indices[x])
+                if(val != ids[x])
                 {
                     ok = false;
                     break;

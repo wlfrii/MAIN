@@ -1,6 +1,7 @@
 #ifndef CONTROL_PANAL_H
 #define CONTROL_PANAL_H
 #include <QWidget>
+#include <QTimer>
 #include <vector>
 
 class QBoxLayout;
@@ -15,6 +16,12 @@ public:
 
 private:
     void setupUI();
+
+private slots:
+    void onTimerImshow();
+
+private:
+    QTimer *timer_imshow;
 };
 
 

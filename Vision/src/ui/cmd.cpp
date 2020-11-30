@@ -7,4 +7,4 @@ CMD::Capture CMD::capture = { false, 1, "", "./capture", true };
 
 bool CMD::is_enhance = false;
 
-std::string CMD::cam_params_path = "";
+std::string CMD::cam_params_path = "../../conf/params_NO24.yml";
