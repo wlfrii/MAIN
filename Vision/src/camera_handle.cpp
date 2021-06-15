@@ -48,7 +48,7 @@ void CameraHandle::openCamera()
 }
 
 
-
+#if LINUX
 bool CameraHandle::readCamParams()
 {
     USBDevice usb_device;
@@ -82,6 +82,7 @@ bool CameraHandle::readCamParams()
 
     return true;
 }
+#endif
 
 bool CameraHandle::loadCamParams()
 {

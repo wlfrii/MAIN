@@ -2,6 +2,7 @@
 #define CAMERA_HANDLE_H_
 #include "def/define.h"
 #include <thread>
+#include "./def/micro.h"
 
 class Camera;
 class CameraParameters;
@@ -15,7 +16,9 @@ public:
     void openCamera();
 private:
     void initCamera();
+#if LINUX
     bool readCamParams();
+#endif
     bool loadCamParams();
 
     void runCamera [[noreturn]] ();

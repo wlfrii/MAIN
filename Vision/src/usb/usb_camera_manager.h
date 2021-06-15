@@ -59,6 +59,5 @@ public:
     virtual bool write(const int index, const uint8_t data[MAX_DATA_SIZE]) = 0;
 };
 
-
 #endif
 #endif // USB_CAMERA_MANAGER_H

@@ -1,5 +1,7 @@
 #ifndef USB_DEVICE_H
 #define USB_DEVICE_H
+#include "../def/micro.h"
+#if LINUX
 #include <vector>
 #include <stdint.h>
 #include "usb_camera_manager.h"
@@ -49,5 +51,6 @@ private:
     ErrorState  error_state;
 };
 
+#endif
 #endif // USB_DEVICE_H
 

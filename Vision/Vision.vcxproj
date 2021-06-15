@@ -54,21 +54,21 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)/lib_vision_gpu/src;$(SolutionDir)/lib_utility/src;D:\opencv_cmake\install\include;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include;C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.0\common\inc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/lib_vision_gpu/src;$(SolutionDir)/lib_utility/src;$(ProjectDir)../include/opencv_cmake\install\include;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include;C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.0\common\inc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DEPRECATED_WARNINGS;$(Qt_DEFINES_);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)/build/lib/xdebug;D:\opencv_cmake\install\x64\vc15\lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/build/lib/xdebug;$(ProjectDir)../include/opencv_cmake\install\x64\vc15\lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opencv_world420d.lib;lib_vision_gpu.lib;lib_utility.lib;cudart.lib;cudadevrt.lib;cudart_static.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)/lib_vision_gpu/src;$(SolutionDir)/lib_utility/src;D:\opencv_cmake\install\include;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include;C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.0\common\inc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/lib_vision_gpu/src;$(SolutionDir)/lib_utility/src;$(ProjectDir)../include/opencv_cmake\install\include;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include;C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.0\common\inc;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DEPRECATED_WARNINGS;$(Qt_DEFINES_);QT_NO_DEBUG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)/build/lib/xrelease;D:\opencv_cmake\install\x64\vc15\lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/build/lib/xrelease;$(ProjectDir)../include/opencv_cmake\install\x64\vc15\lib;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\;$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opencv_world420.lib;lib_vision_gpu.lib;lib_utility.lib;cudart.lib;cudadevrt.lib;cudart_static.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -119,6 +119,8 @@
     <ClCompile Include="src\frame_displayer.cpp" />
     <ClCompile Include="src\map_calculator.cpp" />
     <ClCompile Include="src\image_processor.cpp" />
+    <ClCompile Include="src\usb\usb_camera_manager_impl.cpp" />
+    <ClCompile Include="src\usb\usb_device.cpp" />
     <ClCompile Include="src\video_processor.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ui\cmd.cpp" />
@@ -143,6 +145,11 @@
     <ClInclude Include="src\frame_rectifier.h" />
     <ClInclude Include="src\map_calculator.h" />
     <ClInclude Include="src\image_processor.h" />
+    <ClInclude Include="src\usb\usb_camera_manager.h" />
+    <ClInclude Include="src\usb\usb_camera_manager_impl.h" />
+    <ClInclude Include="src\usb\usb_camera_parameters.h" />
+    <ClInclude Include="src\usb\usb_device.h" />
+    <ClInclude Include="src\usb\usb_device_info.h" />
     <ClInclude Include="src\video_processor.h" />
     <ClInclude Include="src\def\define.h" />
     <ClInclude Include="src\def\micro.h" />

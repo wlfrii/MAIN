@@ -1,7 +1,9 @@
 #include <opencv2/opencv.hpp>
 #include <atomic>
-#include <gpu_algorithm_pipeline_manager.h>
-#include <gpu_algorithm_func.h>
+#include <libvisiongpu/gpu_algorithm_pipeline_manager.h>
+#include <libvisiongpu/gpu_algorithm_func.h>
+#include <vector>
+#include <string>
 
 void testGuidedFilterAlgo()
 {
@@ -50,29 +52,49 @@ int main()
 {
 	//testGuidedFilterAlgo();
 	//testColorSpace();
+	struct ImageInfo {
+		std::string folder;
+		std::string name;
+		std::string fmt;
 
+		std::string getPath() const
+		{
+			return folder + name + fmt;
+		}
 
-	cv::Mat image = cv::imread("D:/MyProjects/Vision/test_data/test_image.bmp");
+		std::string setSavePath(const std::string &suffix) const
+		{
+			return folder + name + suffix + fmt;
+		}
+	};
+	std::vector<ImageInfo> info;
+	info.push_back({ "D:/MyProjects/Vision/test_data/","test_image",".bmp" });
+	info.push_back({ "E:/Rii/Surgerii_ProjectReports/20201016_科技部项目-视觉相关/enhancement/", "1", ".jpg" });
+	//info.push_back({ info[info.size - 1].folder, "2", ".bmp" });
+	//info.push_back({ info[info.size - 1].folder, "3", ".jpg" });
+	int id = 1;
+
+	cv::Mat image = cv::imread(info[id].getPath());
 	std::atomic<bool> flag;
 
 	gpu::AlgoPipelineManager::getInstance()->intialize();
-	gpu::AlgoPipelineManager::getInstance()->addAlgoNode(new gpu::AlgoNodeNonuniform());
-	gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::NonuniformProperty>(2, 0.99));
-	cv::Mat res1(image.size(), CV_32FC4);
-	gpu::AlgoPipelineManager::getInstance()->process(image, res1, flag);
+	//gpu::AlgoPipelineManager::getInstance()->addAlgoNode(new gpu::AlgoNodeNonuniform());
+	//gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::NonuniformProperty>(2, 0.99));
+	//cv::Mat res1(image.size(), CV_32FC4);
+	//gpu::AlgoPipelineManager::getInstance()->process(image, res1, flag);
 
-	
-	gpu::AlgoPipelineManager::getInstance()->clearAlgoNode();
-	gpu::AlgoPipelineManager::getInstance()->addAlgoNode(new gpu::AlgoNodeGamma());
-	gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::GammaProperty>(0.005));
-	cv::Mat res2(image.size(), CV_32FC4);
-	gpu::AlgoPipelineManager::getInstance()->process(res1, res2, flag);
+	//
+	//gpu::AlgoPipelineManager::getInstance()->clearAlgoNode();
+	//gpu::AlgoPipelineManager::getInstance()->addAlgoNode(new gpu::AlgoNodeGamma());
+	//gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::GammaProperty>(0.005));
+	//cv::Mat res2(image.size(), CV_32FC4);
+	//gpu::AlgoPipelineManager::getInstance()->process(res1, res2, flag);
 	
 	gpu::AlgoPipelineManager::getInstance()->addAlgoNode(new gpu::AlgoNodeImageAdjust());
-	gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::ImageAdjustProperty>(0, 3));
+	gpu::AlgoPipelineManager::getInstance()->setProperty(std::make_shared<gpu::ImageAdjustProperty>(50, 55));
 	cv::Mat res3(image.size(), image.type());
-	gpu::AlgoPipelineManager::getInstance()->process(res2, res3, flag);
-
+	gpu::AlgoPipelineManager::getInstance()->process(image, res3, flag);
+	//cv::imwrite(info[id].setSavePath("_contrast"), res3);
 
 	return 0;
 }

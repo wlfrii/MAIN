@@ -1,4 +1,4 @@
-PROJECT(Vision)
+project(Vision)
 # Include the Header files
 include_directories(
     ${CMAKE_SOURCE_DIR}/lib_vision_gpu/src
@@ -15,14 +15,14 @@ aux_source_directory(./src/unix UNIX_SRC)
 
 # message("the src is ${UNIX_SRC}" )
 
-add_executable(Vision
+add_executable(${PROJECT_NAME}
     ${SRC_SRC}
     ${DEF_SRC}
     ${UNIX_SRC}
 )
 
 # link external library
-target_link_libraries(Vision
+target_link_libraries(${PROJECT_NAME}
     turbojpeg
     lib_vision_gpu
 )
